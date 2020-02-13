@@ -1,0 +1,5 @@
+# port number to run the server
+PORT = #PortNumber
+
+# Node Environment for the project (default is development)
+Node_Env = EnvironmentMode
