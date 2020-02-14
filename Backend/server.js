@@ -33,7 +33,6 @@ var allowCrossDomain = function(req, res, next) {
 };
 
 // APPLY MIDDLEWARE HERE
-
 // for converting the json part of the request body
 app.use(express.json());
 app.use(bodyParser.json());
@@ -52,6 +51,9 @@ if (process.env.Node_Env === "development") {
 }
 
 // ROUTES HERE
+app.get("/testing", (req, res, next) => {
+    res.json({ time: Date.now() });
+});
 
 const port = process.env.PORT || 3000; // get the port number from the dotenv file if not 3000
 // The listening of the server
