@@ -32,7 +32,9 @@ class _MyHomePageState extends State<MyHomePage> {
   String _counter = 'hello';
 
   void _incrementCounter() async {
+    print('hello 1');
     http.Response response = await http.get('http://10.0.32.98:4000/testing');  // 10.0.2.2 for emulator
+    print('hello 2');
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
       setState(() {
@@ -56,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               _counter,
-              style: Theme.of(context).textTheme.display1,
+              style: Theme.of(context).textTheme.bodyText1,
             ),
           ],
         ),

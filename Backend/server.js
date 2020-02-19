@@ -18,7 +18,7 @@ const app = express();
 // CORS middlewares
 var allowCrossDomain = function(req, res, next) {
     // website which can only access this backend server
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header("Access-Control-Allow-Origin", "*");
 
     // Request methods which are allowed to this backend server
     res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
@@ -52,6 +52,7 @@ if (process.env.Node_Env === "development") {
 
 // ROUTES HERE
 app.get("/testing", (req, res, next) => {
+    console.log("responding");
     res.json({ time: Date.now() });
 });
 
