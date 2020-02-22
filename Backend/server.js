@@ -52,7 +52,6 @@ if (process.env.Node_Env === "development") {
 
 // ROUTES HERE
 app.get("/testing", (req, res, next) => {
-    console.log("responding");
     res.json({ time: Date.now() });
 });
 

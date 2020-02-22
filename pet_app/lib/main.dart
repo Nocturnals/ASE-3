@@ -3,8 +3,12 @@ import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  await DotEnv().load('.env');
+  return runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -32,9 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _counter = 'hello';
 
   void _incrementCounter() async {
-    print('hello 1');
-    http.Response response = await http.get('http://10.0.32.98:4000/testing');  // 10.0.2.2 for emulator
-    print('hello 2');
+    http.Response response = await http.get('http://${DotEnv().env['localhost']}:4000/testing');  // 10.0.2.2 for emulator
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
       setState(() {
