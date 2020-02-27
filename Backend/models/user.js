@@ -1,9 +1,10 @@
 function User({ id, username, email }) {
-    let _id = id || null;
-    const _username = username || null;
-    const _email = email || null;
-    let _password = password || null;
-    let _age;
+    // private variables
+    let _id = id;
+    const _username = username;
+    const _email = email;
+    let _password = null;
+    let _age = null;
     let _pets_count = 0;
     let _pet_ids = [];
     let _post_ids = [];
@@ -116,7 +117,8 @@ function User({ id, username, email }) {
     };
 }
 
-User.fromFirestore = ({ mapData, docId }) => {
+// function to create instance from the firestore data
+UserfromFirestore = ({ mapData, docId }) => {
     user_instance = new User({
         id: docId,
         username: mapData["username"],
@@ -132,10 +134,10 @@ User.fromFirestore = ({ mapData, docId }) => {
     user_instance.setFollowing(mapData["following"]);
     user_instance.setLiked_post_ids(mapData["liked_post_ids"]);
     user_instance.setFav_animals_ids(mapData["fav_animals_ids"]);
-    user_instance.setOrder_ids(mapData[order_ids]);
+    user_instance.setOrder_ids(mapData["order_ids"]);
     user_instance.setRemainder_ids(mapData["remainder_ids"]);
 
     return user_instance;
 };
 
-module.exports = User;
+module.exports = { UserModel: User, UserfromFirestore };

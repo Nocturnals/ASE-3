@@ -5,7 +5,8 @@ const admin = require("firebase-admin");
 let service_account = require("../../pet-social.json");
 
 admin.initializeApp({
-    credential: admin.credential.cert(service_account)
+    credential: admin.credential.cert(service_account),
+    databaseURL: "https://pet-social-cd55d.firebaseio.com"
 });
 
 // instance of the firestore database

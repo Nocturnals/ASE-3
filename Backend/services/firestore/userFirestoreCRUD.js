@@ -23,3 +23,8 @@ module.exports.getUserViaUsername = async username => {
 
     return docs.docs[0];
 };
+
+module.exports.getUserViaID = async id => {
+    let docRef = database.collection("users").doc(id);
+    return await docRef.get();
+};
