@@ -34,3 +34,31 @@ module.exports.loginValidation = data => {
 
     return schema.validate(data);
 };
+
+module.exports.EmailIDValidation = data => {
+    const schema = {
+        email: Joi.string()
+            .required()
+            .email()
+    };
+
+    return Joi.validate(data, schema);
+};
+
+module.exports.passwordValidation = data => {
+    const schema = {
+        password: Joi.string()
+            .min(8)
+            .pattern(/^[a-zA-Z0-9]{3,30}$/)
+    };
+
+    return Joi.validate(data, schema);
+};
+
+module.exports.findUserValidation = data => {
+    const schema = {
+        name: Joi.string().required()
+    };
+
+    return Joi.validate(data, schema);
+};

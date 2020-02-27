@@ -3,7 +3,11 @@ const jwt = require("jsonwebtoken");
 const _ = require("lodash"); // for modifing the array contents
 
 const { UserModel, UserfromFirestore } = require("../../models/user");
-const { registerValidation, loginValidation } = require("./authValidations");
+const {
+    registerValidation,
+    loginValidation,
+    EmailIDValidation
+} = require("./authValidations");
 const userFirestoreCRUD = require("../../services/firestore/userFirestoreCRUD");
 
 module.exports.register = async (req, res) => {
@@ -97,7 +101,61 @@ module.exports.login = async (req, res) => {
 };
 
 module.exports.forgotPassword = async (req, res) => {
-    // code to forgot password here
+    // validate the input data
+    const validateData = EmailIDValidation(req.body);
+    if (validateData.error) {
+        return res
+            .status(400)
+            .json({ message: validateData.error.details[0].message });
+    }
+
+    // check if the email is present in database
+    try {
+        // const userDoc = await UserModel.findOne({ email: req.body.email });
+        const userDoc = await userFirestoreCRUD.getUserViaEmail(req.body.email);
+
+        if (!userDoc) {
+            return res.status(400).json({
+                message: `No account exists associating with ${req.body.email}`
+            });
+        }
+
+        let user = UserfromFirestore({
+            mapData: userDoc.data(),
+            id: userDoc.id
+        });
+
+        // create the jwtoken with email as payload
+        const jToken = jwt.sign({ id: userDoc.id }, process.env.MAIL_SECRET, {
+            expiresIn: "2hr"
+        });
+
+        // mail the user with a reset password link
+        // const resetPasswordLink = `http://${process.env.FRONTEND_HOSTNAME}/api/auth/resetPassword/${jToken}`;
+
+        try {
+            // send the mail
+            // const sentStatus = MailingService.Sendmail(
+            //     `To reset password your account click the link <br> ${resetPasswordLink} <br> The above link expires in two hours`,
+            //     req.body.email,
+            //     "Password Reset"
+            // );
+
+            return res.status(200).json({
+                message: `reset password link is mailed to ${req.body.email}`
+            });
+        } catch (error) {
+            console.log(
+                `Error when sending mail for reset password, error: ${error}`
+            );
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    } catch (error) {
+        console.log(
+            `Error checking for email in database with error: ${error}`
+        );
+        return res.status(500).json({ message: "Internal server error" });
+    }
 };
 
 module.exports.getUser = async (req, res) => {
