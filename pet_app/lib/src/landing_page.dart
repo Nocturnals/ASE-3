@@ -95,7 +95,7 @@ class _LandingPageState extends State<LandingPage> {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-          text: 'd',
+          text: 'P',
           style: GoogleFonts.portLligatSans(
             textStyle: Theme.of(context).textTheme.display1,
             fontSize: 30,
@@ -104,11 +104,11 @@ class _LandingPageState extends State<LandingPage> {
           ),
           children: [
             TextSpan(
-              text: 'ev',
+              text: 'et',
               style: TextStyle(color: Colors.black, fontSize: 30),
             ),
             TextSpan(
-              text: 'rnz',
+              text: 'S',
               style: TextStyle(color: Colors.white, fontSize: 30),
             ),
           ]),
