@@ -14,6 +14,7 @@ function User({ id, username, email }) {
     let _fav_animals_ids = [];
     let _order_ids = [];
     let _remainder_ids = [];
+    let _email_verified = false;
 
     // getters here
     this.getId = () => {
@@ -55,8 +56,14 @@ function User({ id, username, email }) {
     this.getRemainder_ids = () => {
         return _remainder_ids;
     };
+    this.getEmail_verified = () => {
+        return _email_verified;
+    };
 
     // setters here
+    this.setId = id => {
+        _id = id;
+    };
     this.setPassword = password => {
         _password = password;
     };
@@ -90,6 +97,9 @@ function User({ id, username, email }) {
     this.setRemainder_ids = remainder_ids => {
         _remainder_ids = remainder_ids;
     };
+    this.setEmail_verified = status => {
+        _email_verified = status;
+    };
 
     // function to convert tomap
     this.toMap = () => {
@@ -112,6 +122,7 @@ function User({ id, username, email }) {
         map["fav_animals_ids"] = _fav_animals_ids;
         map["order_ids"] = _order_ids;
         map["remainder_ids"] = _remainder_ids;
+        map["email_verified"] = _email_verified;
 
         return map;
     };
@@ -136,6 +147,7 @@ UserfromFirestore = ({ mapData, docId }) => {
     user_instance.setFav_animals_ids(mapData["fav_animals_ids"]);
     user_instance.setOrder_ids(mapData["order_ids"]);
     user_instance.setRemainder_ids(mapData["remainder_ids"]);
+    user_instance.setEmail_verified(mapData["email_verified"]);
 
     return user_instance;
 };

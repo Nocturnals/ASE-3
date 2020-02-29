@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const { UserfromFirestore } = require("../../models/user");
-const userFirestoreCRUD = require("../../services/firestore/userFirestoreCRUD");
+const userFirestoreCRUD = require("../../services/firestore/userCRUD");
 
 // verify the token for authentication
 function verifyToken(req, res, next) {

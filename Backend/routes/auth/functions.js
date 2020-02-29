@@ -4,11 +4,21 @@ const _ = require("lodash"); // for modifing the array contents
 
 const { UserModel, UserfromFirestore } = require("../../models/user");
 const {
+    EmailVerificationModel,
+    EmailVerificationFromFirestore
+} = require("../../models/emailVerification");
+const {
+    ForgorPasswordModel,
+    ForgotPasswordFromFirestore
+} = require("../../models/forgotPassword");
+const {
     registerValidation,
     loginValidation,
     EmailIDValidation
 } = require("./authValidations");
-const userFirestoreCRUD = require("../../services/firestore/userFirestoreCRUD");
+const userCRUD = require("../../services/firestore/userCRUD");
+const emailVerificationCRUD = require("../../services/firestore/emailVerificationCRUD");
+const emailVerification = require("../../services/mail/emailverfication");
 
 module.exports.register = async (req, res) => {
     // validate the given user info
@@ -27,16 +37,14 @@ module.exports.register = async (req, res) => {
         });
 
         // check if username exists
-        const usernameExists = await userFirestoreCRUD.getUserViaUsername(
+        const usernameExists = await userCRUD.getUserViaUsername(
             user.getUsername()
         );
         if (usernameExists) {
             return res.status(400).json({ message: "username already exists" });
         }
         // check if email exists
-        const emailExits = await userFirestoreCRUD.getUserViaEmail(
-            user.getEmail()
-        );
+        const emailExits = await userCRUD.getUserViaEmail(user.getEmail());
         if (emailExits) {
             return res.status(400).json({ message: "email already exists" });
         }
@@ -47,13 +55,28 @@ module.exports.register = async (req, res) => {
         user.setPassword(hashedPassword);
 
         // create new user
-        const userDoc = await userFirestoreCRUD.createUser(user.toMap());
+        const userDoc = await userCRUD.createUser(user.toMap());
+        user.setId(userDoc.id);
 
         // Assign a json web token
         const tokenSecret = process.env.Token_Secret;
-        const jToken = jwt.sign({ id: userDoc.id }, tokenSecret, {
+        const jToken = jwt.sign({ id: user.getId() }, tokenSecret, {
             expiresIn: "1d"
         });
+
+        // create a email verification code and send email
+        secret_code = Math.floor(Math.random() * 1000000);
+        const email_verification = new EmailVerificationModel({
+            id: user.getId(),
+            email: user.getEmail(),
+            secret_code: secret_code
+        });
+
+        // save to database
+        await emailVerificationCRUD.createEmailVerification(
+            email_verification.toMap()
+        );
+        emailVerification(user.getEmail(), secret_code);
 
         return res.header("authorization", jToken).json(jToken);
     } catch (error) {
@@ -71,9 +94,7 @@ module.exports.login = async (req, res) => {
             .json({ message: validatedData.error.details[0].message });
 
     try {
-        let user = await userFirestoreCRUD.getUserViaUsername(
-            req.body.username
-        );
+        let user = await userCRUD.getUserViaUsername(req.body.username);
 
         user = user.data();
         // Check user password
@@ -112,7 +133,7 @@ module.exports.forgotPassword = async (req, res) => {
     // check if the email is present in database
     try {
         // const userDoc = await UserModel.findOne({ email: req.body.email });
-        const userDoc = await userFirestoreCRUD.getUserViaEmail(req.body.email);
+        const userDoc = await userCRUD.getUserViaEmail(req.body.email);
 
         if (!userDoc) {
             return res.status(400).json({
