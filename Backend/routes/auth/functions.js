@@ -3,11 +3,7 @@ const jwt = require("jsonwebtoken");
 const _ = require("lodash"); // for modifing the array contents
 
 const { UserModel, UserfromFirestore } = require("../../models/user");
-const { sendEmailToVerifyEmail } = require("./helper");
-const {
-    ForgorPasswordModel,
-    ForgotPasswordFromFirestore
-} = require("../../models/forgotPassword");
+const { sendEmailToVerifyEmail, sendForgotPasswordEmail } = require("./helper");
 const {
     registerValidation,
     loginValidation,
@@ -132,26 +128,15 @@ module.exports.forgotPassword = async (req, res) => {
             });
         }
 
+        // convert the userdoc to user modal
         let user = UserfromFirestore({
             mapData: userDoc.data(),
             id: userDoc.id
         });
 
-        // create the jwtoken with email as payload
-        const jToken = jwt.sign({ id: userDoc.id }, process.env.MAIL_SECRET, {
-            expiresIn: "2hr"
-        });
-
-        // mail the user with a reset password link
-        // const resetPasswordLink = `http://${process.env.FRONTEND_HOSTNAME}/api/auth/resetPassword/${jToken}`;
-
         try {
             // send the mail
-            // const sentStatus = MailingService.Sendmail(
-            //     `To reset password your account click the link <br> ${resetPasswordLink} <br> The above link expires in two hours`,
-            //     req.body.email,
-            //     "Password Reset"
-            // );
+            await sendForgotPasswordEmail(user);
 
             return res.status(200).json({
                 message: `reset password link is mailed to ${req.body.email}`
@@ -198,5 +183,3 @@ module.exports.resetPassword = async (req, res) => {
 module.exports.editUser = async (req, res) => {
     // code to edit user profile
 };
-
-/// Auxillary functions

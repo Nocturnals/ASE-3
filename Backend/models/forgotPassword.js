@@ -52,6 +52,6 @@ ForgotPasswordFromFirestore = ({ mapData, docId }) => {
 };
 
 module.exports = {
-    ForgorPasswordModel: ForgotPassword,
+    ForgotPasswordModel: ForgotPassword,
     ForgotPasswordFromFirestore
 };

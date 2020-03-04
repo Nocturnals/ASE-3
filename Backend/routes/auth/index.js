@@ -4,8 +4,18 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash"); // for modifing the array contents
 
-const { verifyToken, verifyUserWithToken } = require("./helper");
-const { register, login, forgotPassword, getUser } = require("./functions");
+const {
+    verifyToken,
+    verifyUserWithToken,
+    verifyUserWithoutEmailVerification
+} = require("./helper");
+const {
+    register,
+    login,
+    forgotPassword,
+    getUser,
+    sendEmailVerification
+} = require("./functions");
 
 // instance of new router
 const router = express.Router();
@@ -23,5 +33,10 @@ router.post("/forgotpassword", forgotPassword);
 // route to get the logged user details
 router.get("/user", verifyToken, verifyUserWithToken, getUser);
 
-router.post("/sendEmailVerification");
+router.post(
+    "/sendEmailVerification",
+    verifyToken,
+    verifyUserWithoutEmailVerification,
+    sendEmailVerification
+);
 module.exports = router;
