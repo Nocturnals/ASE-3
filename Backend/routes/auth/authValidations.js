@@ -36,29 +36,39 @@ module.exports.loginValidation = data => {
 };
 
 module.exports.EmailIDValidation = data => {
-    const schema = {
+    const schema = Joi.object({
         email: Joi.string()
             .required()
             .email()
-    };
+    });
 
-    return Joi.validate(data, schema);
+    return schema.validate(data);
 };
 
 module.exports.passwordValidation = data => {
-    const schema = {
+    const schema = Joi.object({
         password: Joi.string()
             .min(8)
             .pattern(/^[a-zA-Z0-9]{3,30}$/)
-    };
+    });
 
-    return Joi.validate(data, schema);
+    return schema.validate(data);
 };
 
 module.exports.findUserValidation = data => {
-    const schema = {
+    const schema = Joi.object({
         name: Joi.string().required()
-    };
+    });
 
-    return Joi.validate(data, schema);
+    return schema.validate(data);
+};
+
+module.exports.verifyEmailValidation = data => {
+    const schema = Joi.object({
+        secret_code: Joi.number()
+            .max(10000)
+            .required()
+    });
+
+    return schema.validate(data);
 };

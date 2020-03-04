@@ -3,13 +3,19 @@ const jwt = require("jsonwebtoken");
 const _ = require("lodash"); // for modifing the array contents
 
 const { UserModel, UserfromFirestore } = require("../../models/user");
+const {
+    EmailVerificationModel,
+    EmailVerificationFromFirestore
+} = require("../../models/emailVerification");
 const { sendEmailToVerifyEmail, sendForgotPasswordEmail } = require("./helper");
 const {
     registerValidation,
     loginValidation,
-    EmailIDValidation
+    EmailIDValidation,
+    verifyEmailValidation
 } = require("./authValidations");
 const userCRUD = require("../../services/firestore/userCRUD");
+const emailVerificationCRUD = require("../../services/firestore/emailVerificationCRUD");
 
 module.exports.register = async (req, res) => {
     // validate the given user info
@@ -173,7 +179,59 @@ module.exports.sendEmailVerification = async (req, res) => {
 };
 
 module.exports.verifyEmail = async (req, res) => {
-    // code to verify email here
+    // validate the input data
+    const validateData = verifyEmailValidation(req.body);
+    if (validateData.error) {
+        return res
+            .status(400)
+            .json({ message: validateData.error.details[0].message });
+    }
+
+    try {
+        // get the user email verification mail
+        email_verification_doc = await emailVerificationCRUD.getEmailVerificationViaId(
+            req.loggedUser.getId()
+        );
+
+        // check if the doc exists
+        if (!email_verification_doc.exists) {
+            return res
+                .status(401)
+                .json({ message: "First apply email verification form" });
+        }
+
+        emailVerificationInstance = EmailVerificationFromFirestore({
+            mapData: email_verification_doc.data(),
+            docId: email_verification_doc.id
+        });
+
+        // check if the secret code matches
+        if (
+            req.body.secret_code == emailVerificationInstance.getSecret_code()
+        ) {
+            // verify the email
+            req.loggedUser.setEmail_verified(true);
+            const newUserDoc = await userCRUD.updateUser(
+                req.loggedUser.toMap()
+            );
+            const newUser = UserfromFirestore({
+                mapData: newUserDoc.data(),
+                docId: newUserDoc.id
+            });
+            req.loggedUser = newUser;
+
+            return res.status(200).json({
+                message: "successfully verified email",
+                user: newUser.toMap()
+            });
+        } else {
+            // show error
+            return res.status(400).json({ message: "code is invalid" });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
 };
 
 module.exports.resetPassword = async (req, res) => {

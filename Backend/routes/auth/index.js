@@ -14,7 +14,8 @@ const {
     login,
     forgotPassword,
     getUser,
-    sendEmailVerification
+    sendEmailVerification,
+    verifyEmail
 } = require("./functions");
 
 // instance of new router
@@ -33,10 +34,20 @@ router.post("/forgotpassword", forgotPassword);
 // route to get the logged user details
 router.get("/user", verifyToken, verifyUserWithToken, getUser);
 
+// route to send mail to verify the email of the user
 router.post(
     "/sendEmailVerification",
     verifyToken,
     verifyUserWithoutEmailVerification,
     sendEmailVerification
 );
+
+// route to verify the secret code and verify the email of the user
+router.post(
+    "/verifyEmail",
+    verifyToken,
+    verifyUserWithoutEmailVerification,
+    verifyEmail
+);
+
 module.exports = router;

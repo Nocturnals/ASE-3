@@ -1,8 +1,9 @@
 const database = require("./database");
 
-module.exports.createForgotPassord = async map => {
-    let coll_ref = database.collection("forgotpassword");
+// reference to the collection
+let coll_ref = database.collection("forgotpassword");
 
+module.exports.createForgotPassord = async map => {
     // if already exists
     const old_doc = await coll_ref.doc(map["id"]).get();
     if (old_doc.exists) {
