@@ -2,9 +2,15 @@ const jwt = require("jsonwebtoken");
 
 const { UserfromFirestore } = require("../../models/user");
 const userFirestoreCRUD = require("../../services/firestore/userCRUD");
+const {
+    EmailVerificationModel,
+    EmailVerificationFromFirestore
+} = require("../../models/emailVerification");
+const emailVerificationCRUD = require("../../services/firestore/emailVerificationCRUD");
+const emailVerification = require("../../services/mail/emailverfication");
 
 // verify the token for authentication
-function verifyToken(req, res, next) {
+const verifyToken = (req, res, next) => {
     // Get auth header value
     const bearerHeader = req.headers["authorization"];
 
@@ -22,7 +28,7 @@ function verifyToken(req, res, next) {
     } else {
         return res.status(401).json({ message: "Access Denied" });
     }
-}
+};
 
 const verifyUserWithToken = async (req, res, next) => {
     // verifies the given token is correct and gets the user data
@@ -42,12 +48,25 @@ const verifyUserWithToken = async (req, res, next) => {
                 // when user exists
                 else {
                     loggedUser = loggedUser.data();
-                    UserfromFirestore({
+                    loggedUser = UserfromFirestore({
                         mapData: loggedUser,
                         docId: loggedUser.id
                     });
                     req.loggedUser = loggedUser;
-                    next();
+
+                    if (process.env.NODE_ENV === "development") {
+                        // doesn't check email verification in development environment
+                        next();
+                    } else {
+                        // checks email verification in production environment
+                        if (loggedUser.getEmail_verified()) {
+                            next();
+                        } else {
+                            return res.status(401).json({
+                                message: "Access denied as email isn't verified"
+                            });
+                        }
+                    }
                 }
             } catch (error) {
                 console.log(error);
@@ -57,4 +76,20 @@ const verifyUserWithToken = async (req, res, next) => {
     });
 };
 
-module.exports = { verifyToken, verifyUserWithToken };
+const sendEmailToVerifyEmail = async user => {
+    // create a email verification code and send email
+    secret_code = Math.floor(Math.random() * 1000000);
+    const email_verification = new EmailVerificationModel({
+        id: user.getId(),
+        email: user.getEmail(),
+        secret_code: secret_code
+    });
+
+    // save to database
+    await emailVerificationCRUD.createEmailVerification(
+        email_verification.toMap()
+    );
+    emailVerification(user.getEmail(), secret_code);
+};
+
+module.exports = { verifyToken, verifyUserWithToken, sendEmailToVerifyEmail };

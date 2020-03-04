@@ -3,10 +3,7 @@ const jwt = require("jsonwebtoken");
 const _ = require("lodash"); // for modifing the array contents
 
 const { UserModel, UserfromFirestore } = require("../../models/user");
-const {
-    EmailVerificationModel,
-    EmailVerificationFromFirestore
-} = require("../../models/emailVerification");
+const { sendEmailToVerifyEmail } = require("./helper");
 const {
     ForgorPasswordModel,
     ForgotPasswordFromFirestore
@@ -17,8 +14,6 @@ const {
     EmailIDValidation
 } = require("./authValidations");
 const userCRUD = require("../../services/firestore/userCRUD");
-const emailVerificationCRUD = require("../../services/firestore/emailVerificationCRUD");
-const emailVerification = require("../../services/mail/emailverfication");
 
 module.exports.register = async (req, res) => {
     // validate the given user info
@@ -64,19 +59,7 @@ module.exports.register = async (req, res) => {
             expiresIn: "1d"
         });
 
-        // create a email verification code and send email
-        secret_code = Math.floor(Math.random() * 1000000);
-        const email_verification = new EmailVerificationModel({
-            id: user.getId(),
-            email: user.getEmail(),
-            secret_code: secret_code
-        });
-
-        // save to database
-        await emailVerificationCRUD.createEmailVerification(
-            email_verification.toMap()
-        );
-        emailVerification(user.getEmail(), secret_code);
+        await sendEmailToVerifyEmail(user);
 
         return res.header("authorization", jToken).json(jToken);
     } catch (error) {
@@ -105,6 +88,14 @@ module.exports.login = async (req, res) => {
 
         if (!validPassword)
             return res.status(400).json({ message: "Password is invalid" });
+
+        if (process.env.NODE_ENV !== "development") {
+            if (!user.user.email_verified) {
+                return res
+                    .status(401)
+                    .json({ message: "Access denied as email isn't verified" });
+            }
+        }
 
         // Assign a json web token
         const tokenSecret = process.env.Token_Secret;
@@ -180,11 +171,20 @@ module.exports.forgotPassword = async (req, res) => {
 };
 
 module.exports.getUser = async (req, res) => {
-    return res.json({ user: req.loggedUser });
+    return res.json({ user: req.loggedUser.toMap() });
 };
 
 module.exports.sendEmailVerification = async (req, res) => {
-    // code to send the email verification here
+    try {
+        await sendEmailToVerifyEmail(req.loggedUser);
+        return res.status(200).json({
+            message:
+                "Email verification sent successfully check your mail for code"
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ message: "Internal server error" });
+    }
 };
 
 module.exports.verifyEmail = async (req, res) => {
@@ -198,3 +198,5 @@ module.exports.resetPassword = async (req, res) => {
 module.exports.editUser = async (req, res) => {
     // code to edit user profile
 };
+
+/// Auxillary functions

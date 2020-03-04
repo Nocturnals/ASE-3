@@ -20,6 +20,8 @@ router.post("/login", login);
 // route to forgotpassword
 router.post("/forgotpassword", forgotPassword);
 
+// route to get the logged user details
 router.get("/user", verifyToken, verifyUserWithToken, getUser);
 
+router.post("/sendEmailVerification");
 module.exports = router;

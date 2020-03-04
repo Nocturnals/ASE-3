@@ -8,7 +8,7 @@ module.exports.createEmailVerification = async map => {
     if (old_doc.exists) {
         await coll_ref.doc(map["id"]).update(map);
     } else {
-        await coll_ref.add(map);
+        await coll_ref.doc(map["id"]).create(map);
     }
 
     return;
