@@ -1,9 +1,5 @@
 const express = require("express");
 
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const _ = require("lodash"); // for modifing the array contents
-
 const {
     verifyToken,
     verifyUserWithToken,
@@ -15,7 +11,8 @@ const {
     forgotPassword,
     getUser,
     sendEmailVerification,
-    verifyEmail
+    verifyEmail,
+    verifyForgotPassword
 } = require("./functions");
 
 // instance of new router
@@ -49,5 +46,8 @@ router.post(
     verifyUserWithoutEmailVerification,
     verifyEmail
 );
+
+// route to verify the given code and reset the password
+router.post("./verifyForgotPassword", verifyForgotPassword);
 
 module.exports = router;
