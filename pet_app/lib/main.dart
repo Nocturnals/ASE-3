@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'src/landing_page.dart';
 import 'package:pet_app/widgets/centered_view.dart';
 import 'package:pet_app/constants/themeData.dart';
 
@@ -23,7 +22,7 @@ class PetSApp extends StatelessWidget {
       routes: <String, WidgetBuilder> {
         
       },
-      home: LandingPage(),
+      home: MyHomePage(),
     );
   }
 }
@@ -55,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("PetS"),
       ),
       body: CenteredView(
         child: Center(
