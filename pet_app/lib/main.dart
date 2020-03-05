@@ -6,20 +6,23 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'src/landing_page.dart';
+import 'package:pet_app/widgets/centered_view.dart';
+import 'package:pet_app/constants/themeData.dart';
 
 void main() async {
   await DotEnv().load('.env');
-  return runApp(MyApp());
+  return runApp(PetSApp());
 }
 
-class MyApp extends StatelessWidget {
+class PetSApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'petS',
-      theme: ThemeData(
-        primarySwatch: Colors.amber,
-      ),
+      title: 'PetS',
+      theme: appTheme,
+      routes: <String, WidgetBuilder> {
+        
+      },
       home: LandingPage(),
     );
   }
@@ -38,7 +41,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String _counter = 'hello';
 
   void _incrementCounter() async {
-    http.Response response = await http.get('http://${DotEnv().env['localhost']}:4000/testing');  // 10.0.2.2 for emulator
+    http.Response response = await http.get(
+        'http://${DotEnv().env['localhost']}:4000/testing'); // 10.0.2.2 for emulator
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
       setState(() {
@@ -53,25 +57,27 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              _counter,
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-          ],
+      body: CenteredView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'You have pushed the button this many times:',
+              ),
+              Text(
+                _counter,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

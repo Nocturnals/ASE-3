@@ -19,17 +19,20 @@
   },
   "homepage": "https://github.com/Nocturnals/ASE-3#readme",
   "dependencies": {
+    "@hapi/joi": "^17.1.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^5.1.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "firebase-admin": "^8.9.2",
     "helmet": "^3.21.2",
     "joi-objectid": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "mongoose": "^5.8.13",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "nodemailer": "^6.4.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

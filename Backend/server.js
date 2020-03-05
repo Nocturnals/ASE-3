@@ -55,6 +55,9 @@ app.get("/testing", (req, res, next) => {
     res.json({ time: Date.now() });
 });
 
+// route for authentication
+app.use("/api/auth", require("./routes/auth/index"));
+
 const port = process.env.PORT || 3000; // get the port number from the dotenv file if not 3000
 // The listening of the server
 let server = app.listen(port, () => {
