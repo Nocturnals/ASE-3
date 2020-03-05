@@ -6,20 +6,22 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:pet_app/widgets/centered_view.dart';
+import 'package:pet_app/constants/themeData.dart';
 
 void main() async {
   await DotEnv().load('.env');
-  return runApp(MyApp());
+  return runApp(PetSApp());
 }
 
-class MyApp extends StatelessWidget {
+class PetSApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'PetS',
+      theme: appTheme,
+      routes: <String, WidgetBuilder> {
+        
+      },
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
