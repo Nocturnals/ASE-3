@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'src/landing_page.dart';
 import 'package:pet_app/widgets/centered_view.dart';
 import 'package:pet_app/constants/themeData.dart';
 
@@ -22,7 +23,7 @@ class PetSApp extends StatelessWidget {
       routes: <String, WidgetBuilder> {
         
       },
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: LandingPage(),
     );
   }
 }
