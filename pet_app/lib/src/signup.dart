@@ -3,6 +3,8 @@ import 'package:pet_app/src/Widget/bezierContainer.dart';
 import 'package:pet_app/src/loginPage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'Widget/cButtons.dart';
+
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key key, this.title}) : super(key: key);
 
@@ -13,25 +15,6 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  Widget _backButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-              child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _entryField(String title, {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -113,26 +96,6 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _title() {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-          text: 'pet',
-          style: GoogleFonts.portLligatSans(
-            textStyle: Theme.of(context).textTheme.display1,
-            fontSize: 30,
-            fontWeight: FontWeight.w700,
-            color: Color(0xffe46b10),
-          ),
-          children: [
-            TextSpan(
-              text: 'S',
-              style: TextStyle(color: Colors.black, fontSize: 30),
-            )
-          ]),
-    );
-  }
-
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
@@ -161,7 +124,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       flex: 3,
                       child: SizedBox(),
                     ),
-                    _title(),
+                    cTitle2(context),
                     SizedBox(
                       height: 50,
                     ),
@@ -181,7 +144,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 alignment: Alignment.bottomCenter,
                 child: _loginAccountLabel(),
               ),
-              Positioned(top: 40, left: 0, child: _backButton()),
+              Positioned(top: 40, left: 0, child: cBackButton(context)),
               Positioned(
                   top: -MediaQuery.of(context).size.height * .15,
                   right: -MediaQuery.of(context).size.width * .4,

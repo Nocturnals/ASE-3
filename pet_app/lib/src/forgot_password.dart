@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pet_app/src/password_reset.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'Widget/cButtons.dart';
 import 'Widget/bezierContainer.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -14,24 +14,6 @@ class ForgotPasswordPage extends StatefulWidget {
 }
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
-  Widget _backButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-              child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
-            )
-          ],
-        ),
-      ),
-    );
-  }
 
   Widget _entryField(String title) {
     return Container(
@@ -58,17 +40,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   Widget _submitButton() {
     return Container(
-      child: RaisedButton(
-        onPressed: () => {
-          Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PasswordResetPage()))
-        },
-        color: Colors.transparent,
+      child: InkWell(
+        onTap: () => {},
         child: Text(
           'Send Password Reset Email',
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
       ),
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(vertical: 15),
@@ -86,27 +63,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-    );
-  }
-
-
-  Widget _title() {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-          text: 'pet',
-          style: GoogleFonts.portLligatSans(
-            textStyle: Theme.of(context).textTheme.display1,
-            fontSize: 30,
-            fontWeight: FontWeight.w700,
-            color: Color(0xffe46b10),
-          ),
-          children: [
-            TextSpan(
-              text: 'S',
-              style: TextStyle(color: Colors.black, fontSize: 30),
-            )
-          ]),
     );
   }
 
@@ -136,7 +92,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         flex: 3,
                         child: SizedBox(),
                       ),
-                      _title(),
+                      cTitle2(context),
                       SizedBox(
                         height: 50,
                       ),
@@ -152,7 +108,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     ],
                   ),
                 ),
-                Positioned(top: 40, left: 0, child: _backButton()),
+                Positioned(top: 40, left: 0, child: cBackButton(context)),
                 Positioned(
                     top: -MediaQuery.of(context).size.height * .15,
                     right: -MediaQuery.of(context).size.width * .4,

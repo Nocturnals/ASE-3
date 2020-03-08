@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'Widget/cButtons.dart';
 import 'Widget/bezierContainer.dart';
 
 class PasswordResetPage extends StatefulWidget {
@@ -13,25 +14,6 @@ class PasswordResetPage extends StatefulWidget {
 }
 
 class _PasswordResetPageState extends State<PasswordResetPage> {
-  Widget _backButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-              child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _entryField(String title) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -81,27 +63,6 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
     );
   }
 
-
-  Widget _title() {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-          text: 'pet',
-          style: GoogleFonts.portLligatSans(
-            textStyle: Theme.of(context).textTheme.display1,
-            fontSize: 30,
-            fontWeight: FontWeight.w700,
-            color: Color(0xffe46b10),
-          ),
-          children: [
-            TextSpan(
-              text: 'S',
-              style: TextStyle(color: Colors.black, fontSize: 30),
-            )
-          ]),
-    );
-  }
-
   Widget _usernamePasswordWidget() {
     return Column(
       children: <Widget>[
@@ -129,7 +90,7 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
                         flex: 3,
                         child: SizedBox(),
                       ),
-                      _title(),
+                      cTitle2(context),
                       SizedBox(
                         height: 50,
                       ),
@@ -145,7 +106,7 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
                     ],
                   ),
                 ),
-                Positioned(top: 40, left: 0, child: _backButton()),
+                Positioned(top: 40, left: 0, child: cBackButton(context)),
                 Positioned(
                     top: -MediaQuery.of(context).size.height * .15,
                     right: -MediaQuery.of(context).size.width * .4,

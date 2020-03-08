@@ -7,7 +7,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'src/landing_page.dart';
 import 'package:pet_app/widgets/centered_view.dart';
-import 'package:pet_app/constants/themeData.dart';
+// import 'package:pet_app/constants/themeData.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   await DotEnv().load('.env');
@@ -17,9 +18,16 @@ void main() async {
 class PetSApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return MaterialApp(
-      title: 'PetS',
-      theme: appTheme,
+      title: 'petS',
+      theme: ThemeData(
+         primarySwatch: Colors.blue,
+         textTheme:GoogleFonts.latoTextTheme(textTheme).copyWith(
+           body1: GoogleFonts.montserrat(textStyle: textTheme.body1),
+         ),
+      ),
       routes: <String, WidgetBuilder> {
         
       },
