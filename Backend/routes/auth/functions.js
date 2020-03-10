@@ -70,7 +70,7 @@ module.exports.register = async (req, res) => {
         return res.header("authorization", jToken).json(jToken);
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ message: `Internal server error` });
+        return res.status(500).json({ message: "Internal server error" });
     }
 };
 
@@ -193,7 +193,7 @@ module.exports.verifyEmail = async (req, res) => {
 
     try {
         // get the user email verification mail
-        email_verification_doc = await emailVerificationCRUD.getEmailVerificationViaId(
+        let email_verification_doc = await emailVerificationCRUD.getEmailVerificationViaId(
             req.loggedUser.getId()
         );
 
@@ -204,7 +204,7 @@ module.exports.verifyEmail = async (req, res) => {
                 .json({ message: "First apply email verification form" });
         }
 
-        emailVerificationInstance = EmailVerificationFromFirestore({
+        let emailVerificationInstance = EmailVerificationFromFirestore({
             mapData: email_verification_doc.data(),
             docId: email_verification_doc.id
         });
