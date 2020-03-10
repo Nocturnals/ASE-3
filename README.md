@@ -1,4 +1,7 @@
 # ASE-3
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7834788f72274cde8b32afb968ca6eb2)](https://app.codacy.com/gh/Nocturnals/ASE-3?utm_source=github.com&utm_medium=referral&utm_content=Nocturnals/ASE-3&utm_campaign=Badge_Grade_Dashboard)
+
 A social media application for pets management
 
 ## Prerequisites
