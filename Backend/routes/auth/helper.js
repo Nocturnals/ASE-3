@@ -44,7 +44,9 @@ const verifyUserWithToken = async (req, res, next) => {
             return res.status(401).json({ message: err.message });
         } else {
             try {
-                loggedUser = await userFirestoreCRUD.getUserViaID(authData.id);
+                let loggedUser = await userFirestoreCRUD.getUserViaID(
+                    authData.id
+                );
                 // if user doesn't exist
                 if (!loggedUser) {
                     return res.status(400).json({
@@ -99,7 +101,7 @@ const verifyUserWithoutEmailVerification = async (req, res, next) => {
                 }
                 // when user exists
                 else {
-                    loggedUser = loggedUser.data();
+                    let loggedUser = loggedUser.data();
                     loggedUser = UserfromFirestore({
                         mapData: loggedUser,
                         docId: loggedUser.id
@@ -118,7 +120,7 @@ const verifyUserWithoutEmailVerification = async (req, res, next) => {
 
 const sendEmailToVerifyEmail = async user => {
     // create a email verification code and send email
-    secret_code = Math.floor(Math.random() * 1000000);
+    let secret_code = Math.floor(Math.random() * 1000000);
     const email_verification = new EmailVerificationModel({
         id: user.getId(),
         email: user.getEmail(),
@@ -134,7 +136,7 @@ const sendEmailToVerifyEmail = async user => {
 
 const sendForgotPasswordEmail = async user => {
     // create a email verification code and send email
-    secret_code = Math.floor(Math.random() * 1000000);
+    let secret_code = Math.floor(Math.random() * 1000000);
     const forgot_password = new ForgotPasswordModel({
         id: user.getId(),
         email: user.getEmail(),
