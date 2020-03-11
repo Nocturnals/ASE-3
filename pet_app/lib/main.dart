@@ -22,9 +22,10 @@ class PetSApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: appTheme,
       navigatorObservers: [],
-      routes: <String, WidgetBuilder> {
+      routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => LoginPage(),
       },
       initialRoute: '/LoginPage',
-      home: MyHomePage(),
+    );
   }
+}
