@@ -3,7 +3,7 @@ function ForgotPassword({ id, email, secret_code }) {
     let _id = id;
     const _email = email;
     const _secret_code = secret_code;
-    const _deadline = new Date();
+    let _deadline = new Date();
     _deadline.setDate(_deadline.getDate() + 1); // to get the next day date
 
     // getters here
@@ -40,8 +40,8 @@ function ForgotPassword({ id, email, secret_code }) {
 }
 
 // function to create instance from the firestore data
-ForgotPasswordFromFirestore = ({ mapData, docId }) => {
-    email_verification_instance = new ForgotPassword({
+const ForgotPasswordFromFirestore = ({ mapData, docId }) => {
+    let email_verification_instance = new ForgotPassword({
         id: docId,
         email: mapData["email"],
         secret_code: mapData["secret_code"]
