@@ -1,16 +1,16 @@
 function Post({ id }) {
     // private variables
-    let _id = id;
+    let _post_id = id;
     let _media_url = null;
     let _author_id = null;
-    // let _date_of_creation  = # TODO  *date time field*
+    let _date_of_creation = Date.now();
     let _likes_count = 0;
     let _liked_by = [];
 
     // getters
 
     this.getId = () => {
-        return _id;
+        return _post_id;
     };
 
     this.getMedia_url = () => {
@@ -32,7 +32,7 @@ function Post({ id }) {
     // setters
 
     this.setId = id => {
-        _id = id;
+        _post_id = id;
     };
 
     this.setMedia_url = media_url => {
@@ -59,8 +59,8 @@ function Post({ id }) {
 
     this.toMap = () => {
         const map = {};
-        if (_id) {
-            map["id"] = _id;
+        if (_post_id) {
+            map["post_id"] = _post_id;
         }
 
         map["media_url"] = _media_url;
@@ -77,7 +77,7 @@ function Post({ id }) {
 
 PostfromFirestore = ({ mapData, docId }) => {
     post_instance = new Post({
-        id: docId
+        post_id: docId
     });
 
     post_instance.setAuthor_id(mapData["author_id"]);
