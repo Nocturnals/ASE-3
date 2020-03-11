@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_app/src/signup.dart';
 import 'package:pet_app/src/forgot_password.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'Widget/cButtons.dart';
 import 'Widget/bezierContainer.dart';
