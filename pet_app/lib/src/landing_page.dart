@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pet_app/src/Widget/cButtons.dart';
 import 'package:pet_app/src/loginPage.dart';
 import 'package:pet_app/src/signup.dart';
+import 'package:pet_app/src/guestHomePage.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 class LandingPage extends StatefulWidget {
   LandingPage({Key key, this.title}) : super(key: key);
@@ -96,7 +98,10 @@ class _LandingPageState extends State<LandingPage> {
         child: Column(
           children: <Widget>[
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => GuestHomePage()));
+              },
               child: new Container(
                 child: Text(
                   'Proceed as Guest',
