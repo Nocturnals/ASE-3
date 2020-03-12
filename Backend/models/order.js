@@ -86,9 +86,8 @@ function Order({ id }) {
 }
 
 // function to create instance from the firestore data
-
-OrderfromFirestore = ({ mapData, docId }) => {
-    order_instance = new Order({
+const OrderfromFirestore = ({ mapData, docId }) => {
+    const order_instance = new Order({
         order_id: docId
     });
 

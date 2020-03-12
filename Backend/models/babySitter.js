@@ -88,8 +88,8 @@ function BabySitter({ id }) {
 
 // function to create instance from the firestore data
 
-BabySitterfromFirestore = ({ mapData, docId }) => {
-    babysitter_instance = new BabySitter({
+const BabySitterfromFirestore = ({ mapData, docId }) => {
+    const babysitter_instance = new BabySitter({
         babysitter_id: docId
     });
 

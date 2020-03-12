@@ -65,9 +65,8 @@ function ShoppingItem({ id }) {
 }
 
 // function to create instance from the firestore data
-
-ShoppingItemfromFirestore = ({ mapData, docId }) => {
-    shoppingitem_instance = new ShoppingItem({
+const ShoppingItemfromFirestore = ({ mapData, docId }) => {
+    const shoppingitem_instance = new ShoppingItem({
         shoppingitem_id: docId
     });
 
