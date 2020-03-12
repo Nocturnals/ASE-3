@@ -8,23 +8,25 @@ module.exports.createReminder = async reminderMap => {
     return new_reminder_ref;
 };
 
-module.exports.updateReminder = async reminderMap =>{
-    const update_reminder_ref = await coll_ref.doc(reminderMap["reminder_id"]).update(reminderMap);
+module.exports.updateReminder = async reminderMap => {
+    const update_reminder_ref = await coll_ref
+        .doc(reminderMap["reminder_id"])
+        .update(reminderMap);
     return update_reminder_ref;
 };
 
-module.exports.deleteReminder = async id =>{
+module.exports.deleteReminder = async id => {
     return await coll_ref.doc(id).delete();
 };
 
-module.exports.getReminderViaId = async id =>{
+module.exports.getReminderViaId = async id => {
     const get_reminder = await coll_ref.doc(id).get();
     return get_reminder;
 };
 
-module.exports.getReminderViaUserId = async id =>{
+module.exports.getReminderViaUserId = async id => {
     const get_reminder = await coll_ref.where("user_id", "==", id).get();
     if (get_reminder) return false;
 
-    return get_reminder
-}
+    return get_reminder;
+};

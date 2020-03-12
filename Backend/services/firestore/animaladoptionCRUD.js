@@ -8,16 +8,18 @@ module.exports.createanimalAdoption = async animalAdoptionMap => {
     return new_animalAdoption_ref;
 };
 
-module.exports.updateanimalAdoption = async animalAdoptionMap =>{
-    const update_animalAdoption_ref = await coll_ref.doc(animalAdoptionMap["animal_adoption_id"]).update(animalAdoptionMap);
+module.exports.updateanimalAdoption = async animalAdoptionMap => {
+    const update_animalAdoption_ref = await coll_ref
+        .doc(animalAdoptionMap["animal_adoption_id"])
+        .update(animalAdoptionMap);
     return update_animalAdoption_ref;
 };
 
-module.exports.deleteanimalAdoption = async id =>{
+module.exports.deleteanimalAdoption = async id => {
     return await coll_ref.doc(id).delete();
 };
 
-module.exports.getanimalAdoptionViaId = async id =>{
+module.exports.getanimalAdoptionViaId = async id => {
     const get_animalAdoption = await coll_ref.doc(id).get();
     return get_animalAdoption;
 };

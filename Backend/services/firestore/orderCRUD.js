@@ -8,23 +8,25 @@ module.exports.createOrder = async orderMap => {
     return new_order_ref;
 };
 
-module.exports.updateOrder = async orderMap =>{
-    const update_order_ref = await coll_ref.doc(orderMap["order_id"]).update(orderMap);
+module.exports.updateOrder = async orderMap => {
+    const update_order_ref = await coll_ref
+        .doc(orderMap["order_id"])
+        .update(orderMap);
     return update_order_ref;
 };
 
-module.exports.deleteOrder = async id =>{
+module.exports.deleteOrder = async id => {
     return await coll_ref.doc(id).delete();
 };
 
-module.exports.getOrderViaId = async id =>{
+module.exports.getOrderViaId = async id => {
     const get_order = await coll_ref.doc(id).get();
     return get_order;
 };
 
-module.exports.getOrderViaItemId = async id =>{
+module.exports.getOrderViaItemId = async id => {
     const get_order = await coll_ref.where("item_id", "==", id).get();
     if (get_order) return false;
 
-    return get_order
-}
+    return get_order;
+};

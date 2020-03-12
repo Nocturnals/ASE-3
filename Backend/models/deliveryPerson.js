@@ -1,7 +1,7 @@
 function DeliveryPerson({ id }) {
     // private variables/
 
-    let _deliveryPerson_id = id;
+    let _delivery_person_id = id;
     let _user_id = null;
     let _list_of_deliveries = [];
     let _completed_deliveries = [];
@@ -34,7 +34,7 @@ function DeliveryPerson({ id }) {
     //setters
 
     this.setId = id => {
-        _deliveryPerson_id = id;
+        _delivery_person_id = id;
     };
 
     this.setPayment_details = payment_details => {
@@ -59,8 +59,8 @@ function DeliveryPerson({ id }) {
 
     this.toMap = () => {
         const map = {};
-        if (_deliveryPerson_id) {
-            map["deliveryPerson_id"] = _deliveryPerson_id;
+        if (_delivery_person_id) {
+            map["delivery_person_id"] = _delivery_person_id;
         }
 
         map["list_of_deliveries"] = _list_of_deliveries;
