@@ -49,7 +49,7 @@ function Reminder({ id }) {
 
     this.toMap = () => {
         const map = {};
-        if (_order_id) {
+        if (_reminder_id) {
             map["reminder_id"] = _reminder_id;
         }
         map["user_id"] = _user_id;
