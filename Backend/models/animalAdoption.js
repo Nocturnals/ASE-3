@@ -90,9 +90,8 @@ function AnimalAdoption({ id }) {
 }
 
 // function to create instance from the firestore data
-
-AnimalAdoptionfromFirestore = ({ mapData, docId }) => {
-    animal_adoption_instance = new AnimalAdoption({
+const AnimalAdoptionfromFirestore = ({ mapData, docId }) => {
+    const animal_adoption_instance = new AnimalAdoption({
         animal_adoption_id: docId
     });
 

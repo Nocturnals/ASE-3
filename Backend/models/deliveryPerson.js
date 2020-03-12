@@ -72,8 +72,8 @@ function DeliveryPerson({ id }) {
     };
 }
 
-DeliveryPersonfromFirestore = ({ mapData, docId }) => {
-    delivery_person_instance = new DeliveryPerson({
+const DeliveryPersonfromFirestore = ({ mapData, docId }) => {
+    const delivery_person_instance = new DeliveryPerson({
         deliveryPerson_id: docId
     });
 

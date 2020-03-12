@@ -63,8 +63,8 @@ function Reminder({ id }) {
 
 // function to create instance from the firestore data
 
-ReminderfromFirestore = ({ mapData, docId }) => {
-    reminder_instance = new Reminder({
+const ReminderfromFirestore = ({ mapData, docId }) => {
+    const reminder_instance = new Reminder({
         reminder_id: docId
     });
 

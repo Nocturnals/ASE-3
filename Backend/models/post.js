@@ -75,8 +75,8 @@ function Post({ id }) {
 
 // function to create instance from the firestore data
 
-PostfromFirestore = ({ mapData, docId }) => {
-    post_instance = new Post({
+const PostfromFirestore = ({ mapData, docId }) => {
+    const post_instance = new Post({
         post_id: docId
     });
 
