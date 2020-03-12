@@ -60,7 +60,7 @@ function DeliveryPerson({ id }) {
     this.toMap = () => {
         const map = {};
         if (_delivery_person_id) {
-            map["deliveryPerson_id"] = _delivery_person_id;
+            map["delivery_person_id"] = _delivery_person_id;
         }
 
         map["list_of_deliveries"] = _list_of_deliveries;
