@@ -5,8 +5,8 @@ let coll_ref = database.collection("users");
 
 // function to create a new user
 module.exports.createUser = async userMap => {
-    const new_uSer_ref = await coll_ref.add(userMap);
-    return new_uSer_ref;
+    const new_user_ref = await coll_ref.add(userMap);
+    return new_user_ref;
 };
 
 module.exports.updateUser = async userMap => {
