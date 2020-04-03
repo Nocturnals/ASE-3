@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:pet_app/src/landing_page.dart';
 
 import 'package:pet_app/widgets/centered_view.dart';
 // import 'package:pet_app/constants/themeData.dart';
@@ -30,7 +31,7 @@ class PetSApp extends StatelessWidget {
       routes: <String, WidgetBuilder> {
         
       },
-      home: MyHomePage(),
+      home: LandingPage(),
     );
   }
 }
