@@ -4,10 +4,16 @@ import 'package:pet_app/src/landing_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Widget cTitle(BuildContext context) {
+  var a = false;
   return InkWell(
     onTap: () {
-      Navigator.push(
+      if (a) {
+        Navigator.push(
             context, MaterialPageRoute(builder: (context) => LandingPage()));
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LandingPage()));
+      }
     },
     child: RichText(
       textAlign: TextAlign.center,
