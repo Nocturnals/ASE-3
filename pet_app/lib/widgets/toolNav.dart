@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:pet_app/src/Widget/cButtons.dart';
+import 'package:pet_app/widgets/cButtons.dart';
 
 // App Bar
 Widget appBar(BuildContext context) {

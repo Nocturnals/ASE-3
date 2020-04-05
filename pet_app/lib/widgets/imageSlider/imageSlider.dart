@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:pet_app/src/Widget/imageSlider/dotsIndicator.dart';
+import 'package:pet_app/widgets/imageSlider/dotsIndicator.dart';
 
 
 class ImageSliderWidget extends StatefulWidget {
