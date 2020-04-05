@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pet_app/src/Widget/cButtons.dart';
-import 'package:pet_app/src/loginPage.dart';
-import 'package:pet_app/src/signup.dart';
 import 'package:pet_app/src/guestHomePage.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
@@ -18,8 +16,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget _submitButton() {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
+        Navigator.pushNamed(context, '/login');
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -46,8 +43,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget _signUpButton() {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignUpPage()));
+        Navigator.pushNamed(context, '/signup');
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
