@@ -37,7 +37,7 @@ Widget cTitle2(BuildContext context) {
     child: RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-          text: 'pet',
+          text: 'Pet',
           style: GoogleFonts.portLligatSans(
             textStyle: Theme.of(context).textTheme.headline4,
             fontSize: 30,
