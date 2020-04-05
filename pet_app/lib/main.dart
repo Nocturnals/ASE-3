@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:pet_app/constants/themeData.dart';
-import 'package:pet_app/src/loginPage.dart';
-import 'package:pet_app/widgets/centered_view.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:pet_app/src/loginPage.dart';
 
 void main() async {
   await DotEnv().load('.env');
