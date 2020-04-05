@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pet_app/src/Widget/toolNav.dart';
-import 'package:pet_app/src/Widget/cWidgets.dart';
 
-class GuestHomePage extends StatefulWidget {
-  GuestHomePage({Key key}) : super(key: key);
+import 'package:pet_app/widgets/toolNav.dart';
+import 'package:pet_app/widgets/cWidgets.dart';
+
+class GuestHomeScreen extends StatefulWidget {
+  GuestHomeScreen({Key key}) : super(key: key);
 
   @override
-  _GuestHomePageState createState() => _GuestHomePageState();
+  _GuestHomeScreenState createState() => _GuestHomeScreenState();
 }
 
-class _GuestHomePageState extends State<GuestHomePage> {
+class _GuestHomeScreenState extends State<GuestHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context),
