@@ -99,8 +99,8 @@ class _LandingPageState extends State<LandingPage> {
           children: <Widget>[
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => GuestHomePage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => GuestHomePage()));
               },
               child: new Container(
                 child: Text(
@@ -120,44 +120,44 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:SingleChildScrollView(
-        child:Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: Colors.grey.shade200,
-                      offset: Offset(2, 4),
-                      blurRadius: 5,
-                      spreadRadius: 2)
-                ],
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Color(0xfffbb448), Color(0xffe46b10)])),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                cTitle(context),
-                SizedBox(
-                  height: 80,
-                ),
-                _submitButton(),
-                SizedBox(
-                  height: 20,
-                ),
-                _signUpButton(),
-                SizedBox(
-                  height: 20,
-                ),
-                // _label()
-                guestProceed()
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.grey.shade200,
+                    offset: Offset(2, 4),
+                    blurRadius: 5,
+                    spreadRadius: 2)
               ],
-            ),
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xfffbb448), Color(0xffe46b10)])),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              cTitle(context),
+              SizedBox(
+                height: 80,
+              ),
+              _submitButton(),
+              SizedBox(
+                height: 20,
+              ),
+              _signUpButton(),
+              SizedBox(
+                height: 20,
+              ),
+              // _label()
+              guestProceed()
+            ],
           ),
+        ),
       ),
     );
   }
