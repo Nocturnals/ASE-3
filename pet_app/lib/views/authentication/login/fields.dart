@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import 'dart:html';
 
-import 'package:pet_app/src/forgot_password.dart';
+import 'package:flutter/material.dart';
 
 import 'package:pet_app/widgets/cButtons.dart';
 
@@ -120,10 +120,7 @@ class _FieldsState extends State<Fields> {
                 child: InkWell(
                   onTap: () {
                     // TODO: change the route here later
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ForgotPasswordPage()));
+                    Navigator.of(context).pushNamed('/forgotPassword');
                   },
                   child: Text(
                     'Forgot Password?',

@@ -33,7 +33,7 @@ class PetSApp extends StatelessWidget {
         '/forgotPassword': (BuildContext context) => ForgotPasswordScreen(),
         '/resetPassword': (BuildContext context) => ResetPasswordScreen(),
       },
-      initialRoute: '/resetPassword',
+      initialRoute: '/login',
     );
   }
 }
