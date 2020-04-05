@@ -129,8 +129,8 @@ function User({ id, username, email }) {
 }
 
 // function to create instance from the firestore data
-UserfromFirestore = ({ mapData, docId }) => {
-    user_instance = new User({
+const UserfromFirestore = ({ mapData, docId }) => {
+    const user_instance = new User({
         id: docId,
         username: mapData["username"],
         email: mapData["email"]

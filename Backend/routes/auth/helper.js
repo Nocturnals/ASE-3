@@ -142,7 +142,7 @@ const sendForgotPasswordEmail = async user => {
     const forgot_password = new ForgotPasswordModel({
         id: user.getId(),
         email: user.getEmail(),
-        secret_code: secret_code
+        secret_code
     });
 
     // save to database
