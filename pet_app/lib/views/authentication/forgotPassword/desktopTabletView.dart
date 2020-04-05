@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'loginFields.dart';
+import 'fields.dart';
 
-class LoginDestopTablet extends StatelessWidget {
-  const LoginDestopTablet({Key key}) : super(key: key);
+class DesktopTabletView extends StatelessWidget {
+  const DesktopTabletView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class LoginDestopTablet extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 600),
-        child: LoginFields()
+        child: Fields()
       ),
     );
   }

@@ -3,45 +3,21 @@ import 'package:flutter/services.dart';
 
 import 'package:responsive_builder/responsive_builder.dart';
 
-import 'package:pet_app/views/authentication/login/mobileView.dart';
-import 'package:pet_app/views/authentication/login/desktopTabletView.dart';
-
+import 'package:pet_app/views/authentication/forgotPassword/desktopTabletView.dart';
+import 'package:pet_app/views/authentication/forgotPassword/mobileView.dart';
 import 'package:pet_app/widgets/cButtons.dart';
 import 'package:pet_app/widgets/BezierContainer.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key key}) : super(key: key);
+class ForgotPasswordScreen extends StatefulWidget {
+  ForgotPasswordScreen({Key key, this.title}) : super(key: key);
 
-  Widget _createAccountLabel(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 20),
-      alignment: Alignment.bottomCenter,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'Don\'t have an account ?',
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, '/signup');
-            },
-            child: Text(
-              'Register',
-              style: TextStyle(
-                  color: Color(0xfff79c4f),
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+  final String title;
+
+  @override
+  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
+}
+
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -83,19 +59,14 @@ class LoginScreen extends StatelessWidget {
               children: <Widget>[
                 ScreenTypeLayout(
                   mobile: MobileView(),
-                  tablet: DestopTabletView(),
-                  desktop: DestopTabletView(),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: _createAccountLabel(context),
+                  tablet: DesktopTabletView(),
+                  desktop: DesktopTabletView(),
                 ),
                 Positioned(top: 40, left: 0, child: cBackButton(context)),
                 Positioned(
-                  top: -MediaQuery.of(context).size.height * .15,
-                  right: -MediaQuery.of(context).size.width * .4,
-                  child: BezierContainer(),
-                ),
+                    top: -MediaQuery.of(context).size.height * .15,
+                    right: -MediaQuery.of(context).size.width * .4,
+                    child: BezierContainer())
               ],
             ),
           ),

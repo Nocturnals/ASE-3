@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'signUpFields.dart';
+import 'fields.dart';
 
-class SignUpMobile extends StatelessWidget {
-  const SignUpMobile({Key key}) : super(key: key);
+class MobileView extends StatelessWidget {
+  const MobileView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class SignUpMobile extends StatelessWidget {
         horizontal: 40,
         vertical: 20,
       ),
-      child: SignUpFields(),
+      child: Fields(),
     );
   }
 }

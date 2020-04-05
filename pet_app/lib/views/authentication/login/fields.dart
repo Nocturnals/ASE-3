@@ -4,14 +4,14 @@ import 'package:pet_app/src/forgot_password.dart';
 
 import 'package:pet_app/widgets/cButtons.dart';
 
-class LoginFields extends StatefulWidget {
-  LoginFields({Key key}) : super(key: key);
+class Fields extends StatefulWidget {
+  Fields({Key key}) : super(key: key);
 
   @override
-  _LoginFieldsState createState() => _LoginFieldsState();
+  _FieldsState createState() => _FieldsState();
 }
 
-class _LoginFieldsState extends State<LoginFields> {
+class _FieldsState extends State<Fields> {
   Widget _entryField(String title, {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:pet_app/widgets/cButtons.dart';
 
-class SignUpFields extends StatefulWidget {
-  SignUpFields({Key key}) : super(key: key);
+class Fields extends StatefulWidget {
+  Fields({Key key}) : super(key: key);
 
   @override
-  _SignUpFieldsState createState() => _SignUpFieldsState();
+  _FieldsState createState() => _FieldsState();
 }
 
-class _SignUpFieldsState extends State<SignUpFields> {
+class _FieldsState extends State<Fields> {
   Widget _entryField(String title, {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
