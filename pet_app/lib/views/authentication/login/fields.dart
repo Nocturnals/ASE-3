@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 
 import 'package:pet_app/widgets/cButtons.dart';
@@ -119,7 +117,6 @@ class _FieldsState extends State<Fields> {
                 alignment: Alignment.centerRight,
                 child: InkWell(
                   onTap: () {
-                    // TODO: change the route here later
                     Navigator.of(context).pushNamed('/forgotPassword');
                   },
                   child: Text(
