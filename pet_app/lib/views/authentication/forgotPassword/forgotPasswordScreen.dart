@@ -8,16 +8,8 @@ import 'package:pet_app/views/authentication/forgotPassword/mobileView.dart';
 import 'package:pet_app/widgets/cButtons.dart';
 import 'package:pet_app/widgets/BezierContainer.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
-  ForgotPasswordScreen({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
-}
-
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class ForgotPasswordScreen extends StatelessWidget {
+  const ForgotPasswordScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

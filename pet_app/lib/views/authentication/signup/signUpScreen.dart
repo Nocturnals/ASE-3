@@ -8,17 +8,10 @@ import 'package:pet_app/views/authentication/signup/mobileView.dart';
 import 'package:pet_app/widgets/bezierContainer.dart';
 import 'package:pet_app/widgets/cButtons.dart';
 
-class SignUpScreen extends StatefulWidget {
-  SignUpScreen({Key key, this.title}) : super(key: key);
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({Key key}) : super(key: key);
 
-  final String title;
-
-  @override
-  _SignUpScreenState createState() => _SignUpScreenState();
-}
-
-class _SignUpScreenState extends State<SignUpScreen> {
-  Widget _loginAccountLabel() {
+  Widget _loginAccountLabel(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20),
       alignment: Alignment.bottomCenter,
@@ -94,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: _loginAccountLabel(),
+                  child: _loginAccountLabel(context),
                 ),
                 Positioned(top: 40, left: 0, child: cBackButton(context)),
                 Positioned(
