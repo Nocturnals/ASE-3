@@ -84,8 +84,8 @@ class LoginScreen extends StatelessWidget {
               children: <Widget>[
                 ScreenTypeLayout(
                   mobile: LoginMobile(),
-                  tablet: LoginDesktopTablet(),
-                  desktop: LoginDesktopTablet(),
+                  tablet: LoginDestopTablet(),
+                  desktop: LoginDestopTablet(),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
