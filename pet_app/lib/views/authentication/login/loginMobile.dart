@@ -8,8 +8,10 @@ class LoginMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: LoginFields()
-    );
+        padding: const EdgeInsets.symmetric(
+          horizontal: 40,
+          vertical: 20,
+        ),
+        child: LoginFields());
   }
 }

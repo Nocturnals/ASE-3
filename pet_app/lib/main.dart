@@ -4,7 +4,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 // import 'package:pet_app/src/landing_page.dart';
 
 import 'package:pet_app/constants/themeData.dart';
+
+// ALL PAGES HERE
 import 'package:pet_app/views/authentication/login/loginScreen.dart';
+import 'package:pet_app/views/authentication/signup/signUpScreen.dart';
 
 void main() async {
   await DotEnv().load('.env');
@@ -22,9 +25,10 @@ class PetSApp extends StatelessWidget {
       theme: appTheme,
       navigatorObservers: [],
       routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => LoginScreen(),
+        '/login': (BuildContext context) => LoginScreen(),
+        '/signup': (BuildContext context) => SignUpScreen(),
       },
-      initialRoute: '/',
+      initialRoute: '/signup',
     );
   }
 }

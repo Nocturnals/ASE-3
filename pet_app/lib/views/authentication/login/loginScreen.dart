@@ -3,12 +3,11 @@ import 'package:flutter/services.dart';
 
 import 'package:responsive_builder/responsive_builder.dart';
 
-import 'package:pet_app/src/signup.dart';
 import 'package:pet_app/views/authentication/login/loginMobile.dart';
 import 'package:pet_app/views/authentication/login/loginDesktopTablet.dart';
 
-import 'widgets/cButtons.dart';
-import 'widgets/bezierContainer.dart';
+import 'package:pet_app/widgets/cButtons.dart';
+import 'package:pet_app/widgets/BezierContainer.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key key}) : super(key: key);
@@ -29,8 +28,7 @@ class LoginScreen extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignUpPage()));
+              Navigator.pushNamed(context, '/signup');
             },
             child: Text(
               'Register',

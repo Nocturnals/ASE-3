@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:pet_app/src/forgot_password.dart';
 
-import 'widgets/cButtons.dart';
+import 'package:pet_app/widgets/cButtons.dart';
 
 class LoginFields extends StatefulWidget {
   LoginFields({Key key}) : super(key: key);
