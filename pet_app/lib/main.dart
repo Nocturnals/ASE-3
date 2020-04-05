@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:pet_app/src/landing_page.dart';
 
 import 'package:pet_app/constants/themeData.dart';
 
@@ -10,6 +9,8 @@ import 'package:pet_app/views/authentication/login/loginScreen.dart';
 import 'package:pet_app/views/authentication/signup/signUpScreen.dart';
 import 'package:pet_app/views/authentication/forgotPassword/forgotPasswordScreen.dart';
 import 'package:pet_app/views/authentication/resetPassword/resetPasswordScreen.dart';
+import 'package:pet_app/views/landingScreen/landingScreen.dart';
+import 'package:pet_app/views/home/guest/guestHomeScreen.dart';
 
 void main() async {
   await DotEnv().load('.env');
@@ -27,13 +28,19 @@ class PetSApp extends StatelessWidget {
       theme: appTheme,
       navigatorObservers: [],
       routes: <String, WidgetBuilder>{
+        // initail route
+        '/landingPage': (BuildContext context) => LandingPage(),
+
         // auth routes
         '/login': (BuildContext context) => LoginScreen(),
         '/signup': (BuildContext context) => SignUpScreen(),
         '/forgotPassword': (BuildContext context) => ForgotPasswordScreen(),
         '/resetPassword': (BuildContext context) => ResetPasswordScreen(),
+
+        // home page routes
+        '/guest': (BuildContext context) => GuestHomeScreen(),
       },
-      initialRoute: '/login',
+      initialRoute: '/landingPage',
     );
   }
 }

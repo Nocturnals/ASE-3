@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pet_app/src/landing_page.dart';
+
+import 'package:pet_app/views/landingScreen/landingScreen.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,7 +19,7 @@ Widget cTitle(BuildContext context) {
     child: RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-          text: 'pet',
+          text: 'Pet',
           style: GoogleFonts.portLligatSans(
             textStyle: Theme.of(context).textTheme.headline4,
             fontSize: 30,
