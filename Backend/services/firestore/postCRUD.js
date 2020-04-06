@@ -9,8 +9,8 @@ module.exports.createPost = async postMap => {
 };
 
 module.exports.updatePost = async postMap => {
-    const update_post_ref = await coll_ref.doc(postMap["id"]).update(postMap);
-    return update_post_ref;
+    const updated_post_ref = await coll_ref.doc(postMap["id"]).update(postMap);
+    return updated_post_ref;
 };
 
 module.exports.deletePost = async id => {
@@ -18,6 +18,6 @@ module.exports.deletePost = async id => {
 };
 
 module.exports.getPostViaId = async id => {
-    const get_post = await coll_ref.doc(id).get();
-    return get_post;
+    const post = await coll_ref.doc(id).get();
+    return post;
 };
