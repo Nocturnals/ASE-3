@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 import 'package:pet_app/constants/themeData.dart';
+import 'package:pet_app/redux/state.dart';
+import 'package:pet_app/redux/reducer.dart';
 
 // ALL PAGES HERE
 import 'package:pet_app/views/authentication/login/loginScreen.dart';
@@ -13,34 +17,47 @@ import 'package:pet_app/views/landingScreen/landingScreen.dart';
 import 'package:pet_app/views/home/guest/guestHomeScreen.dart';
 
 void main() async {
+  // load the dot env file varaibles
   await DotEnv().load('.env');
-  return runApp(PetSApp());
+
+  // define the global store of the application
+  final Store<AppState> store =
+      Store<AppState>(appStateReducer, initialState: AppState.initial());
+
+  // run the actual application
+  return runApp(PetSApp(
+    store: store,
+  ));
 }
 
 class PetSApp extends StatelessWidget {
-  const PetSApp({Key key}) : super(key: key);
+  const PetSApp({Key key, @required this.store}) : super(key: key);
+  final Store<AppState> store;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'PetS',
-      debugShowCheckedModeBanner: false,
-      theme: appTheme,
-      navigatorObservers: [],
-      routes: <String, WidgetBuilder>{
-        // initail route
-        '/landingPage': (BuildContext context) => LandingPage(),
+    return StoreProvider(
+      store: this.store,
+      child: MaterialApp(
+        title: 'PetS',
+        debugShowCheckedModeBanner: false,
+        theme: appTheme,
+        navigatorObservers: [],
+        routes: <String, WidgetBuilder>{
+          // initail route
+          '/landingPage': (BuildContext context) => LandingPage(),
 
-        // auth routes
-        '/login': (BuildContext context) => LoginScreen(),
-        '/signup': (BuildContext context) => SignUpScreen(),
-        '/forgotPassword': (BuildContext context) => ForgotPasswordScreen(),
-        '/resetPassword': (BuildContext context) => ResetPasswordScreen(),
+          // auth routes
+          '/login': (BuildContext context) => LoginScreen(),
+          '/signup': (BuildContext context) => SignUpScreen(),
+          '/forgotPassword': (BuildContext context) => ForgotPasswordScreen(),
+          '/resetPassword': (BuildContext context) => ResetPasswordScreen(),
 
-        // home page routes
-        '/guest': (BuildContext context) => GuestHomeScreen(),
-      },
-      initialRoute: '/landingPage',
+          // home page routes
+          '/guest': (BuildContext context) => GuestHomeScreen(),
+        },
+        initialRoute: '/landingPage',
+      ),
     );
   }
 }
