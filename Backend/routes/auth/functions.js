@@ -4,7 +4,7 @@ const _ = require("lodash"); // for modifing the array contents
 
 const { UserModel, UserfromFirestore } = require("../../models/user");
 const {
-    EmailVerificationFromFirestore
+    EmailVerificationFromFirestore,
 } = require("../../models/emailVerification");
 const { ForgotPasswordFromFirestore } = require("../../models/forgotPassword");
 
@@ -14,7 +14,7 @@ const {
     loginValidation,
     EmailIDValidation,
     verifyEmailValidation,
-    verifyForgotPasswordValidation
+    verifyForgotPasswordValidation,
 } = require("./authValidations");
 
 const userCRUD = require("../../services/firestore/userCRUD");
@@ -34,7 +34,7 @@ module.exports.register = async (req, res) => {
         const user = new UserModel({
             email: req.body.email,
             username: req.body.username,
-            id: null
+            id: null,
         });
 
         // check if username exists
@@ -63,7 +63,7 @@ module.exports.register = async (req, res) => {
         // Assign a json web token
         const tokenSecret = process.env.Token_Secret;
         const jToken = jwt.sign({ id: user.getId() }, tokenSecret, {
-            expiresIn: "1d"
+            expiresIn: "1d",
         });
 
         await sendEmailToVerifyEmail(user);
@@ -86,18 +86,18 @@ module.exports.login = async (req, res) => {
     try {
         let user = await userCRUD.getUserViaUsername(req.body.username);
 
-        user = user.data();
+        userData = user.data();
         // Check user password
         const validPassword = await bcrypt.compare(
             req.body.password,
-            user.password
+            userData.password
         );
 
         if (!validPassword)
             return res.status(400).json({ message: "Password is invalid" });
 
         if (process.env.NODE_ENV !== "development") {
-            if (!user.user.email_verified) {
+            if (!userData.user.email_verified) {
                 return res
                     .status(401)
                     .json({ message: "Access denied as email isn't verified" });
@@ -107,13 +107,15 @@ module.exports.login = async (req, res) => {
         // Assign a json web token
         const tokenSecret = process.env.Token_Secret;
         const jToken = jwt.sign({ id: user.id }, tokenSecret, {
-            expiresIn: "1d"
+            expiresIn: "1d",
         });
         console.log(jToken);
 
-        user = UserfromFirestore({ mapData: user, docId: user.id });
+        userData = UserfromFirestore({ mapData: userData, docId: user.id });
 
-        return res.header("authorization", jToken).json(user.toMap());
+        return res
+            .header("authorization", jToken)
+            .json({ user: userData.toMap() });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" });
@@ -136,14 +138,14 @@ module.exports.forgotPassword = async (req, res) => {
 
         if (!userDoc) {
             return res.status(400).json({
-                message: `No account exists associating with ${req.body.email}`
+                message: `No account exists associating with ${req.body.email}`,
             });
         }
 
         // convert the userdoc to user modal
         let user = UserfromFirestore({
             mapData: userDoc.data(),
-            id: userDoc.id
+            id: userDoc.id,
         });
 
         try {
@@ -151,7 +153,7 @@ module.exports.forgotPassword = async (req, res) => {
             await sendForgotPasswordEmail(user);
 
             return res.status(200).json({
-                message: `reset password link is mailed to ${req.body.email}`
+                message: `reset password link is mailed to ${req.body.email}`,
             });
         } catch (error) {
             console.log(
@@ -176,7 +178,7 @@ module.exports.sendEmailVerification = async (req, res) => {
         await sendEmailToVerifyEmail(req.loggedUser);
         return res.status(200).json({
             message:
-                "Email verification sent successfully check your mail for code"
+                "Email verification sent successfully check your mail for code",
         });
     } catch (error) {
         console.log(error);
@@ -208,7 +210,7 @@ module.exports.verifyEmail = async (req, res) => {
 
         let emailVerificationInstance = EmailVerificationFromFirestore({
             mapData: email_verification_doc.data(),
-            docId: email_verification_doc.id
+            docId: email_verification_doc.id,
         });
 
         // check if the secret code matches
@@ -229,7 +231,7 @@ module.exports.verifyEmail = async (req, res) => {
             );
             const newUser = UserfromFirestore({
                 mapData: newUserDoc.data(),
-                docId: newUserDoc.id
+                docId: newUserDoc.id,
             });
             req.loggedUser = newUser;
 
@@ -238,7 +240,7 @@ module.exports.verifyEmail = async (req, res) => {
 
             return res.status(200).json({
                 message: "successfully verified email",
-                user: newUser.toMap()
+                user: newUser.toMap(),
             });
         } else {
             // show error
@@ -267,7 +269,7 @@ module.exports.verifyForgotPassword = async (req, res) => {
         }
         const user = UserfromFirestore({
             mapData: user_doc.data(),
-            docId: user_doc.id
+            docId: user_doc.id,
         });
 
         // check for the forgor password doc data
@@ -281,7 +283,7 @@ module.exports.verifyForgotPassword = async (req, res) => {
         }
         const forgot_password_instance = ForgotPasswordFromFirestore({
             mapData: forgot_password_doc.data(),
-            docId: forgot_password_doc.id
+            docId: forgot_password_doc.id,
         });
 
         // check if the secret code
