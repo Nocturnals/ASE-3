@@ -317,7 +317,15 @@ module.exports.generateGuestUserHomeFeed = async (req, res) => {
 
 // Generating Feed for user
 module.exports.generateLoggedUserHomeFeed = async (req, res) => {
-    
+    try {
+        let following = req.loggedUser.getFollowing();
+        for (let i = 0; i < following.length; i++) {
+            const element = following[i];
+            
+        }
+    } catch (error) {
+        catchError(res, error);
+    }
 }
 
 
@@ -450,7 +458,7 @@ function catchError(res, error) {
     return res.status(500).json({ message: "Internal server error" });
 }
 
-const retrievePosts = user => {
+const retrievePosts = async user => {
     let posts = [];
     // get post ids of posts of a user
     let post_ids = await user.getPost_ids();

@@ -109,6 +109,7 @@ module.exports.login = async (req, res) => {
         const jToken = jwt.sign({ id: user.id }, tokenSecret, {
             expiresIn: "1d"
         });
+        console.log(jToken);
 
         user = UserfromFirestore({ mapData: user, docId: user.id });
 

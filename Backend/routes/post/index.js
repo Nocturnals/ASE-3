@@ -1,9 +1,8 @@
 const express = require("express");
 
 const {
+    verifyToken,
     verifyUserWithToken,
-    getUserById,
-    getUserByUsername,
 } = require("../auth/helper")
 const { getPostDataWithHashtagsMentions } = require("./helper");
 
@@ -29,7 +28,8 @@ const router = express.Router();
 // All ruotes to post goes here
 // Creating new Post
 router.post(
-    "post/create",
+    "/create",
+    verifyToken,
     verifyUserWithToken,
     getPostDataWithHashtagsMentions,
     createPost,
@@ -38,34 +38,34 @@ router.post(
 // Get Post
 // getting a single post by it;s id
 router.get(
-    "/post",
+    "/",
     getPostById
 );
 // getting all posts of a user by id
 router.get(
-    "/user/posts/id",
+    "/user/id",
     verifyUserWithToken,
     getPostsByUserId
 )
 // getting all posts of a user by username
 router.get(
-    "/user/posts/username",
+    "/user/username",
     getPostsByUsername
 )
 // getting posts liked by a user
 router.get(
-    "/posts/liked",
+    "/liked_posts",
     verifyUserWithToken,
     getLikedPostsByUserId,
 )
 // getting posts of a mentioned user
 router.get(
-    "/posts/mentioned_user",
+    "/mentioned_user_posts",
     getPostsByMentionedUser
 )
 // Update Post
 router.post(
-    "/post/update",
+    "/update",
     verifyUserWithToken,
     getPostDataWithHashtagsMentions,
     updatePost,
@@ -73,7 +73,7 @@ router.post(
 );
 // Delete Post
 router.post(
-    "/post/delete",
+    "/delete",
     verifyUserWithToken,
     deletePost
 );
@@ -81,13 +81,15 @@ router.post(
 
 // Add Like
 router.post(
-    "/post/like",
+    "/like",
     verifyUserWithToken,
     addLike
 )
 // Remove Like
 router.post(
-    "/post/unlike",
+    "/unlike",
     verifyUserWithToken,
     removeLike
 )
+
+module.exports = router;

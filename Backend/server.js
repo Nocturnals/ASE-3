@@ -58,6 +58,9 @@ app.get("/testing", (req, res, next) => {
 // route for authentication
 app.use("/api/auth", require("./routes/auth/index"));
 
+// route for post management
+app.use("/post", require("./routes/post/index"));
+
 const port = process.env.PORT || 3000; // get the port number from the dotenv file if not 3000
 // The listening of the server
 let server = app.listen(port, () => {
