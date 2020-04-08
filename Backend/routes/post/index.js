@@ -1,6 +1,11 @@
 const express = require("express");
 
-const { verifyUserWithToken } = require("../auth/helper")
+const {
+    verifyUserWithToken,
+    getUserById,
+    getUserByUsername,
+} = require("../auth/helper")
+const { getPostDataWithHashtagsMentions } = require("./helper");
 
 const {
     createPost,
@@ -8,9 +13,14 @@ const {
     updatePost,
     deletePost,
     getPostsByUserId,
+    getPostsByUsername,
     getLikedPostsByUserId,
+    getPostsByMentionedUser,
+    generateGuestUserHomeFeed, 
+    generateLoggedUserHomeFeed,
     addLike,
-    removeLike
+    removeLike,
+    managePostHashtags
 } = require("./functions");
 
 // instance of new router
@@ -21,18 +31,45 @@ const router = express.Router();
 router.post(
     "post/create",
     verifyUserWithToken,
-    createPost
+    getPostDataWithHashtagsMentions,
+    createPost,
+    managePostHashtags
 );
 // Get Post
+// getting a single post by it;s id
 router.get(
     "/post",
     getPostById
 );
+// getting all posts of a user by id
+router.get(
+    "/user/posts/id",
+    verifyUserWithToken,
+    getPostsByUserId
+)
+// getting all posts of a user by username
+router.get(
+    "/user/posts/username",
+    getPostsByUsername
+)
+// getting posts liked by a user
+router.get(
+    "/posts/liked",
+    verifyUserWithToken,
+    getLikedPostsByUserId,
+)
+// getting posts of a mentioned user
+router.get(
+    "/posts/mentioned_user",
+    getPostsByMentionedUser
+)
 // Update Post
 router.post(
     "/post/update",
     verifyUserWithToken,
-    updatePost
+    getPostDataWithHashtagsMentions,
+    updatePost,
+    managePostHashtags
 );
 // Delete Post
 router.post(
@@ -40,20 +77,6 @@ router.post(
     verifyUserWithToken,
     deletePost
 );
-
-
-// get posts of a user by id
-router.get(
-    "/user/posts",
-    verifyUserWithToken,
-    getPostsByUserId
-)
-// get liked posts of a user by id
-router.get(
-    "/user/posts_liked",
-    verifyUserWithToken,
-    getLikedPostsByUserId
-)
 
 
 // Add Like

@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
 
 const { UserfromFirestore } = require("../../models/user");
+const { PostfromFirestore } = require("../../models/post");
 const userFirestoreCRUD = require("../../services/firestore/userCRUD");
 
 // Seperating hashtags from the description
-const getPostDataWithHashtagsMentions = async postData => {
-    const description = postData.description;
+const getPostDataWithHashtagsMentions = async (req, res, next) => {
+    const description = req.body.description;
     if (description) {
         let hashtags = [];
         let mentions = [];
@@ -37,15 +38,14 @@ const getPostDataWithHashtagsMentions = async postData => {
             hashtags.push(hashtag);
             mentions.push(mention);
         }
-        var postDataWithHashtagsMentions = {...postData, hashtags: hashtags, mentions: mentions};
-    
-        return postDataWithHashtagsMentions;
+
+        req.postHM = {hashtags: hashtags, mentions: mentions};
     }
 
-    return postData;
+    next();
 }
 
-// Ckecking wether the post is private or public
-const verifyPostPrivacy = async (req, res, next) => {
 
+module.exports = {
+    getPostDataWithHashtagsMentions,
 }

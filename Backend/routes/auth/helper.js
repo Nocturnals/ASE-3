@@ -150,10 +150,67 @@ const sendForgotPasswordEmail = async user => {
     mailForgotPassword(user.getEmail(), secret_code);
 };
 
+// -----------------------------------------------------------------------
+const getUserById = async user_id => {
+    try {
+        let user = await userFirestoreCRUD.getUserViaID(
+            user_id
+        );
+        // if user doesn't exist
+        if (!user) {
+            return res.status(400).json({
+                message: "No user exists with given id"
+            });
+        }
+        // when user exists
+        else {
+            user = user.data();
+            user = UserfromFirestore({
+                mapData: user,
+                docId: user.id
+            });
+
+            return user;
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Error finding user" });
+    }
+}
+
+const getUserByUsername = async username => {
+    try {
+        let user = await userFirestoreCRUD.getUserViaUsername(
+            username
+        );
+        // if user doesn't exist
+        if (!user) {
+            return res.status(400).json({
+                message: "No user exists with given username"
+            });
+        }
+        // when user exists
+        else {
+            user = user.data();
+            user = UserfromFirestore({
+                mapData: user,
+                docId: user.id
+            });
+            
+            return user;
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Error finding user" });
+    }
+}
+
 module.exports = {
     verifyToken,
     verifyUserWithToken,
     sendEmailToVerifyEmail,
     verifyUserWithoutEmailVerification,
-    sendForgotPasswordEmail
+    sendForgotPasswordEmail,
+    getUserById,
+    getUserByUsername
 };

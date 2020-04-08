@@ -16,6 +16,8 @@ function User({ id, username, email }) {
     let _order_ids = [];
     let _remainder_ids = [];
     let _email_verified = false;
+    let _is_private = false;
+    let _public_to = [];
 
     // getters here
     this.getId = () => {
@@ -63,6 +65,12 @@ function User({ id, username, email }) {
     this.getEmail_verified = () => {
         return _email_verified;
     };
+    this.getPrivacy_status = () => {
+        return _is_private;
+    };
+    this.getPublic_to = () => {
+        return _public_to;
+    }
 
     // setters here
     this.setId = id => {
@@ -107,6 +115,12 @@ function User({ id, username, email }) {
     this.setEmail_verified = status => {
         _email_verified = status;
     };
+    this.setPrivacy_status = is_private => {
+        _is_private = is_private;
+    };
+    this.setPublic_to = public_to => {
+        _public_to = public_to;
+    }
 
     // function to convert tomap
     this.toMap = () => {
@@ -131,6 +145,8 @@ function User({ id, username, email }) {
         map["order_ids"] = _order_ids;
         map["remainder_ids"] = _remainder_ids;
         map["email_verified"] = _email_verified;
+        map["is_private"] = _is_private;
+        map["public_to"] = _public_to;
 
         return map;
     };
@@ -157,6 +173,8 @@ const UserfromFirestore = ({ mapData, docId }) => {
     user_instance.setOrder_ids(mapData["order_ids"]);
     user_instance.setRemainder_ids(mapData["remainder_ids"]);
     user_instance.setEmail_verified(mapData["email_verified"]);
+    user_instance.setPrivacy_status(mapData["is_private"]);
+    user_instance.setPublic_to(mapData["public_to"]);
 
     return user_instance;
 };
