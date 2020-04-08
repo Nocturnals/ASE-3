@@ -75,6 +75,7 @@ module.exports.register = async (req, res) => {
 };
 
 module.exports.login = async (req, res) => {
+    console.log(req.body);
     // validate the given user info
     const validatedData = loginValidation(req.body);
     if (validatedData.error)
@@ -84,6 +85,9 @@ module.exports.login = async (req, res) => {
 
     try {
         let user = await userCRUD.getUserViaUsername(req.body.username);
+        if (!user) {
+            return res.status(400).json({ message: "No user exists" });
+        }
 
         userData = user.data();
         // Check user password

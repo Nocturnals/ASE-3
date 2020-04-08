@@ -27,14 +27,12 @@ class _FieldsState extends State<Fields> {
       // form is valid
       form.save();
       loginViewModel.login(username: _email, password: _password);
-      debugPrint("successfully logged in");
     }
   }
 
   Widget _submitButton(LoginViewModel loginViewModel) {
     return GestureDetector(
       onTap: () {
-        print('pressed login');
         validateAndSubmit(loginViewModel);
       },
       child: Container(
