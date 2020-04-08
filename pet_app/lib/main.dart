@@ -9,12 +9,12 @@ import 'package:pet_app/redux/state.dart';
 import 'package:pet_app/redux/reducer.dart';
 
 // ALL PAGES HERE
-import 'package:pet_app/views/authentication/login/loginScreen.dart';
-import 'package:pet_app/views/authentication/signup/signUpScreen.dart';
-import 'package:pet_app/views/authentication/forgotPassword/forgotPasswordScreen.dart';
-import 'package:pet_app/views/authentication/resetPassword/resetPasswordScreen.dart';
-import 'package:pet_app/views/landingScreen/landingScreen.dart';
-import 'package:pet_app/views/home/guest/guestHomeScreen.dart';
+import 'package:pet_app/views/authentication/login/loginScreen.dart' show LoginScreen;
+import 'package:pet_app/views/authentication/signup/signUpScreen.dart' show SignUpScreen;
+import 'package:pet_app/views/authentication/forgotPassword/forgotPasswordScreen.dart' show ForgotPasswordScreen;
+import 'package:pet_app/views/authentication/resetPassword/resetPasswordScreen.dart' show ResetPasswordScreen;
+import 'package:pet_app/views/landingScreen/landingScreen.dart' show LandingPage;
+import 'package:pet_app/views/home/guest/guestHomeScreen.dart' show GuestHomeScreen;
 
 void main() async {
   // load the dot env file varaibles
