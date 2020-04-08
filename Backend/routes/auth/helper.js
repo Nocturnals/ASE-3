@@ -4,11 +4,11 @@ const { UserfromFirestore } = require("../../models/user");
 const userFirestoreCRUD = require("../../services/firestore/userCRUD");
 const {
     EmailVerificationModel,
-    EmailVerificationFromFirestore
+    EmailVerificationFromFirestore,
 } = require("../../models/emailVerification");
 const {
     ForgotPasswordModel,
-    ForgotPasswordFromFirestore
+    ForgotPasswordFromFirestore,
 } = require("../../models/forgotPassword");
 const emailVerificationCRUD = require("../../services/firestore/emailVerificationCRUD");
 const forgotPasswordCRUD = require("../../services/firestore/forgotPasswordCRUD");
@@ -44,13 +44,14 @@ const verifyUserWithToken = async (req, res, next) => {
             return res.status(401).json({ message: err.message });
         } else {
             try {
+                console.log(authData);
                 let loggedUser = await userFirestoreCRUD.getUserViaID(
                     authData.id
                 );
                 // if user doesn't exist
                 if (!loggedUser) {
                     return res.status(400).json({
-                        message: "No user exists with given id"
+                        message: "No user exists with given id",
                     });
                 }
                 // when user exists
@@ -58,7 +59,7 @@ const verifyUserWithToken = async (req, res, next) => {
                     loggedUser = loggedUser.data();
                     loggedUser = UserfromFirestore({
                         mapData: loggedUser,
-                        docId: loggedUser.id
+                        docId: loggedUser.id,
                     });
                     req.loggedUser = loggedUser;
 
@@ -71,7 +72,8 @@ const verifyUserWithToken = async (req, res, next) => {
                             next();
                         } else {
                             return res.status(401).json({
-                                message: "Access denied as email isn't verified"
+                                message:
+                                    "Access denied as email isn't verified",
                             });
                         }
                     }
@@ -98,7 +100,7 @@ const verifyUserWithoutEmailVerification = async (req, res, next) => {
                 // if user doesn't exist
                 if (!loggedUser) {
                     return res.status(400).json({
-                        message: "No user exists with given id"
+                        message: "No user exists with given id",
                     });
                 }
                 // when user exists
@@ -106,7 +108,7 @@ const verifyUserWithoutEmailVerification = async (req, res, next) => {
                     loggedUser = loggedUser.data();
                     loggedUser = UserfromFirestore({
                         mapData: loggedUser,
-                        docId: loggedUser.id
+                        docId: loggedUser.id,
                     });
                     req.loggedUser = loggedUser;
 
@@ -120,13 +122,13 @@ const verifyUserWithoutEmailVerification = async (req, res, next) => {
     });
 };
 
-const sendEmailToVerifyEmail = async user => {
+const sendEmailToVerifyEmail = async (user) => {
     // create a email verification code and send email
     let secret_code = Math.floor(Math.random() * 1000000);
     const email_verification = new EmailVerificationModel({
         id: user.getId(),
         email: user.getEmail(),
-        secret_code: secret_code
+        secret_code: secret_code,
     });
 
     // save to database
@@ -136,13 +138,13 @@ const sendEmailToVerifyEmail = async user => {
     mailEmailVerification(user.getEmail(), secret_code);
 };
 
-const sendForgotPasswordEmail = async user => {
+const sendForgotPasswordEmail = async (user) => {
     // create a email verification code and send email
     let secret_code = Math.floor(Math.random() * 1000000);
     const forgot_password = new ForgotPasswordModel({
         id: user.getId(),
         email: user.getEmail(),
-        secret_code
+        secret_code,
     });
 
     // save to database
@@ -155,5 +157,5 @@ module.exports = {
     verifyUserWithToken,
     sendEmailToVerifyEmail,
     verifyUserWithoutEmailVerification,
-    sendForgotPasswordEmail
+    sendForgotPasswordEmail,
 };

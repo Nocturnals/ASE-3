@@ -3,8 +3,9 @@ const express = require("express");
 const {
     verifyToken,
     verifyUserWithToken,
-    verifyUserWithoutEmailVerification
+    verifyUserWithoutEmailVerification,
 } = require("./helper");
+
 const {
     register,
     login,
@@ -12,7 +13,7 @@ const {
     getUser,
     sendEmailVerification,
     verifyEmail,
-    verifyForgotPassword
+    verifyForgotPassword,
 } = require("./functions");
 
 // instance of new router
