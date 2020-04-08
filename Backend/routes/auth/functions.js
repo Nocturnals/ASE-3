@@ -58,6 +58,7 @@ module.exports.register = async (req, res) => {
         // create new user
         const userDoc = await userCRUD.createUser(user.toMap());
         user.setId(userDoc.id);
+        user.setPublic_to([userDoc.id]);
 
         // Assign a json web token
         const tokenSecret = process.env.Token_Secret;

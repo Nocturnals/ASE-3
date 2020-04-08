@@ -8,6 +8,7 @@ function User({ id, username, email }) {
     let _pets_count = 0;
     let _pet_ids = [];
     let _post_ids = [];
+    let _mentioned_post_ids = [];
     let _followers = [];
     let _following = [];
     let _liked_post_ids = [];
@@ -15,6 +16,8 @@ function User({ id, username, email }) {
     let _order_ids = [];
     let _remainder_ids = [];
     let _email_verified = false;
+    let _is_private = false;
+    let _public_to = [];
 
     // getters here
     this.getId = () => {
@@ -38,6 +41,9 @@ function User({ id, username, email }) {
     this.getPost_ids = () => {
         return _post_ids;
     };
+    this.getMentioned_post_ids = () => {
+        return _mentioned_post_ids;
+    };
     this.getFollowers = () => {
         return _followers;
     };
@@ -59,6 +65,12 @@ function User({ id, username, email }) {
     this.getEmail_verified = () => {
         return _email_verified;
     };
+    this.getPrivacy_status = () => {
+        return _is_private;
+    };
+    this.getPublic_to = () => {
+        return _public_to;
+    }
 
     // setters here
     this.setId = id => {
@@ -88,6 +100,9 @@ function User({ id, username, email }) {
     this.setLiked_post_ids = liked_post_ids => {
         _liked_post_ids = liked_post_ids;
     };
+    this.setMentioned_post_ids = mentioned_post_ids => {
+        _mentioned_post_ids = mentioned_post_ids;
+    };
     this.setFav_animals_ids = fav_animals_ids => {
         _fav_animals_ids = fav_animals_ids;
     };
@@ -100,6 +115,12 @@ function User({ id, username, email }) {
     this.setEmail_verified = status => {
         _email_verified = status;
     };
+    this.setPrivacy_status = is_private => {
+        _is_private = is_private;
+    };
+    this.setPublic_to = public_to => {
+        _public_to = public_to;
+    }
 
     // function to convert tomap
     this.toMap = () => {
@@ -119,10 +140,13 @@ function User({ id, username, email }) {
         map["followers"] = _followers;
         map["following"] = _following;
         map["liked_post_ids"] = _liked_post_ids;
+        map["mentioned_post_ids"] = _mentioned_post_ids;
         map["fav_animals_ids"] = _fav_animals_ids;
         map["order_ids"] = _order_ids;
         map["remainder_ids"] = _remainder_ids;
         map["email_verified"] = _email_verified;
+        map["is_private"] = _is_private;
+        map["public_to"] = _public_to;
 
         return map;
     };
@@ -144,10 +168,13 @@ const UserfromFirestore = ({ mapData, docId }) => {
     user_instance.setFollowers(mapData["followers"]);
     user_instance.setFollowing(mapData["following"]);
     user_instance.setLiked_post_ids(mapData["liked_post_ids"]);
+    user_instance.setMentioned_post_ids(mapData["mentioned_post_ids"]);
     user_instance.setFav_animals_ids(mapData["fav_animals_ids"]);
     user_instance.setOrder_ids(mapData["order_ids"]);
     user_instance.setRemainder_ids(mapData["remainder_ids"]);
     user_instance.setEmail_verified(mapData["email_verified"]);
+    user_instance.setPrivacy_status(mapData["is_private"]);
+    user_instance.setPublic_to(mapData["public_to"]);
 
     return user_instance;
 };
