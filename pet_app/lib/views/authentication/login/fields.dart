@@ -5,6 +5,7 @@ import 'package:redux/redux.dart';
 
 import 'package:pet_app/redux/state.dart' show AppState;
 import 'package:pet_app/models/loadingStatus.dart';
+import 'package:pet_app/widgets/loader.dart';
 import 'package:pet_app/widgets/cButtons.dart';
 
 import 'loginViewModel.dart';
@@ -169,14 +170,14 @@ class _FieldsState extends State<Fields> {
       converter: (Store<AppState> store) => LoginViewModel.create(store),
       builder: (BuildContext context, LoginViewModel loginVeiwModel) =>
           loginVeiwModel.state.loadingStatus == LoadingStatus.loading
-              ? CircularProgressIndicator()
+              ? Center(
+                  child: Loader(),
+                )
               : Container(
-                  padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
                   alignment: Alignment.centerLeft,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 600),
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -211,8 +212,6 @@ class _FieldsState extends State<Fields> {
                               ),
                             ),
                           ),
-                          // _divider(),
-                          // _googleButton(),
                           Expanded(
                             flex: 2,
                             child: SizedBox(),
