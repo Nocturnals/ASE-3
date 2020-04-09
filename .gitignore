@@ -105,3 +105,8 @@ dist
 
 # firebase confidencial file 
 pet-social.json
+
+# ide 
+.idea/
+.vscode/
+.vs/

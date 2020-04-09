@@ -58,7 +58,7 @@ module.exports.register = async (req, res) => {
         // create new user
         const userDoc = await userCRUD.createUser(user.toMap());
         await user.setId(userDoc.id);
-        
+
         await user.setPublic_to([userDoc.id]);
 
         // Assign a json web token
@@ -329,7 +329,7 @@ module.exports.setPublic_to = async (req, res) => {
     if (req.loggedUser) {
         // await req.loggedUser.setPublic_to([req.loggedUser.getId()]);
         console.log(req.loggedUser.getId());
-        
+
         res.status(200).json(req.loggedUser.toMap());
     }
-}
+};
