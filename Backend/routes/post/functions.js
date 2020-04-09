@@ -41,11 +41,14 @@ module.exports.createPost = async (req, res, next) => {
         // creating new post document
         const postDoc = await postCRUD.createPost(post.toMap());
         await post.setId(postDoc.id);
-
-        let post_ids = await req.loggedUser.getPost_ids();
-        await req.loggedUser.setPost_ids(post_ids);
-        console.log(req.loggedUser.getPost_ids());
         
+        let user = await getUserById(req.loggedUser.getId());
+        let post_ids = await user.getPost_ids();
+        await user.setPost_ids([ ...post_ids, postDoc.id ]);
+        
+        userDoc = await userCRUD.updateUser(user.toMap());
+
+        console.log(userDoc.data());
 
         console.log("Post created sucessfully");
 
@@ -500,22 +503,29 @@ module.exports.managePostHashtags = async (req, res) => {
 module.exports.addPostToHashtag = async (req, res, hashtag_name) => {
     try {
         let hashtag = await hashtagCRUD.getHashtagViaName(hashtag_name);
-        console.log(hashtag);
 
         // check if hashtag already exists
-        if (!hashtag) {
-            await this.createHashtag(req, res, hashtag_name);
-            hashtag = await hashtagCRUD.getHashtagViaName(hashtag_name);
+        if (hashtag) {
+            hashtag = await HashtagfromFirestore({mapData: hashtag.data(), docId: hashtag.id});
         }
+        if (!hashtag) {
+            console.log("Creating hashtag");
+            
+            hashtag = new HashtagModel({
+                id: null,
+                hashtag_name: hashtag_name
+            });
 
-        hashtag = await HashtagfromFirestore({mapData: hashtag.data(), docId: hashtag.id});
+            const hashtagDoc = await hashtagCRUD.createHashtag(hashtag.toMap());
+            await hashtag.setId(hashtagDoc.id);
+        }
 
         // add post id to hashtag post ids
         let hashtag_post_ids = await hashtag.getPost_ids();
         console.log(hashtag.getHashtag_name());
         
         if (!hashtag_post_ids.includes(req.post.getId())) {
-            hashtag_post_ids.push(req.post.getId());
+            await hashtag_post_ids.push(req.post.getId());
             console.log(hashtag_post_ids);
             await hashtag.setPost_ids(hashtag_post_ids)
             console.log(hashtag.getPost_ids());
