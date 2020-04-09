@@ -1,0 +1,2 @@
+# local host ip address
+localhost=http://{your wifi ip address}:4000
