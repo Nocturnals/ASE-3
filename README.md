@@ -33,3 +33,7 @@ A social media application for pets management
 ## How to run Frontend (Flutter for Web)
 
 - Follow this tutorial from [fluter Dev](https://flutter.dev/docs/get-started/web) to install flutter for web and how to run it
+
+### Join our Discord channel to help in the development of our app
+
+- Click [Discord](https://discord.gg/EcPaz5b) to join our server and collaborate with us
