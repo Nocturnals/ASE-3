@@ -57,7 +57,7 @@ const verifyUserWithToken = async (req, res, next) => {
                 // when user exists
                 else {
                     loggedUser = loggedUser.data();
-                    
+
                     loggedUser = UserfromFirestore({
                         mapData: loggedUser,
                         docId: authData.id,
@@ -109,7 +109,7 @@ const verifyUserWithoutEmailVerification = async (req, res, next) => {
                     loggedUser = loggedUser.data();
                     loggedUser = UserfromFirestore({
                         mapData: loggedUser,
-                        docId: loggedUser.id,
+                        docId: authData.id,
                     });
                     req.loggedUser = loggedUser;
 
@@ -154,15 +154,13 @@ const sendForgotPasswordEmail = async (user) => {
 };
 
 // -----------------------------------------------------------------------
-const getUserById = async user_id => {
+const getUserById = async (user_id) => {
     try {
-        let user = await userFirestoreCRUD.getUserViaID(
-            user_id
-        );
+        let user = await userFirestoreCRUD.getUserViaID(user_id);
         // if user doesn't exist
         if (!user) {
             return res.status(400).json({
-                message: "No user exists with given id"
+                message: "No user exists with given id",
             });
         }
         // when user exists
@@ -170,7 +168,7 @@ const getUserById = async user_id => {
             user = user.data();
             user = UserfromFirestore({
                 mapData: user,
-                docId: user_id
+                docId: user_id,
             });
 
             return user;
@@ -179,17 +177,15 @@ const getUserById = async user_id => {
         console.log(error);
         return res.status(500).json({ message: "Error finding user" });
     }
-}
+};
 
-const getUserByUsername = async username => {
+const getUserByUsername = async (username) => {
     try {
-        let user = await userFirestoreCRUD.getUserViaUsername(
-            username
-        );
+        let user = await userFirestoreCRUD.getUserViaUsername(username);
         // if user doesn't exist
         if (!user) {
             return res.status(400).json({
-                message: "No user exists with given username"
+                message: "No user exists with given username",
             });
         }
         // when user exists
@@ -197,16 +193,16 @@ const getUserByUsername = async username => {
             user = user.data();
             user = UserfromFirestore({
                 mapData: user,
-                docId: user.id
+                docId: user.id,
             });
-            
+
             return user;
         }
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Error finding user" });
     }
-}
+};
 
 module.exports = {
     verifyToken,
