@@ -8,12 +8,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:pet_app/redux/state.dart';
+import 'package:pet_app/redux/reducer.dart';
+import 'package:redux/redux.dart';
+
 import 'package:pet_app/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    final Store<AppState> store =
+      Store<AppState>(appStateReducer, initialState: AppState.initial());
+
+
     // Build our app and trigger a frame.
-    await tester.pumpWidget(PetSApp());
+    await tester.pumpWidget(PetSApp(store: store,));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
