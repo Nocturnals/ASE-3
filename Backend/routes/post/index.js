@@ -11,6 +11,7 @@ const {
     getPostById,
     updatePost,
     deletePost,
+    deleteAllPostsofLoggedUser,
     getPostsByUserId,
     getPostsByUsername,
     getLikedPostsByUserId,
@@ -44,6 +45,7 @@ router.get(
 // getting all posts of a user by id
 router.get(
     "/user/id",
+    verifyToken,
     verifyUserWithToken,
     getPostsByUserId
 )
@@ -55,6 +57,7 @@ router.get(
 // getting posts liked by a user
 router.get(
     "/liked_posts",
+    verifyToken,
     verifyUserWithToken,
     getLikedPostsByUserId,
 )
@@ -66,6 +69,7 @@ router.get(
 // Update Post
 router.post(
     "/update",
+    verifyToken,
     verifyUserWithToken,
     getPostDataWithHashtagsMentions,
     updatePost,
@@ -74,20 +78,30 @@ router.post(
 // Delete Post
 router.post(
     "/delete",
+    verifyToken,
     verifyUserWithToken,
-    deletePost
+    deletePost,
+    managePostHashtags,
 );
+router.post(
+    "/delete/all",
+    verifyToken,
+    verifyUserWithToken,
+    deleteAllPostsofLoggedUser
+)
 
 
 // Add Like
 router.post(
     "/like",
+    verifyToken,
     verifyUserWithToken,
     addLike
 )
 // Remove Like
 router.post(
     "/unlike",
+    verifyToken,
     verifyUserWithToken,
     removeLike
 )

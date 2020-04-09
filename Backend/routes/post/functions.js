@@ -21,13 +21,14 @@ module.exports.createPost = async (req, res, next) => {
     if (validatedPostData.error) {
         return res
             .status(400)
-            .json({ message: validatedData.error.details[0].message });
+            .json({ message: validatedPostData.error.details[0].message });
     }
     try {
-        console.log("Creating Post");
+        console.log("Creating Post");        
         
         const post = new PostModel({
             id: null,
+            author_id: req.loggedUser.getId(),
             media_urls: req.body.media_urls,
             hashtags: req.postHM.hashtags,
             mentions: req.postHM.mentions
@@ -40,6 +41,11 @@ module.exports.createPost = async (req, res, next) => {
         // creating new post document
         const postDoc = await postCRUD.createPost(post.toMap());
         await post.setId(postDoc.id);
+
+        let post_ids = await req.loggedUser.getPost_ids();
+        await req.loggedUser.setPost_ids(post_ids);
+        console.log(req.loggedUser.getPost_ids());
+        
 
         console.log("Post created sucessfully");
 
@@ -123,19 +129,62 @@ module.exports.updatePost = async (req, res) => {
     }
 }
 
-// deleting post
-module.exports.deletePost = async (req, res) => {
+// deleting posts
+// delete single post bby id
+module.exports.deletePost = async (req, res, next) => {
     try {
         const post = await postCRUD.getPostViaId(req.body.post_id);
         if (post) {
+            req.newPostHM = { hashtags: [], mentions: [] };
+            req.oldPostHM = { hashtags: post.getHashtags(), mentions: post.getMentions() };
             // delete the post
             await postCRUD.deletePost(req.body.post_id);
-            return res.status(200).json({ message: "Post deleted sucessfully." });
+
+            // remove post id from author post ids
+            let post_ids = req.loggedUser.getPost_ids();
+            await req.loggedUser.setPost_ids(post_ids.splice(post_ids.indexOf(req.body.post_id), 1));
+
+            // return res.status(200).json({ message: "Post deleted sucessfully." });
+            console.log("Post deleted sucessfully.");
+
+            req.post = null;
+            req.postDeleted = true;
+
+            next();
         }
         return res.status(400).json({ error: "Error deleting the post." });
 
     } catch (error) {
         return catchError(res, error)
+    }
+}
+// delete all the posts of logged user
+module.exports.deleteAllPostsofLoggedUser = async (req, res) => {
+    try {
+        const post_ids = req.loggedUser.getPost_ids();
+        for (let i = 0; i < post_ids.length; i++) {
+            const post = await postCRUD.getPostViaId(post_ids[i]);
+            if (post) {
+                let hashtags = await post.getHashtags();
+                for (let j = 0; j < hashtags.length; j++)
+                    this.removePostFromHashtag(req, res, hashtags[j]);
+
+                // delete the post
+                await postCRUD.deletePost(req.body.post_id);
+
+                // remove post id from author post ids
+                let post_ids = req.loggedUser.getPost_ids();
+                await req.loggedUser.setPost_ids(post_ids.splice(post_ids.indexOf(req.body.post_id), 1));
+
+                console.log("Post deleted sucessfully.");
+            }
+        }
+        console.log("All posts deleted sucessfully.");
+
+        return res.status(200).json({ message: "All posts deleted sucessfully." });
+
+    } catch (error) {
+        catchError(res, error);
     }
 }
 
@@ -166,13 +215,19 @@ module.exports.getPostById = async (req, res) => {
 module.exports.getPostsByUserId = async (req, res) => {
     try {
         // get user and check privacy status
-        let user = getUserById(req.body.user_id);
-        if (!user.getPublic_to().includes(req.loggedUser.id))
-            return res.status(200).json({message: "Post cannot be displayed! The user has a private account!!"});
+        let user = await getUserById(req.body.user_id);
+        if (user.getPrivacy_status()) {
+            if (!req.loggedUser) {
+                return res.status(200).json({message: "Post cannot be displayed! The user has a private account!!"});
+            }
+            let public_to = await user.getPublic_to();
+            if (!public_to.includes(req.loggedUser.id))
+                return res.status(200).json({message: "Post cannot be displayed! The user has a private account!!"});
+        }
 
-        let posts = retrievePosts(user);
+        let posts = await retrievePosts(user);
 
-        return res.json(posts);
+        return res.json({posts: posts});
 
     } catch (error) {
         return catchError(res, error);
@@ -183,13 +238,20 @@ module.exports.getPostsByUserId = async (req, res) => {
 module.exports.getPostsByUsername = async (req, res) => {
     try {
         // get user and check privacy status
-        let user = getUserByUsername(req.body.username);
-        if (!user.getPublic_to().includes(req.loggedUser.id))
-            return res.status(200).json({message: "Post cannot be displayed! The user has a private account!!"});
+        let user = await getUserByUsername(req.body.username);
+        if (user.getPrivacy_status()) {
+            if (!req.loggedUser) {
+                return res.status(200).json({message: "Post cannot be displayed! The user has a private account!!"});
+            }
+            let public_to = await user.getPublic_to();
+            if (!public_to.includes(req.loggedUser.id))
+                return res.status(200).json({message: "Post cannot be displayed! The user has a private account!!"});
+        }
 
-        let posts = retrievePosts(user);
+        let posts = await retrievePosts(user);
+        console.log(posts);
 
-        return res.json(posts);
+        return res.status(200).json(posts);
 
     } catch (error) {
         return catchError(res, error);
@@ -334,7 +396,7 @@ module.exports.generateLoggedUserHomeFeed = async (req, res) => {
 // create hashtag
 module.exports.createHashtag = async (req, res, hashtag_name) => {
     try {
-        const hashtag = hashtagCRUD.getHashtagViaName(hashtag_name);
+        const hashtag = await hashtagCRUD.getHashtagViaName(hashtag_name);
 
         if (!hashtag) {
             console.log("Creating hashtag");
@@ -346,6 +408,9 @@ module.exports.createHashtag = async (req, res, hashtag_name) => {
 
             const hashtagDoc = await hashtagCRUD.createHashtag(hashtag.toMap());
             await hashtag.setId(hashtagDoc.id);
+            
+            return hashtag;
+
         }
     } catch (error) {
         catchError(res, error);
@@ -355,8 +420,9 @@ module.exports.createHashtag = async (req, res, hashtag_name) => {
 // updating hashtag
 module.exports.updateHashtag = async (req, res, hashtag) => {
     try {
-        const hashtagDoc = await hashtagCRUD.updateHashtag(hashtagMap.toMap());
-        hashtag.setId(hashtagDoc.id);
+        console.log("Updating Hahstag");
+        
+        const hashtagDoc = await hashtagCRUD.updateHashtag(hashtag.toMap());
 
     } catch (error) {
         catchError(res, error);
@@ -366,7 +432,7 @@ module.exports.updateHashtag = async (req, res, hashtag) => {
 // deleting hashtag
 module.exports.deleteHashtag = async (req, res, hashtag_name) => {
     try {
-        const hashtag = hashtagCRUD.getHashtagViaName(hashtag_name);
+        const hashtag = await hashtagCRUD.getHashtagViaName(hashtag_name);
         if (hashtag) {
             await hashtagCRUD.deleteHashtag(hashtag.id);
             console.log("Hashtag deleted.");
@@ -382,8 +448,8 @@ module.exports.deleteHashtag = async (req, res, hashtag_name) => {
 // adding post to hashtag immediately after creation
 module.exports.managePostHashtags = async (req, res) => {
     // Validaing the hashtags
-    const validatedNewHashtags = hashtagValidation(req.newPostHM.hashtags);
-    const validatedOldHashtags = hashtagValidation(req.oldPostHM.hashtags);
+    const validatedNewHashtags = await hashtagValidation({ hashtags: req.newPostHM.hashtags });
+    const validatedOldHashtags = await hashtagValidation({ hashtags: req.oldPostHM.hashtags });
     if (validatedNewHashtags.error) {
         return res
             .status(400)
@@ -396,54 +462,89 @@ module.exports.managePostHashtags = async (req, res) => {
     }
 
     try {
-        // adding the post to hashtags which are added in the description
-        if (req.newPostHM.hashtags.length != 0) {
-            console.log("Updating hashtags");
-
-            const new_hashtags = req.newPostHM.hashtags;
-            for (let i = 0; i < new_hashtags.length; i++) {
-                const hashtag = hashtagCRUD.getHashtagViaName(new_hashtags[i]);
-                // check if hashtag already exists
-                if (!hashtag)
-                    await this.createHashtag(req, res, new_hashtags[i]);
-                    hashtag = await hashtagCRUD.getHashtagViaName(new_hashtags[i]);
-
-                hashtag = HashtagfromFirestore({mapData: hashtag.data(), docId: hashtag.id});
-                // add post id to hashtag post ids
-                const hashtag_post_ids = hashtag.getPost_ids();
-                if (!hashtag_post_ids.includes(req.post.id))
-                    await this.updateHashtag(req, res, hashtag.setPost_ids(hashtag_post_ids.push(req.post.id)));
-            }
-        }
-
         // removing the post from hashtags which are deleted from the description
         if (req.oldPostHM.hashtags.length != 0) {
-            console.log("Updating hashtags");
+            console.log("Updating old hashtags");
 
             const old_hashtags = req.oldPostHM.hashtags;
             for (let i = 0; i < old_hashtags.length; i++) {
-                const hashtag = hashtagCRUD.getHashtagViaName(old_hashtags[i]);
-
-                if (hashtag) {
-                    hashtag = HashtagfromFirestore({mapData: hashtag.data(), docId: hashtag.id});
-                    // remove post id to hashtag post ids
-                    const hashtag_post_ids = hashtag.getPost_ids();
-                    if (hashtag_post_ids.includes(req.post.id))
-                        await this.updateHashtag(req, res, 
-                            hashtag.setPost_ids(
-                                hashtag_post_ids.splice(
-                                    hashtag_post_ids.indexOf(req.post.id), 1))
-                            );
-                }
+                // removing post id from hashtag
+                await this.removePostFromHashtag(req, res, old_hashtags[i]);
 
                 // check if hashtag has 0 posts
-                if (hashtag.getPost_ids().length == 0)
+                hashtag_posts = await hashtag.getPost_ids();
+                if (hashtag_posts.length == 0)
                     await this.deleteHashtag(req, res, old_hashtags[i]);
             }
         }
+        
+        // adding the post to hashtags which are added in the description
+        if (req.newPostHM.hashtags.length != 0) {
+            console.log("Updating new hashtags");
 
+            const new_hashtags = req.newPostHM.hashtags;
+            for (let i = 0; i < new_hashtags.length; i++)
+                await this.addPostToHashtag(req, res, new_hashtags[i]);
+        }
+
+        if (req.postDeleted) {
+            return res.status(200).json({message: "Post deleted succesfully"});
+        }
         return res.status(200).json(req.post.toMap());
 
+    } catch (error) {
+        catchError(res, error);
+    }
+}
+// adding post to hashtag
+module.exports.addPostToHashtag = async (req, res, hashtag_name) => {
+    try {
+        let hashtag = await hashtagCRUD.getHashtagViaName(hashtag_name);
+        console.log(hashtag);
+
+        // check if hashtag already exists
+        if (!hashtag) {
+            await this.createHashtag(req, res, hashtag_name);
+            hashtag = await hashtagCRUD.getHashtagViaName(hashtag_name);
+        }
+
+        hashtag = await HashtagfromFirestore({mapData: hashtag.data(), docId: hashtag.id});
+
+        // add post id to hashtag post ids
+        let hashtag_post_ids = await hashtag.getPost_ids();
+        console.log(hashtag.getHashtag_name());
+        
+        if (!hashtag_post_ids.includes(req.post.getId())) {
+            hashtag_post_ids.push(req.post.getId());
+            console.log(hashtag_post_ids);
+            await hashtag.setPost_ids(hashtag_post_ids)
+            console.log(hashtag.getPost_ids());
+            await hashtagCRUD.updateHashtag(hashtag.toMap());
+        }
+        
+    } catch (error) {
+        catchError(res, error);
+    }
+}
+// removing post from hashtag
+module.exports.removePostFromHashtag = async (req, res, hashtag_name) => {
+    try {
+        const hashtag = await hashtagCRUD.getHashtagViaName(hashtag_name);
+
+        if (hashtag) {
+            hashtag = await HashtagfromFirestore({mapData: hashtag.data(), docId: hashtag.id});
+            // remove post id from hashtag post ids
+            const hashtag_post_ids = await hashtag.getPost_ids();
+            if (hashtag_post_ids.includes(req.post.id)) {
+                await hashtag.setPost_ids(
+                    hashtag_post_ids.splice(
+                        hashtag_post_ids.indexOf(req.post.id), 1))
+                await this.updateHashtag(req, res, hashtag);
+            }
+        }
+
+        console.log("Hashtag Not found!!");
+        
     } catch (error) {
         catchError(res, error);
     }
@@ -462,11 +563,12 @@ const retrievePosts = async user => {
     let posts = [];
     // get post ids of posts of a user
     let post_ids = await user.getPost_ids();
+    console.log(post_ids);
     // Looping through all the post ids
     for (let i = 0; i < post_ids.length; i++){
-        let post = postCRUD.getPostViaId(post_ids[i]);
+        let post = await postCRUD.getPostViaId(post_ids[i]);
         if (post) {
-            post = PostfromFirestore({mapData: post.data(), docId: post.id});
+            post = await PostfromFirestore({mapData: post.data(), docId: post.id});
             posts.push(post);
         }
     }

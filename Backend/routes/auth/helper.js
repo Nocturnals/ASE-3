@@ -57,9 +57,10 @@ const verifyUserWithToken = async (req, res, next) => {
                 // when user exists
                 else {
                     loggedUser = loggedUser.data();
+                    
                     loggedUser = UserfromFirestore({
                         mapData: loggedUser,
-                        docId: loggedUser.id,
+                        docId: authData.id,
                     });
                     req.loggedUser = loggedUser;
 
@@ -169,7 +170,7 @@ const getUserById = async user_id => {
             user = user.data();
             user = UserfromFirestore({
                 mapData: user,
-                docId: user.id
+                docId: user_id
             });
 
             return user;

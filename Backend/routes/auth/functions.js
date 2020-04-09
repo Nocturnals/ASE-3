@@ -53,12 +53,13 @@ module.exports.register = async (req, res) => {
         // hash the passwords
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        user.setPassword(hashedPassword);
+        await user.setPassword(hashedPassword);
 
         // create new user
         const userDoc = await userCRUD.createUser(user.toMap());
-        user.setId(userDoc.id);
-        user.setPublic_to([userDoc.id]);
+        await user.setId(userDoc.id);
+        
+        await user.setPublic_to([userDoc.id]);
 
         // Assign a json web token
         const tokenSecret = process.env.Token_Secret;
@@ -323,3 +324,12 @@ module.exports.resetPassword = async (req, res) => {
 module.exports.editUser = async (req, res) => {
     // code to edit user profile
 };
+
+module.exports.setPublic_to = async (req, res) => {
+    if (req.loggedUser) {
+        // await req.loggedUser.setPublic_to([req.loggedUser.getId()]);
+        console.log(req.loggedUser.getId());
+        
+        res.status(200).json(req.loggedUser.toMap());
+    }
+}
