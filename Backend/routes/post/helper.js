@@ -13,30 +13,32 @@ const getPostDataWithHashtagsMentions = async (req, res, next) => {
         for (let i = 0; i < description.length; i++) {
             // looping for hashtag
             if (description[i] == "#") {
-                let j = i + 1;
                 let hashtag = "#";
+                let j = i + 1;
                 for (j; j < description.length; j++) {
-                    if (description[j] == "#" || description[j] == " ") {
+                    if (description[j] === "#" || description[j] === " " || description[j] === "@") {
                         break;
                     }
-                    hashtag.concat(description[j]);
+                    hashtag = hashtag.concat(description[j]);
                 }
+                hashtags.push(hashtag);
+
                 i = j - 1;
             }
             // looping for mention
             if (description[i] == "@") {
-                let j = i + 1;
                 let mention = "@";
+                let j = i + 1;
                 for (j; j < description.length; j++) {
-                    if (description[j] == "@" || description[j] == " ") {
+                    if (description[j] === "@" || description[j] === " " || description[j] === "#") {
                         break;
                     }
                     mention.concat(description[j]);
                 }
+                mentions.push(mention);
+
                 i = j - 1;
             }
-            hashtags.push(hashtag);
-            mentions.push(mention);
         }
 
         req.postHM = {hashtags: hashtags, mentions: mentions};

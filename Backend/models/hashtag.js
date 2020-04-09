@@ -50,10 +50,10 @@ function Hashtag({ id, hashtag_name }) {
 
 const HashtagfromFirestore = ({ mapData, docId }) => {
     const hashtag_instance = new Hashtag({
-        id: docId
+        id: docId,
+        hashtag_name: mapData["hashtag_name"]
     });
 
-    hashtag_instance.setHashtag_name(mapData["hashtag_name"]);
     hashtag_instance.setPost_ids(mapData["post_ids"]);
 
     return hashtag_instance;

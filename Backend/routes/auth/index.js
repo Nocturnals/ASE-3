@@ -14,6 +14,7 @@ const {
     sendEmailVerification,
     verifyEmail,
     verifyForgotPassword,
+    setPublic_to
 } = require("./functions");
 
 // instance of new router
@@ -50,5 +51,13 @@ router.post(
 
 // route to verify the given code and reset the password
 router.post("./verifyForgotPassword", verifyForgotPassword);
+
+// ----
+router.post(
+    "/set_public_to",
+    verifyToken,
+    verifyUserWithToken,
+    setPublic_to
+)
 
 module.exports = router;

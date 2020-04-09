@@ -23,6 +23,8 @@ module.exports.getHashtagViaId = async id => {
 };
 
 module.exports.getHashtagViaName = async hashtag_name => {
-    const hashtag = await coll_ref.doc(hashtag_name).get();
-    return hashtag;
+    const hashtags = await coll_ref.where("hashtag_name", "==", hashtag_name).get();
+    if (hashtags.empty) return false;
+
+    return hashtags[0];
 };
