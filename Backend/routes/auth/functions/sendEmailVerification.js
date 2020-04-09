@@ -1,4 +1,4 @@
-const { sendEmailToVerifyEmail } = require("./helper");
+const { sendEmailToVerifyEmail } = require("../helper");
 
 module.exports = async (req, res) => {
     try {

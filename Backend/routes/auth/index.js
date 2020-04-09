@@ -11,23 +11,28 @@ const router = express.Router();
 
 // All ruotes to auth goes here
 // route to register new user
-router.post("/register", require("./register"));
+router.post("/register", require("./functions/register"));
 
 // route to login new user
-router.post("/login", require("./login"));
+router.post("/login", require("./functions/login"));
 
 // route to forgotpassword
-router.post("/forgotpassword", require("./forgotPassword"));
+router.post("/forgotpassword", require("./functions/forgotPassword"));
 
 // route to get the logged user details
-router.get("/user", verifyToken, verifyUserWithToken, require("./getUser"));
+router.get(
+    "/user",
+    verifyToken,
+    verifyUserWithToken,
+    require("./functions/getUser")
+);
 
 // route to send mail to verify the email of the user
 router.post(
     "/sendEmailVerification",
     verifyToken,
     verifyUserWithoutEmailVerification,
-    require("./sendEmailVerification")
+    require("./functions/sendEmailVerification")
 );
 
 // route to verify the secret code and verify the email of the user
@@ -35,18 +40,21 @@ router.post(
     "/verifyEmail",
     verifyToken,
     verifyUserWithoutEmailVerification,
-    require("./verifyEmail")
+    require("./functions/verifyEmail")
 );
 
 // route to verify the given code and reset the password
-router.post("./verifyForgotPassword", require("./verifyForgotPassword"));
+router.post(
+    "./verifyForgotPassword",
+    require("./functions/verifyForgotPassword")
+);
 
 // ----
 router.post(
     "/set_public_to",
     verifyToken,
     verifyUserWithToken,
-    require("./setPublic_to")
+    require("./functions/setPublic_to")
 );
 
 module.exports = router;

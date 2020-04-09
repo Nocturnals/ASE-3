@@ -1,12 +1,14 @@
 const bcrypt = require("bcryptjs");
 
-const { UserfromFirestore } = require("../../models/user");
-const { ForgotPasswordFromFirestore } = require("../../models/forgotPassword");
+const { UserfromFirestore } = require("../../../models/user");
+const {
+    ForgotPasswordFromFirestore,
+} = require("../../../models/forgotPassword");
 
-const { verifyForgotPasswordValidation } = require("./authValidations");
+const { verifyForgotPasswordValidation } = require("../authValidations");
 
-const userCRUD = require("../../services/firestore/userCRUD");
-const forgotPasswordCRUD = require("../../services/firestore/forgotPasswordCRUD");
+const userCRUD = require("../../../services/firestore/userCRUD");
+const forgotPasswordCRUD = require("../../../services/firestore/forgotPasswordCRUD");
 
 module.exports = async (req, res) => {
     // validate the input data

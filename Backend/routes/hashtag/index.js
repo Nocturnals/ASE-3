@@ -1,17 +1,10 @@
 const express = require("express");
 
-const {
-    getAllHashtags
-} = require("./functions");
-
 // instance of new router
 const router = express.Router();
 
 // All ruotes to post goes here
 // get all hashtags from the collection
-router.get(
-    "/get_all",
-    getAllHashtags
-)
+router.get("/get_all", require("./functions/getAllHashtags"));
 
 module.exports = router;

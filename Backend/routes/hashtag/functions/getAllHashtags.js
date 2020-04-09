@@ -1,18 +1,16 @@
-const { HashtagModel, HashtagfromFirestore } = require("../../models/hashtag");
-
-const hashtagCRUD = require("../../services/firestore/hashtagCRUD");
+const hashtagCRUD = require("../../../services/firestore/hashtagCRUD");
 
 // get all hashtags from the collection
-module.exports.getAllHashtags = async (req, res) => {
+module.exports = async (req, res) => {
     try {
         let hashtags = await hashtagCRUD.getAll();
         console.log(hashtags);
-        
-        res.json({hashtags: hashtags});
+
+        res.json({ hashtags: hashtags });
     } catch (error) {
         catchError(res, error);
     }
-}
+};
 
 // common catch error function
 function catchError(res, error) {

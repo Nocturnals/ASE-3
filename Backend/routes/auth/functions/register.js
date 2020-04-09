@@ -1,12 +1,12 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const { UserModel } = require("../../models/user");
+const { UserModel } = require("../../../models/user");
 
-const { sendEmailToVerifyEmail } = require("./helper");
-const { registerValidation } = require("./authValidations");
+const { sendEmailToVerifyEmail } = require("../helper");
+const { registerValidation } = require("../authValidations");
 
-const userCRUD = require("../../services/firestore/userCRUD");
+const userCRUD = require("../../../services/firestore/userCRUD");
 
 module.exports = async (req, res) => {
     // validate the given user info

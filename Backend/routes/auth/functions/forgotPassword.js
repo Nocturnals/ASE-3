@@ -1,9 +1,9 @@
-const { UserfromFirestore } = require("../../models/user");
+const { UserfromFirestore } = require("../../../models/user");
 
-const { sendForgotPasswordEmail } = require("./helper");
-const { EmailIDValidation } = require("./authValidations");
+const { sendForgotPasswordEmail } = require("../helper");
+const { EmailIDValidation } = require("../authValidations");
 
-const userCRUD = require("../../services/firestore/userCRUD");
+const userCRUD = require("../../../services/firestore/userCRUD");
 
 module.exports = async (req, res) => {
     // validate the input data

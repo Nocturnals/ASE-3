@@ -16,7 +16,11 @@ const getPostDataWithHashtagsMentions = async (req, res, next) => {
                 let hashtag = "#";
                 let j = i + 1;
                 for (j; j < description.length; j++) {
-                    if (description[j] === "#" || description[j] === " " || description[j] === "@") {
+                    if (
+                        description[j] === "#" ||
+                        description[j] === " " ||
+                        description[j] === "@"
+                    ) {
                         break;
                     }
                     hashtag = hashtag.concat(description[j]);
@@ -30,7 +34,11 @@ const getPostDataWithHashtagsMentions = async (req, res, next) => {
                 let mention = "@";
                 let j = i + 1;
                 for (j; j < description.length; j++) {
-                    if (description[j] === "@" || description[j] === " " || description[j] === "#") {
+                    if (
+                        description[j] === "@" ||
+                        description[j] === " " ||
+                        description[j] === "#"
+                    ) {
                         break;
                     }
                     mention.concat(description[j]);
@@ -41,13 +49,19 @@ const getPostDataWithHashtagsMentions = async (req, res, next) => {
             }
         }
 
-        req.postHM = {hashtags: hashtags, mentions: mentions};
+        req.postHM = { hashtags: hashtags, mentions: mentions };
     }
 
     next();
-}
+};
 
+// common catch error function
+function catchError(res, error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+}
 
 module.exports = {
     getPostDataWithHashtagsMentions,
-}
+    catchError,
+};

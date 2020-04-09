@@ -1,12 +1,12 @@
-const { UserfromFirestore } = require("../../models/user");
+const { UserfromFirestore } = require("../../../models/user");
 const {
     EmailVerificationFromFirestore,
-} = require("../../models/emailVerification");
+} = require("../../../models/emailVerification");
 
-const { verifyEmailValidation } = require("./authValidations");
+const { verifyEmailValidation } = require("../authValidations");
 
-const userCRUD = require("../../services/firestore/userCRUD");
-const emailVerificationCRUD = require("../../services/firestore/emailVerificationCRUD");
+const userCRUD = require("../../../services/firestore/userCRUD");
+const emailVerificationCRUD = require("../../../services/firestore/emailVerificationCRUD");
 
 module.exports = async (req, res) => {
     // validate the input data

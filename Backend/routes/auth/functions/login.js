@@ -1,11 +1,11 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken"); // for modifing the array contents
 
-const { UserfromFirestore } = require("../../models/user");
+const { UserfromFirestore } = require("../../../models/user");
 
-const { loginValidation } = require("./authValidations");
+const { loginValidation } = require("../authValidations");
 
-const userCRUD = require("../../services/firestore/userCRUD");
+const userCRUD = require("../../../services/firestore/userCRUD");
 
 module.exports = async (req, res) => {
     // validate the given user info
