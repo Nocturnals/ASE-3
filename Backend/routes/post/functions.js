@@ -46,9 +46,7 @@ module.exports.createPost = async (req, res, next) => {
         let post_ids = await user.getPost_ids();
         await user.setPost_ids([ ...post_ids, postDoc.id ]);
         
-        userDoc = await userCRUD.updateUser(user.toMap());
-
-        console.log(userDoc.data());
+        let userDoc = await userCRUD.updateUser(user.toMap());
 
         console.log("Post created sucessfully");
 
@@ -517,6 +515,8 @@ module.exports.addPostToHashtag = async (req, res, hashtag_name) => {
             });
 
             const hashtagDoc = await hashtagCRUD.createHashtag(hashtag.toMap());
+            console.log(hashtagDoc);
+            
             await hashtag.setId(hashtagDoc.id);
         }
 
