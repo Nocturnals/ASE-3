@@ -8,7 +8,7 @@ const userCRUD = require("../../../services/firestore/userCRUD");
 const postCRUD = require("../../../services/firestore/postCRUD");
 
 // creating post
-module.exports.createPost = async (req, res, next) => {
+module.exports = async (req, res, next) => {
     // validate post data
     const validatedPostData = postValidation(req.body);
     if (validatedPostData.error) {

@@ -7,7 +7,7 @@ const { mentionValidation } = require("../postValidations");
 const postCRUD = require("../../../services/firestore/postCRUD");
 
 // get specific user mentioned posts
-module.exports.getPostsByMentionedUser = async (req, res) => {
+module.exports = async (req, res) => {
     // validating mentions
     const validatedData = mentionValidation(req.body.mention);
     if (validatedData.error) {

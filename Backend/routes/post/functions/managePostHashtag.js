@@ -2,7 +2,7 @@ const { catchError } = require("../helper");
 const { hashtagValidation } = require("../postValidations");
 
 // adding post to hashtag immediately after creation
-module.exports.managePostHashtags = async (req, res) => {
+module.exports = async (req, res) => {
     // Validaing the hashtags
     const validatedNewHashtags = await hashtagValidation({
         hashtags: req.newPostHM.hashtags,

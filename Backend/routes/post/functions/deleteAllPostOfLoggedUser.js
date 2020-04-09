@@ -1,7 +1,7 @@
 const postCRUD = require("../../../services/firestore/postCRUD");
 
 // delete all the posts of logged user
-module.exports.deleteAllPostsofLoggedUser = async (req, res) => {
+module.exports = async (req, res) => {
     try {
         const post_ids = req.loggedUser.getPost_ids();
         for (let i = 0; i < post_ids.length; i++) {

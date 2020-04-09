@@ -5,7 +5,7 @@ const { catchError } = require("../helper");
 const hashtagCRUD = require("../../../services/firestore/hashtagCRUD");
 
 // removing post from hashtag
-module.exports.removePostFromHashtag = async (req, res, hashtag_name) => {
+module.exports = async (req, res, hashtag_name) => {
     try {
         const hashtag = await hashtagCRUD.getHashtagViaName(hashtag_name);
 

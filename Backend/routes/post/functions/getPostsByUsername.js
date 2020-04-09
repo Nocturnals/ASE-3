@@ -2,7 +2,7 @@ const { getUserByUsername } = require("../../auth/helper");
 const { catchError } = require("../helper");
 
 // get posts of a user by username
-module.exports.getPostsByUsername = async (req, res) => {
+module.exports = async (req, res) => {
     try {
         // get user and check privacy status
         let user = await getUserByUsername(req.body.username);

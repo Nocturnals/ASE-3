@@ -4,7 +4,7 @@ const { postValidation } = require("../postValidations");
 const postCRUD = require("../../../services/firestore/postCRUD");
 
 // updating post
-module.exports.updatePost = async (req, res) => {
+module.exports = async (req, res) => {
     const uPost = await getPostDataWithHashtagsMentions(req.body);
 
     // validating the post details

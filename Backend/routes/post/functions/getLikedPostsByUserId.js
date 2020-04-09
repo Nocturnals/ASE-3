@@ -6,7 +6,7 @@ const { catchError } = require("../helper");
 const postCRUD = require("../../../services/firestore/postCRUD");
 
 // get liked posts of a user
-module.exports.getLikedPostsByUserId = async (req, res) => {
+module.exports = async (req, res) => {
     try {
         let user = getUserById(req.body.user_id);
         if (!user.getPublic_to().includes(req.loggedUser.id))

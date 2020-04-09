@@ -3,7 +3,7 @@ const { catchError } = require("../helper");
 const hashtagCRUD = require("../../../services/firestore/hashtagCRUD");
 
 // updating hashtag
-module.exports.updateHashtag = async (req, res, hashtag) => {
+module.exports = async (req, res, hashtag) => {
     try {
         console.log("Updating Hahstag");
 

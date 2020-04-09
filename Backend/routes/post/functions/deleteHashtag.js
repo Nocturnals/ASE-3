@@ -3,7 +3,7 @@ const { catchError } = require("../helper");
 const hashtagCRUD = require("../../../services/firestore/hashtagCRUD");
 
 // deleting hashtag
-module.exports.deleteHashtag = async (req, res, hashtag_name) => {
+module.exports = async (req, res, hashtag_name) => {
     try {
         const hashtag = await hashtagCRUD.getHashtagViaName(hashtag_name);
         if (hashtag) {

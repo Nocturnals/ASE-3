@@ -3,7 +3,7 @@ const { catchError } = require("../helper");
 const postCRUD = require("../../../services/firestore/postCRUD");
 
 // removing like
-module.exports.removeLike = async (req, res) => {
+module.exports = async (req, res) => {
     try {
         // ePost -> existing post
         const ePost = await postCRUD.getPostViaId(req.body.post_id);

@@ -6,7 +6,7 @@ const { catchError } = require("../helper");
 const postCRUD = require("../../../services/firestore/postCRUD");
 
 // getting post
-module.exports.getPostById = async (req, res) => {
+module.exports = async (req, res) => {
     try {
         const post = await postCRUD.getPostViaId(req.body.post_id);
         if (post) {

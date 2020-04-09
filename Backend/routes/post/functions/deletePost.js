@@ -1,7 +1,7 @@
 const postCRUD = require("../../../services/firestore/postCRUD");
 
 // delete single post bby id
-module.exports.deletePost = async (req, res, next) => {
+module.exports = async (req, res, next) => {
     try {
         const post = await postCRUD.getPostViaId(req.body.post_id);
         if (post) {

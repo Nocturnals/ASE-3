@@ -1,7 +1,7 @@
 const { catchError } = require("../helper");
 
 // Generating Feed for user
-module.exports.generateLoggedUserHomeFeed = async (req, res) => {
+module.exports = async (req, res) => {
     try {
         let following = req.loggedUser.getFollowing();
         for (let i = 0; i < following.length; i++) {
