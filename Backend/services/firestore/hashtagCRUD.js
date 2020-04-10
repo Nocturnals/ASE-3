@@ -1,3 +1,5 @@
+//@ts-check
+
 const database = require("./database");
 
 // reference to the collection
@@ -9,7 +11,9 @@ module.exports.createHashtag = async (hashtagMap) => {
 };
 
 module.exports.updateHashtag = async (hashtagMap) => {
-    const updated_hashtag_ref = await coll_ref.doc(hashtagMap["id"]).update(hashtagMap);
+    const updated_hashtag_ref = await coll_ref
+        .doc(hashtagMap["id"])
+        .update(hashtagMap);
     return updated_hashtag_ref;
 };
 
@@ -23,7 +27,9 @@ module.exports.getHashtagViaId = async (id) => {
 };
 
 module.exports.getHashtagViaName = async (hashtag_name) => {
-    const hashtags = await coll_ref.where("hashtag_name", "==", hashtag_name).get();
+    const hashtags = await coll_ref
+        .where("hashtag_name", "==", hashtag_name)
+        .get();
     if (hashtags.empty) return false;
 
     return hashtags[0];
@@ -32,4 +38,4 @@ module.exports.getHashtagViaName = async (hashtag_name) => {
 module.exports.getAll = async () => {
     const hashtags = await coll_ref.get();
     return hashtags;
-}
+};

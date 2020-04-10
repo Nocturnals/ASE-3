@@ -67,7 +67,7 @@ function Reminder({ id }) {
 
 const ReminderfromFirestore = ({ mapData, docId }) => {
     const reminder_instance = new Reminder({
-        reminder_id: docId,
+        id: docId,
     });
 
     reminder_instance.setMessage(mapData["message"]);

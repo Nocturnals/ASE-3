@@ -1,23 +1,25 @@
+//@ts-check
+
 const database = require("./database");
 
 // reference to the collection
 let coll_ref = database.collection("post");
 
-module.exports.createPost = async postMap => {
+module.exports.createPost = async (postMap) => {
     const new_post_ref = await coll_ref.add(postMap);
     return new_post_ref;
 };
 
-module.exports.updatePost = async postMap => {
+module.exports.updatePost = async (postMap) => {
     const updated_post_ref = await coll_ref.doc(postMap["id"]).update(postMap);
     return updated_post_ref;
 };
 
-module.exports.deletePost = async id => {
+module.exports.deletePost = async (id) => {
     return await coll_ref.doc(id).delete();
 };
 
-module.exports.getPostViaId = async id => {
+module.exports.getPostViaId = async (id) => {
     const post = await coll_ref.doc(id).get();
     return post;
 };

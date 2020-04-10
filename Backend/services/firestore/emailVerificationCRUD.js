@@ -1,10 +1,12 @@
+//@ts-check
+
 const database = require("./database");
 
 // reference to the collection
 let coll_ref = database.collection("emailverifications");
 
 // function to create email verification modal doc
-module.exports.createEmailVerification = async map => {
+module.exports.createEmailVerification = async (map) => {
     // if already exists
     const old_doc = await coll_ref.doc(map["id"]).get();
     if (old_doc.exists) {
@@ -17,13 +19,13 @@ module.exports.createEmailVerification = async map => {
 };
 
 // function to get doc via id
-module.exports.getEmailVerificationViaId = async id => {
+module.exports.getEmailVerificationViaId = async (id) => {
     // get the id doc
     const doc = await coll_ref.doc(id).get();
     return doc;
 };
 
 // fucntion to delete a doc
-module.exports.deleteDoc = async id => {
+module.exports.deleteDoc = async (id) => {
     return await coll_ref.doc(id).delete();
 };

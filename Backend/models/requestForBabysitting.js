@@ -107,7 +107,7 @@ function RequestForBabysitting({ id }) {
 // function to create instance from the firestore data
 const RequestForBabysittingfromFirestore = ({ mapData, docId }) => {
     const request_for_babysitting_instance = new RequestForBabysitting({
-        request_for_babysitting_id: docId,
+        id: docId,
     });
 
     request_for_babysitting_instance.setExtra_notes(mapData["extra_notes"]);

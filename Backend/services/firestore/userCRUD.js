@@ -1,3 +1,5 @@
+//@ts-check
+
 const database = require("./database");
 
 // reference to the collection
