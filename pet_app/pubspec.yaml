@@ -25,6 +25,7 @@ dependencies:
   redux: ^4.0.0
   flutter_redux: ^0.6.0
   shared_preferences: ^0.5.6+3
+  json_serializable: '>=3.2.5'
 
   google_fonts: ^0.3.5
 
@@ -40,6 +41,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

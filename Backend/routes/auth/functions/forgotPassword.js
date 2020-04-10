@@ -1,3 +1,5 @@
+//@ts-check
+
 const { UserfromFirestore } = require("../../../models/user");
 
 const { sendForgotPasswordEmail } = require("../helper");

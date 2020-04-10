@@ -1,3 +1,5 @@
+//@ts-check
+
 function Hashtag({ id, hashtag_name }) {
     // private variables
     let _id = id;
@@ -20,17 +22,17 @@ function Hashtag({ id, hashtag_name }) {
 
     // setters
 
-    this.setId = id => {
+    this.setId = (id) => {
         _id = id;
     };
 
-    this.setHashtag_name = hashtag_name => {
+    this.setHashtag_name = (hashtag_name) => {
         _hashtag_name = hashtag_name;
-    }
+    };
 
-    this.setPost_ids = post_ids => {
+    this.setPost_ids = (post_ids) => {
         _post_ids = post_ids;
-    }
+    };
 
     //function to convert ot map
 
@@ -51,7 +53,7 @@ function Hashtag({ id, hashtag_name }) {
 const HashtagfromFirestore = ({ mapData, docId }) => {
     const hashtag_instance = new Hashtag({
         id: docId,
-        hashtag_name: mapData["hashtag_name"]
+        hashtag_name: mapData["hashtag_name"],
     });
 
     hashtag_instance.setPost_ids(mapData["post_ids"]);

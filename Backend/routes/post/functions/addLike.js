@@ -1,3 +1,5 @@
+//@ts-check
+
 const { catchError } = require("../helper");
 
 const postCRUD = require("../../../services/firestore/postCRUD");

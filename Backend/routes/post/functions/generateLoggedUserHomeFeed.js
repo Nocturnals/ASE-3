@@ -1,3 +1,5 @@
+//@ts-check
+
 const { catchError } = require("../helper");
 
 // Generating Feed for user

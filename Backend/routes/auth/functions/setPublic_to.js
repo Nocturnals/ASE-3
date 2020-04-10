@@ -1,3 +1,5 @@
+//@ts-check
+
 module.exports = async (req, res) => {
     if (req.loggedUser) {
         // await req.loggedUser.setPublic_to([req.loggedUser.getId()]);

@@ -1,3 +1,5 @@
+//@ts-check
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken"); // for modifing the array contents
 

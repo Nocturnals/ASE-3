@@ -1,3 +1,5 @@
+//@ts-check
+
 const express = require("express");
 
 // instance of new router

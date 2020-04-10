@@ -1,3 +1,5 @@
+//@ts-check
+
 const { sendEmailToVerifyEmail } = require("../helper");
 
 module.exports = async (req, res) => {

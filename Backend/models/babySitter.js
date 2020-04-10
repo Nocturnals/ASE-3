@@ -1,3 +1,5 @@
+//@ts-check
+
 function BabySitter({ id }) {
     let _babysitter_id = id;
     let _address = null;
@@ -42,28 +44,28 @@ function BabySitter({ id }) {
 
     // setters
 
-    this.setId = id => {
+    this.setId = (id) => {
         _babysitter_id = id;
     };
-    this.setAddress = address => {
+    this.setAddress = (address) => {
         _address = address;
     };
-    this.setStatus = status => {
+    this.setStatus = (status) => {
         _status = status;
     };
-    this.setContact_no = contact_no => {
+    this.setContact_no = (contact_no) => {
         _contact_no = contact_no;
     };
-    this.setList_of_pets_accepted_before = list_of_pets_accepted_before => {
+    this.setList_of_pets_accepted_before = (list_of_pets_accepted_before) => {
         _list_of_pets_accepted_before = list_of_pets_accepted_before;
     };
-    this.setCurrent_babysitting_pets = current_babysitting_pets => {
+    this.setCurrent_babysitting_pets = (current_babysitting_pets) => {
         _current_babysitting_pets = current_babysitting_pets;
     };
-    this.setRequestsList = requests_list => {
+    this.setRequestsList = (requests_list) => {
         _requests_list = requests_list;
     };
-    this.setPayment_details = payment_details => {
+    this.setPayment_details = (payment_details) => {
         _payment_details = payment_details;
     };
 
@@ -90,7 +92,7 @@ function BabySitter({ id }) {
 
 const BabySitterfromFirestore = ({ mapData, docId }) => {
     const babysitter_instance = new BabySitter({
-        babysitter_id: docId
+        id: docId,
     });
 
     babysitter_instance.setAddress(mapData["address"]);

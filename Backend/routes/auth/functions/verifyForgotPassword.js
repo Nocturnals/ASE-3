@@ -1,3 +1,5 @@
+//@ts-check
+
 const bcrypt = require("bcryptjs");
 
 const { UserfromFirestore } = require("../../../models/user");

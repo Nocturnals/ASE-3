@@ -1,3 +1,5 @@
+//@ts-check
+
 const express = require("express");
 
 const { verifyToken, verifyUserWithToken } = require("../auth/helper");

@@ -1,3 +1,5 @@
+//@ts-check
+
 const { getUserByUsername } = require("../../auth/helper");
 const { catchError } = require("../helper");
 

@@ -1,3 +1,5 @@
+//@ts-check
+
 const postCRUD = require("../../../services/firestore/postCRUD");
 
 // delete single post bby id

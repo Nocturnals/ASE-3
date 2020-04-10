@@ -1,3 +1,5 @@
+//@ts-check
+
 const { getPostDataWithHashtagsMentions, catchError } = require("../helper");
 const { postValidation } = require("../postValidations");
 

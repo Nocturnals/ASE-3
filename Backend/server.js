@@ -1,3 +1,4 @@
+//@ts-check
 // main package imports here
 const express = require("express");
 
@@ -16,7 +17,7 @@ dotenv.config();
 const app = express();
 
 // CORS middlewares
-var allowCrossDomain = function(req, res, next) {
+var allowCrossDomain = function (req, res, next) {
     // website which can only access this backend server
     res.header("Access-Control-Allow-Origin", "*");
 

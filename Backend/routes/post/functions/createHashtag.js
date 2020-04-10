@@ -1,3 +1,5 @@
+//@ts-check
+
 const { HashtagModel } = require("../../../models/hashtag");
 
 const { catchError } = require("../helper");

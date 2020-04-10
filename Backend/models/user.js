@@ -1,3 +1,5 @@
+//@ts-check
+
 function User({ id, username, email }) {
     // private variables
     let _id = id;
@@ -70,57 +72,57 @@ function User({ id, username, email }) {
     };
     this.getPublic_to = () => {
         return _public_to;
-    }
+    };
 
     // setters here
-    this.setId = id => {
+    this.setId = (id) => {
         _id = id;
     };
-    this.setPassword = password => {
+    this.setPassword = (password) => {
         _password = password;
     };
-    this.setAge = age => {
+    this.setAge = (age) => {
         _age = age;
     };
-    this.setPets_count = pets_count => {
+    this.setPets_count = (pets_count) => {
         _pets_count = pets_count;
     };
-    this.setPet_ids = pet_ids => {
+    this.setPet_ids = (pet_ids) => {
         _pet_ids = pet_ids;
     };
-    this.setPost_ids = post_ids => {
+    this.setPost_ids = (post_ids) => {
         _post_ids = post_ids;
     };
-    this.setFollowers = followers => {
+    this.setFollowers = (followers) => {
         _followers = followers;
     };
-    this.setFollowing = following => {
+    this.setFollowing = (following) => {
         _following = following;
     };
-    this.setLiked_post_ids = liked_post_ids => {
+    this.setLiked_post_ids = (liked_post_ids) => {
         _liked_post_ids = liked_post_ids;
     };
-    this.setMentioned_post_ids = mentioned_post_ids => {
+    this.setMentioned_post_ids = (mentioned_post_ids) => {
         _mentioned_post_ids = mentioned_post_ids;
     };
-    this.setFav_animals_ids = fav_animals_ids => {
+    this.setFav_animals_ids = (fav_animals_ids) => {
         _fav_animals_ids = fav_animals_ids;
     };
-    this.setOrder_ids = order_ids => {
+    this.setOrder_ids = (order_ids) => {
         _order_ids = order_ids;
     };
-    this.setRemainder_ids = remainder_ids => {
+    this.setRemainder_ids = (remainder_ids) => {
         _remainder_ids = remainder_ids;
     };
-    this.setEmail_verified = status => {
+    this.setEmail_verified = (status) => {
         _email_verified = status;
     };
-    this.setPrivacy_status = is_private => {
+    this.setPrivacy_status = (is_private) => {
         _is_private = is_private;
     };
-    this.setPublic_to = public_to => {
+    this.setPublic_to = (public_to) => {
         _public_to = public_to;
-    }
+    };
 
     // function to convert tomap
     this.toMap = () => {
@@ -157,7 +159,7 @@ const UserfromFirestore = ({ mapData, docId }) => {
     const user_instance = new User({
         id: docId,
         username: mapData["username"],
-        email: mapData["email"]
+        email: mapData["email"],
     });
 
     user_instance.setPassword(mapData["password"]);

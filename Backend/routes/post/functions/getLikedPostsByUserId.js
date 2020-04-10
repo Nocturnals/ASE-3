@@ -1,3 +1,5 @@
+//@ts-check
+
 const { PostfromFirestore } = require("../../../models/post");
 
 const { getUserById } = require("../../auth/helper");

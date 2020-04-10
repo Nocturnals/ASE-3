@@ -1,3 +1,5 @@
+//@ts-check
+
 const hashtagCRUD = require("../../../services/firestore/hashtagCRUD");
 
 // get all hashtags from the collection

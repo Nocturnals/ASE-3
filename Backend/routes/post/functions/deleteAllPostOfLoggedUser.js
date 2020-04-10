@@ -1,3 +1,5 @@
+//@ts-check
+
 const postCRUD = require("../../../services/firestore/postCRUD");
 
 // delete all the posts of logged user
