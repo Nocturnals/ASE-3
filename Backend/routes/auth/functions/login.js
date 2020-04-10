@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
     try {
         let user = await userCRUD.getUserViaUsername(req.body.username);
 
-        userData = user.data();
+        const userData = user.data();
         // Check user password
         const validPassword = await bcrypt.compare(
             req.body.password,
@@ -45,11 +45,14 @@ module.exports = async (req, res) => {
         });
         console.log(jToken);
 
-        userData = UserfromFirestore({ mapData: userData, docId: user.id });
+        const user_instance = UserfromFirestore({
+            mapData: userData,
+            docId: user.id,
+        });
 
         return res
             .header("authorization", jToken)
-            .json({ user: userData.toMap() });
+            .json({ user: user_instance.toMap() });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" });

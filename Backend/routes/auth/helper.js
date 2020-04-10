@@ -47,7 +47,7 @@ const verifyUserWithToken = async (req, res, next) => {
         } else {
             try {
                 console.log(authData);
-                let loggedUser = await userFirestoreCRUD.getUserViaID(
+                const loggedUser = await userFirestoreCRUD.getUserViaID(
                     authData.id
                 );
                 // if user doesn't exist
@@ -58,20 +58,20 @@ const verifyUserWithToken = async (req, res, next) => {
                 }
                 // when user exists
                 else {
-                    loggedUser = loggedUser.data();
+                    const userData = loggedUser.data();
 
-                    loggedUser = UserfromFirestore({
-                        mapData: loggedUser,
+                    const user_instance = UserfromFirestore({
+                        mapData: userData,
                         docId: authData.id,
                     });
-                    req.loggedUser = loggedUser;
+                    req.loggedUser = user_instance;
 
                     if (process.env.NODE_ENV === "development") {
                         // doesn't check email verification in development environment
                         next();
                     } else {
                         // checks email verification in production environment
-                        if (loggedUser.getEmail_verified()) {
+                        if (user_instance.getEmail_verified()) {
                             next();
                         } else {
                             return res.status(401).json({
@@ -97,7 +97,7 @@ const verifyUserWithoutEmailVerification = async (req, res, next) => {
             return res.status(401).json({ message: err.message });
         } else {
             try {
-                let loggedUser = await userFirestoreCRUD.getUserViaID(
+                const loggedUser = await userFirestoreCRUD.getUserViaID(
                     authData.id
                 );
                 // if user doesn't exist
@@ -108,12 +108,12 @@ const verifyUserWithoutEmailVerification = async (req, res, next) => {
                 }
                 // when user exists
                 else {
-                    loggedUser = loggedUser.data();
-                    loggedUser = UserfromFirestore({
-                        mapData: loggedUser,
+                    const userData = loggedUser.data();
+                    const user_instance = UserfromFirestore({
+                        mapData: userData,
                         docId: authData.id,
                     });
-                    req.loggedUser = loggedUser;
+                    req.loggedUser = user_instance;
 
                     next();
                 }

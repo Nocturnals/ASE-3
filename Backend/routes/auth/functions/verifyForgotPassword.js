@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
     try {
         // get the user details
         const user_doc = await userCRUD.getUserViaEmail(req.body.email);
-        if (!user_doc.exists) {
+        if (!user_doc || !user_doc.exists) {
             return res.status(400).json({ message: "invalid email address" });
         }
         const user = UserfromFirestore({
@@ -49,7 +49,10 @@ module.exports = async (req, res) => {
         // check if the secret code
         if (forgot_password_instance.getSecret_code() == req.body.secret_code) {
             // check if it is expired
-            if (new Date().getDate() > forgot_password_instance.getDeadline()) {
+            if (
+                new Date().getDate() >
+                forgot_password_instance.getDeadline().getDate()
+            ) {
                 return res.status(400).json({ message: "Code has expired" });
             }
 

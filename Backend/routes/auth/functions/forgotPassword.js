@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
         // const userDoc = await UserModel.findOne({ email: req.body.email });
         const userDoc = await userCRUD.getUserViaEmail(req.body.email);
 
-        if (!userDoc) {
+        if (!userDoc || !userDoc.exists) {
             return res.status(400).json({
                 message: `No account exists associating with ${req.body.email}`,
             });
@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
         // convert the userdoc to user modal
         let user = UserfromFirestore({
             mapData: userDoc.data(),
-            id: userDoc.id,
+            docId: userDoc.id,
         });
 
         try {

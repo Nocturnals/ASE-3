@@ -43,28 +43,22 @@ module.exports = async (req, res) => {
         ) {
             // check if the code is expired
             if (
-                emailVerificationInstance.getDeadline() < new Date().getDate()
+                emailVerificationInstance.getDeadline().getDate() <
+                new Date().getDate()
             ) {
                 return res.status(400).json({ message: "Code has expired" });
             }
 
             // verify the email
             req.loggedUser.setEmail_verified(true);
-            const newUserDoc = await userCRUD.updateUser(
-                req.loggedUser.toMap()
-            );
-            const newUser = UserfromFirestore({
-                mapData: newUserDoc.data(),
-                docId: newUserDoc.id,
-            });
-            req.loggedUser = newUser;
+            await userCRUD.updateUser(req.loggedUser.toMap());
 
             // delete the verify email instance
             await emailVerificationCRUD.deleteDoc(email_verification_doc.id);
 
             return res.status(200).json({
                 message: "successfully verified email",
-                user: newUser.toMap(),
+                user: req.loggedUser.toMap(),
             });
         } else {
             // show error
