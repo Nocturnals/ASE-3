@@ -58,31 +58,21 @@ const getPostDataWithHashtagsMentions = async (req, res, next) => {
 };
 
 // check the pricvacy status of the user
-module.exports.checkPrivacyStatus = async (req, res, user) => {
+const checkPrivacyStatus = async (req, res, user) => {
     if (user.getPrivacy_status()) {
         if (req.loggedUser) {
             if (!user.getPublic_to().includes(req.loggedUser.getId()))
-                return res.status(200).json({
-                    message:
-                        "Post cannot be displayed! The user has a private account!!",
-                });
+                return false;
         }
         else {
-            return res.status(200).json({
-                message:
-                    "Post cannot be displayed! The user has a private account!!",
-            });
+            return false;
         }
     }
-}
 
-// common catch error function
-function catchError(res, error) {
-    console.log(error);
-    return res.status(500).json({ message: "Internal server error" });
+    return true;
 }
 
 module.exports = {
     getPostDataWithHashtagsMentions,
-    catchError,
+    checkPrivacyStatus
 };

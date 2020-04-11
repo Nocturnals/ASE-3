@@ -16,11 +16,20 @@ module.exports = async (req, res) => {
                 mapData: postDoc.data(),
                 docId: postDoc.id,
             });
+
             // get user by id and ckeck privacy status of account
             let user = await getUserById(post.getAuthor_id());
+            if (!user)
+                return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
 
             // check the pricvacy status of the user
-            await checkPrivacyStatus(req, res, user);
+            const access = await checkPrivacyStatus(req, res, user);
+            if (!access) {
+                return res.status(200).json({
+                    message:
+                        "Post cannot be displayed! The user has a private account!!",
+                });
+            }
 
             return res.status(200).json(post.toMap());
         

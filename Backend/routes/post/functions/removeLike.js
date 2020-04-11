@@ -2,7 +2,10 @@
 
 const { PostfromFirestore } = require("../../../models/post");
 
+const userCRUD = require("../../../services/firestore/userCRUD");
 const postCRUD = require("../../../services/firestore/postCRUD");
+
+const { getUserById } = require("../../auth/helper");
 
 // removing like
 module.exports = async (req, res) => {
@@ -10,7 +13,15 @@ module.exports = async (req, res) => {
         // get post document from firestore using id
         const postDoc = await postCRUD.getPostViaId(req.body.post_id);
         if (postDoc) {
-            let post = await PostfromFirestore({ mapData: postDoc.data(), docId: postDoc.id });
+            // get user using id
+            let user = await getUserById(req.loggedUser.getId());
+            if (!user)
+                return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
+
+            let post = await PostfromFirestore({ 
+                mapData: postDoc.data(),
+                docId: postDoc.id 
+            });
 
             // check if user already liked this post and update liked by users
             if (post.getLiked_by().includes(req.loggedUser.getId())) {
@@ -25,6 +36,15 @@ module.exports = async (req, res) => {
                 console.log("Like removed");
 
                 const updatedPostDoc = await postCRUD.updatePost(post.toMap());
+
+                if (user.getLiked_post_ids().includes(post.getId())) {
+                    let liked_post_ids = await user.getLiked_post_ids();
+
+                    await user.setLiked_post_ids(liked_post_ids.slice(
+                        liked_post_ids.indexOf(post.getId()), 1
+                    ));
+                    let updatedUserDoc = await userCRUD.updateUser(user.toMap());
+                }
             }
         }
 

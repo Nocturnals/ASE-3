@@ -12,9 +12,17 @@ module.exports = async (req, res) => {
     try {
         // get user and check privacy status
         let user = await getUserByUsername(req.body.username);
+        if (!user)
+            return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
 
         // check the pricvacy status of the user
-        await checkPrivacyStatus(req, res, user);
+        const access = await checkPrivacyStatus(req, res, user);
+        if (!access) {
+            return res.status(200).json({
+                message:
+                    "Post cannot be displayed! The user has a private account!!",
+            });
+        }
 
         let posts = [];
         let post_ids = await user.getPost_ids();
