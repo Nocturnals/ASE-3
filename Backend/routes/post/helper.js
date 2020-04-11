@@ -1,3 +1,5 @@
+//@ts-check
+
 const jwt = require("jsonwebtoken");
 
 const { UserfromFirestore } = require("../../models/user");
@@ -16,7 +18,11 @@ const getPostDataWithHashtagsMentions = async (req, res, next) => {
                 let hashtag = "#";
                 let j = i + 1;
                 for (j; j < description.length; j++) {
-                    if (description[j] === "#" || description[j] === " " || description[j] === "@") {
+                    if (
+                        description[j] === "#" ||
+                        description[j] === " " ||
+                        description[j] === "@"
+                    ) {
                         break;
                     }
                     hashtag = hashtag.concat(description[j]);
@@ -30,7 +36,11 @@ const getPostDataWithHashtagsMentions = async (req, res, next) => {
                 let mention = "@";
                 let j = i + 1;
                 for (j; j < description.length; j++) {
-                    if (description[j] === "@" || description[j] === " " || description[j] === "#") {
+                    if (
+                        description[j] === "@" ||
+                        description[j] === " " ||
+                        description[j] === "#"
+                    ) {
                         break;
                     }
                     mention.concat(description[j]);
@@ -41,13 +51,28 @@ const getPostDataWithHashtagsMentions = async (req, res, next) => {
             }
         }
 
-        req.postHM = {hashtags: hashtags, mentions: mentions};
+        req.postHM = { hashtags: hashtags, mentions: mentions };
     }
 
     next();
-}
+};
 
+// check the pricvacy status of the user
+const checkPrivacyStatus = async (req, res, user) => {
+    if (user.getPrivacy_status()) {
+        if (req.loggedUser) {
+            if (!user.getPublic_to().includes(req.loggedUser.getId()))
+                return false;
+        }
+        else {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 module.exports = {
     getPostDataWithHashtagsMentions,
-}
+    checkPrivacyStatus
+};

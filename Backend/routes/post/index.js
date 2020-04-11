@@ -1,27 +1,9 @@
+//@ts-check
+
 const express = require("express");
 
-const {
-    verifyToken,
-    verifyUserWithToken,
-} = require("../auth/helper")
+const { verifyToken, verifyUserWithToken } = require("../auth/helper");
 const { getPostDataWithHashtagsMentions } = require("./helper");
-
-const {
-    createPost,
-    getPostById,
-    updatePost,
-    deletePost,
-    deleteAllPostsofLoggedUser,
-    getPostsByUserId,
-    getPostsByUsername,
-    getLikedPostsByUserId,
-    getPostsByMentionedUser,
-    generateGuestUserHomeFeed, 
-    generateLoggedUserHomeFeed,
-    addLike,
-    removeLike,
-    managePostHashtags
-} = require("./functions");
 
 // instance of new router
 const router = express.Router();
@@ -33,77 +15,81 @@ router.post(
     verifyToken,
     verifyUserWithToken,
     getPostDataWithHashtagsMentions,
-    createPost,
-    managePostHashtags
+    require("./functions/createPost"),
+    require("../hashtag/functions/managePostHashtag")
 );
+
 // Get Post
 // getting a single post by it;s id
-router.get(
-    "/",
-    getPostById
-);
+router.get("/", require("./functions/getPostById"));
+
 // getting all posts of a user by id
 router.get(
     "/user/id",
     verifyToken,
     verifyUserWithToken,
-    getPostsByUserId
-)
+    require("./functions/getPostsByUserId")
+);
+
 // getting all posts of a user by username
-router.get(
-    "/user/username",
-    getPostsByUsername
-)
+router.get("/user/username", require("./functions/getPostsByUsername"));
+
 // getting posts liked by a user
 router.get(
     "/liked_posts",
     verifyToken,
     verifyUserWithToken,
-    getLikedPostsByUserId,
-)
+    require("./functions/getLikedPostsByUserId")
+);
+
 // getting posts of a mentioned user
 router.get(
     "/mentioned_user_posts",
-    getPostsByMentionedUser
-)
+    require("./functions/getPostsByMentionedUser")
+);
+
 // Update Post
 router.post(
     "/update",
     verifyToken,
     verifyUserWithToken,
     getPostDataWithHashtagsMentions,
-    updatePost,
-    managePostHashtags
+    require("./functions/updatePost"),
+    require("../hashtag/functions/managePostHashtag")
 );
+
 // Delete Post
 router.post(
     "/delete",
     verifyToken,
     verifyUserWithToken,
-    deletePost,
-    managePostHashtags,
+    require("./functions/deletePost"),
+    require("../hashtag/functions/managePostHashtag")
 );
+
+// delete all post
 router.post(
     "/delete/all",
     verifyToken,
     verifyUserWithToken,
-    deleteAllPostsofLoggedUser
-)
-
+    require("./functions/deleteAllPostOfLoggedUser")
+);
 
 // Add Like
 router.post(
     "/like",
     verifyToken,
     verifyUserWithToken,
-    addLike
-)
+    require("./functions/addLike")
+);
+
 // Remove Like
 router.post(
     "/unlike",
     verifyToken,
     verifyUserWithToken,
-    removeLike
-)
+    require("./functions/removeLike")
+);
 
+// export the router
 module.exports = router;

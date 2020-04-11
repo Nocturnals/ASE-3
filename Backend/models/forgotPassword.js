@@ -1,3 +1,5 @@
+//@ts-check
+
 function ForgotPassword({ id, email, secret_code }) {
     // private variables
     let _id = id;
@@ -21,7 +23,7 @@ function ForgotPassword({ id, email, secret_code }) {
     };
 
     // setters here
-    this.setDeadline = deadline => {
+    this.setDeadline = (deadline) => {
         _deadline = deadline;
     };
 
@@ -44,7 +46,7 @@ const ForgotPasswordFromFirestore = ({ mapData, docId }) => {
     let email_verification_instance = new ForgotPassword({
         id: docId,
         email: mapData["email"],
-        secret_code: mapData["secret_code"]
+        secret_code: mapData["secret_code"],
     });
 
     email_verification_instance.setDeadline(mapData["deadline"]);
@@ -53,5 +55,5 @@ const ForgotPasswordFromFirestore = ({ mapData, docId }) => {
 
 module.exports = {
     ForgotPasswordModel: ForgotPassword,
-    ForgotPasswordFromFirestore
+    ForgotPasswordFromFirestore,
 };

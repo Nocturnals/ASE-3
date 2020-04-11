@@ -1,3 +1,5 @@
+//@ts-check
+
 const jwt = require("jsonwebtoken");
 
 const { UserfromFirestore } = require("../../models/user");
@@ -45,7 +47,7 @@ const verifyUserWithToken = async (req, res, next) => {
         } else {
             try {
                 console.log(authData);
-                let loggedUser = await userFirestoreCRUD.getUserViaID(
+                const loggedUser = await userFirestoreCRUD.getUserViaID(
                     authData.id
                 );
                 // if user doesn't exist
@@ -56,20 +58,20 @@ const verifyUserWithToken = async (req, res, next) => {
                 }
                 // when user exists
                 else {
-                    loggedUser = loggedUser.data();
+                    const userData = loggedUser.data();
 
-                    loggedUser = UserfromFirestore({
-                        mapData: loggedUser,
+                    const user_instance = UserfromFirestore({
+                        mapData: userData,
                         docId: authData.id,
                     });
-                    req.loggedUser = loggedUser;
+                    req.loggedUser = user_instance;
 
                     if (process.env.NODE_ENV === "development") {
                         // doesn't check email verification in development environment
                         next();
                     } else {
                         // checks email verification in production environment
-                        if (loggedUser.getEmail_verified()) {
+                        if (user_instance.getEmail_verified()) {
                             next();
                         } else {
                             return res.status(401).json({
@@ -95,7 +97,7 @@ const verifyUserWithoutEmailVerification = async (req, res, next) => {
             return res.status(401).json({ message: err.message });
         } else {
             try {
-                let loggedUser = await userFirestoreCRUD.getUserViaID(
+                const loggedUser = await userFirestoreCRUD.getUserViaID(
                     authData.id
                 );
                 // if user doesn't exist
@@ -106,12 +108,12 @@ const verifyUserWithoutEmailVerification = async (req, res, next) => {
                 }
                 // when user exists
                 else {
-                    loggedUser = loggedUser.data();
-                    loggedUser = UserfromFirestore({
-                        mapData: loggedUser,
+                    const userData = loggedUser.data();
+                    const user_instance = UserfromFirestore({
+                        mapData: userData,
                         docId: authData.id,
                     });
-                    req.loggedUser = loggedUser;
+                    req.loggedUser = user_instance;
 
                     next();
                 }
@@ -156,51 +158,41 @@ const sendForgotPasswordEmail = async (user) => {
 // -----------------------------------------------------------------------
 const getUserById = async (user_id) => {
     try {
-        let user = await userFirestoreCRUD.getUserViaID(user_id);
-        // if user doesn't exist
-        if (!user) {
-            return res.status(400).json({
-                message: "No user exists with given id",
-            });
-        }
+        const userDoc = await userFirestoreCRUD.getUserViaID(user_id);
         // when user exists
-        else {
-            user = user.data();
-            user = UserfromFirestore({
-                mapData: user,
-                docId: user_id,
+        if (userDoc) {
+            let user = UserfromFirestore({
+                mapData: userDoc.data(),
+                docId: userDoc.id,
             });
 
             return user;
         }
+
+        return false;
+
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: "Error finding user" });
+        return false;
     }
 };
 
 const getUserByUsername = async (username) => {
     try {
-        let user = await userFirestoreCRUD.getUserViaUsername(username);
-        // if user doesn't exist
-        if (!user) {
-            return res.status(400).json({
-                message: "No user exists with given username",
-            });
-        }
-        // when user exists
-        else {
-            user = user.data();
-            user = UserfromFirestore({
-                mapData: user,
-                docId: user.id,
+        let userDoc = await userFirestoreCRUD.getUserViaUsername(username);
+        // if user exists
+        if (userDoc) {
+            let user = UserfromFirestore({
+                mapData: userDoc.data(),
+                docId: userDoc.id,
             });
 
             return user;
         }
+
+        return false;
+
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: "Error finding user" });
+        return false;
     }
 };
 

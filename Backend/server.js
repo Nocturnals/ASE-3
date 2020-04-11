@@ -1,3 +1,4 @@
+//@ts-check
 // main package imports here
 const express = require("express");
 
@@ -16,7 +17,7 @@ dotenv.config();
 const app = express();
 
 // CORS middlewares
-var allowCrossDomain = function(req, res, next) {
+var allowCrossDomain = function (req, res, next) {
     // website which can only access this backend server
     res.header("Access-Control-Allow-Origin", "*");
 
@@ -60,6 +61,9 @@ app.use("/api/auth", require("./routes/auth/index"));
 
 // route for post management
 app.use("/post", require("./routes/post/index"));
+
+// route for hashtag management
+app.use("/hashtag", require("./routes/hashtag/index"));
 
 const port = process.env.PORT || 3000; // get the port number from the dotenv file if not 3000
 // The listening of the server

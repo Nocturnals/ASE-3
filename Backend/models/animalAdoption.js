@@ -1,3 +1,5 @@
+//@ts-check
+
 function AnimalAdoption({ id }) {
     let _animal_adoption_id = id;
     let _animal_id = null;
@@ -44,29 +46,29 @@ function AnimalAdoption({ id }) {
 
     //setters
 
-    this.setId = id => {
+    this.setId = (id) => {
         _animal_adoption_id = id;
     };
 
-    this.setAnimal_id = animal_id => {
+    this.setAnimal_id = (animal_id) => {
         _animal_id = animal_id;
     };
-    this.setAnimal_type = animal_type => {
+    this.setAnimal_type = (animal_type) => {
         _animal_type = animal_type;
     };
-    this.setAge = age => {
+    this.setAge = (age) => {
         _age = age;
     };
-    this.setPosts = posts => {
+    this.setPosts = (posts) => {
         _posts = posts;
     };
-    this.setAdopted_by = adopted_by => {
+    this.setAdopted_by = (adopted_by) => {
         _adopted_by = adopted_by;
     };
-    this.setAdopted_from = adopted_from => {
+    this.setAdopted_from = (adopted_from) => {
         _adopted_from = adopted_from;
     };
-    this.setDate_of_adoption = date_of_adoption => {
+    this.setDate_of_adoption = (date_of_adoption) => {
         _date_of_adoption = date_of_adoption;
     };
 
@@ -92,7 +94,7 @@ function AnimalAdoption({ id }) {
 // function to create instance from the firestore data
 const AnimalAdoptionfromFirestore = ({ mapData, docId }) => {
     const animal_adoption_instance = new AnimalAdoption({
-        animal_adoption_id: docId
+        id: docId,
     });
 
     animal_adoption_instance.setAdopted_by(mapData["adopted_by"]);
@@ -108,5 +110,5 @@ const AnimalAdoptionfromFirestore = ({ mapData, docId }) => {
 
 module.exports = {
     AnimalAdoptionModel: AnimalAdoption,
-    AnimalAdoptionfromFirestore
+    AnimalAdoptionfromFirestore,
 };

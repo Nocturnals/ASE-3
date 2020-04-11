@@ -1,3 +1,5 @@
+//@ts-check
+
 function Order({ id }) {
     //private variables
 
@@ -40,30 +42,30 @@ function Order({ id }) {
 
     // setters
 
-    this.setId = id => {
+    this.setId = (id) => {
         _order_id = id;
     };
-    this.setOrder_satus = order_status => {
+    this.setOrder_satus = (order_status) => {
         _order_status = order_status;
     };
 
-    this.setOrdered_by_user = ordered_by_user => {
+    this.setOrdered_by_user = (ordered_by_user) => {
         _ordered_by_user = ordered_by_user;
     };
 
-    this.setItem_id = item_id => {
+    this.setItem_id = (item_id) => {
         _item_id = item_id;
     };
 
-    this.setPayment_details = payment_details => {
+    this.setPayment_details = (payment_details) => {
         _payment_details = payment_details;
     };
 
-    this.setSeller_id = seller_id => {
+    this.setSeller_id = (seller_id) => {
         _seller_id = seller_id;
     };
 
-    this.setDate_of_booking = date_of_booking => {
+    this.setDate_of_booking = (date_of_booking) => {
         _date_of_booking = date_of_booking;
     };
 
@@ -88,7 +90,7 @@ function Order({ id }) {
 // function to create instance from the firestore data
 const OrderfromFirestore = ({ mapData, docId }) => {
     const order_instance = new Order({
-        order_id: docId
+        id: docId,
     });
 
     order_instance.setItem_id(mapData["item_id"]);

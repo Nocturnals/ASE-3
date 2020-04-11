@@ -1,3 +1,5 @@
+//@ts-check
+
 function DeliveryPerson({ id }) {
     // private variables/
 
@@ -33,25 +35,25 @@ function DeliveryPerson({ id }) {
 
     //setters
 
-    this.setId = id => {
+    this.setId = (id) => {
         _delivery_person_id = id;
     };
 
-    this.setPayment_details = payment_details => {
+    this.setPayment_details = (payment_details) => {
         _payment_details = payment_details;
     };
 
-    this.setUser_id = user_id => {
+    this.setUser_id = (user_id) => {
         _user_id = user_id;
     };
 
-    this.setOngoingDeliveries = ongoing_deliveries => {
+    this.setOngoingDeliveries = (ongoing_deliveries) => {
         _ongoing_deliveries = ongoing_deliveries;
     };
-    this.setCompleted_deliveries = completed_deliveries => {
+    this.setCompleted_deliveries = (completed_deliveries) => {
         _completed_deliveries = completed_deliveries;
     };
-    this.setList_of_deliveries = list_of_deliveries => {
+    this.setList_of_deliveries = (list_of_deliveries) => {
         _list_of_deliveries = list_of_deliveries;
     };
 
@@ -74,7 +76,7 @@ function DeliveryPerson({ id }) {
 
 const DeliveryPersonfromFirestore = ({ mapData, docId }) => {
     const delivery_person_instance = new DeliveryPerson({
-        deliveryPerson_id: docId
+        id: docId,
     });
 
     delivery_person_instance.setCompleted_deliveries(
@@ -94,5 +96,5 @@ const DeliveryPersonfromFirestore = ({ mapData, docId }) => {
 
 module.exports = {
     DeliveryPersonModel: DeliveryPerson,
-    DeliveryPersonfromFirestore
+    DeliveryPersonfromFirestore,
 };

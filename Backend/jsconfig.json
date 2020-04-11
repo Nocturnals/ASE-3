@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "module": "commonJS",
+        "target": "es6",
+        "checkJs": true,
+        "alwaysStrict": true,
+        "strict": true
+    },
+    "exclude": ["node_modules", "**/node_moudles/**"]
+  }

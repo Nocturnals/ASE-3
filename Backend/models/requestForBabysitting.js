@@ -1,3 +1,5 @@
+//@ts-check
+
 function RequestForBabysitting({ id }) {
     let _request_for_babysitting_id = id;
     let _request_user_id = null;
@@ -48,36 +50,36 @@ function RequestForBabysitting({ id }) {
 
     //setters
 
-    this.setId = id => {
+    this.setId = (id) => {
         _request_for_babysitting_id = id;
     };
 
-    this.setRequest_user_id = user_id => {
+    this.setRequest_user_id = (user_id) => {
         _request_user_id = user_id;
     };
-    this.setRequest_for_babysitter_id = id => {
+    this.setRequest_for_babysitter_id = (id) => {
         _request_for_babysitter_id = id;
     };
-    this.setPet_type = pet_type => {
+    this.setPet_type = (pet_type) => {
         _pet_type = pet_type;
     };
-    this.setExtra_notes = notes => {
+    this.setExtra_notes = (notes) => {
         _extra_notes = notes;
     };
-    this.setFood_types = types => {
+    this.setFood_types = (types) => {
         _food_types = types;
     };
 
-    this.setNo_of_days = no_of_days => {
+    this.setNo_of_days = (no_of_days) => {
         _no_of_days = no_of_days;
     };
-    this.setStart_date = date => {
+    this.setStart_date = (date) => {
         _start_date = date;
     };
-    this.setService_fee = fee => {
+    this.setService_fee = (fee) => {
         _service_fee = fee;
     };
-    this.setPayment_details = payment_details => {
+    this.setPayment_details = (payment_details) => {
         _payment_details = payment_details;
     };
     //function toconvert ot map
@@ -105,7 +107,7 @@ function RequestForBabysitting({ id }) {
 // function to create instance from the firestore data
 const RequestForBabysittingfromFirestore = ({ mapData, docId }) => {
     const request_for_babysitting_instance = new RequestForBabysitting({
-        request_for_babysitting_id: docId
+        id: docId,
     });
 
     request_for_babysitting_instance.setExtra_notes(mapData["extra_notes"]);
@@ -129,5 +131,5 @@ const RequestForBabysittingfromFirestore = ({ mapData, docId }) => {
 
 module.exports = {
     RequestForBabysittingModel: RequestForBabysitting,
-    RequestForBabysittingfromFirestore
+    RequestForBabysittingfromFirestore,
 };

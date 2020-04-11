@@ -1,3 +1,5 @@
+//@ts-check
+
 const Joi = require("@hapi/joi");
 
 module.exports.registerValidation = (data) => {
