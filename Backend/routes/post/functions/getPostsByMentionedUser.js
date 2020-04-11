@@ -22,9 +22,17 @@ module.exports = async (req, res) => {
         let mentioned_posts = [];
         // get mentioned user by username
         let user = await getUserByUsername(req.body.mention);
+        if (!user)
+            return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
 
         // check the pricvacy status of the user
-        await checkPrivacyStatus(req, res, user);
+        const access = await checkPrivacyStatus(req, res, user);
+        if (!access) {
+            return res.status(200).json({
+                message:
+                    "Post cannot be displayed! The user has a private account!!",
+            });
+        }
 
         // get mentioned post ids
         let mentioned_post_ids = await user.getMentioned_post_ids();

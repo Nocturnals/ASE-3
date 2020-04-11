@@ -4,7 +4,7 @@ const { PostfromFirestore } = require("../../../models/post");
 
 const postCRUD = require("../../../services/firestore/postCRUD");
 
-const removePostFromHashtag = require("./removePostFromHashtag");
+const removePostFromHashtag = require("../../hashtag/functions/removePostFromHashtag");
 
 // delete all the posts of logged user
 module.exports = async (req, res) => {

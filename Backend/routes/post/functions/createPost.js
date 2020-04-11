@@ -20,6 +20,11 @@ module.exports = async (req, res, next) => {
     try {
         console.log("Creating Post");
 
+        // get user using logged user id
+        let user = await getUserById(req.loggedUser.getId());
+        if (!user)
+            return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
+
         let post = new PostModel({
             id: null,
             author_id: req.loggedUser.getId(),
@@ -36,8 +41,6 @@ module.exports = async (req, res, next) => {
         const postDoc = await postCRUD.createPost(post.toMap());
         await post.setId(postDoc.id);
 
-        // get user using logged user id
-        let user = await getUserById(req.loggedUser.getId());
         let post_ids = await user.getPost_ids();
         await user.setPost_ids([...post_ids, postDoc.id]);
 

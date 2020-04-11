@@ -14,6 +14,11 @@ module.exports = async (req, res, next) => {
         if (postDoc) {
             let post = await PostfromFirestore({ mapData: postDoc.data(), docId: postDoc.id });
 
+            // get user using logged user id
+            let user = await getUserById(req.loggedUser.getId());
+            if (!user)
+                return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
+
             req.newPostHM = { hashtags: [], mentions: [] };
             req.oldPostHM = {
                 hashtags: post.getHashtags(),
@@ -23,8 +28,6 @@ module.exports = async (req, res, next) => {
             await postCRUD.deletePost(req.body.post_id);
 
             // remove post id from author post ids
-            // get user using logged user id
-            let user = await getUserById(req.loggedUser.getId());
             let post_ids = await user.getPost_ids();
             await user.setPost_ids(
                 post_ids.splice(post_ids.indexOf(req.body.post_id), 1)
