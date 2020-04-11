@@ -1,32 +1,34 @@
 //@ts-check
+const { PostfromFirestore } = require("../../../models/post");
+
+const postCRUD = require("../../../services/firestore/postCRUD");
 
 const { getUserById } = require("../../auth/helper");
-const { catchError } = require("../helper");
+const { checkPrivacyStatus } = require("../helper");
 
 // get posts of a user by id
 module.exports = async (req, res) => {
     try {
         // get user and check privacy status
         let user = await getUserById(req.body.user_id);
-        if (user.getPrivacy_status()) {
-            if (!req.loggedUser) {
-                return res.status(200).json({
-                    message:
-                        "Post cannot be displayed! The user has a private account!!",
-                });
-            }
-            let public_to = await user.getPublic_to();
-            if (!public_to.includes(req.loggedUser.id))
-                return res.status(200).json({
-                    message:
-                        "Post cannot be displayed! The user has a private account!!",
-                });
+
+        // check the pricvacy status of the user
+        await checkPrivacyStatus(req, res, user);
+
+        let posts = [];
+        let post_ids = await user.getPost_ids();
+        for (let i = 0; i < post_ids.length; i++) {
+            // get post document using id
+            let postDoc = await postCRUD.getPostViaId(post_ids[i]);
+            let post = await PostfromFirestore({ mapData: postDoc.data(), docId: postDoc.id });
+
+            posts.push(post.toMap());
         }
 
-        let posts = await retrievePosts(user);
-
         return res.json({ posts: posts });
+
     } catch (error) {
-        return catchError(res, error);
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };

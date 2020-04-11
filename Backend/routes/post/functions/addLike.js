@@ -1,38 +1,38 @@
 //@ts-check
 
-const { catchError } = require("../helper");
-
 const postCRUD = require("../../../services/firestore/postCRUD");
+
 const { PostfromFirestore } = require("../../../models/post");
 
 // adding like
 module.exports = async (req, res) => {
     try {
         // ePost -> existing post
-        const ePost = await postCRUD.getPostViaId(req.body.post_id);
-        if (ePost) {
+        const postDoc = await postCRUD.getPostViaId(req.body.post_id);
+        if (postDoc) {
             // check if user already liked this post and update liked by users
-            const post_instance = PostfromFirestore({
-                mapData: ePost.data(),
-                docId: ePost.id,
+            let post = PostfromFirestore({
+                mapData: postDoc.data(),
+                docId: postDoc.id,
             });
 
-            if (!post_instance.getLiked_by().includes(req.body.liked_user_id)) {
-                post_instance.setLiked_by(
-                    post_instance.getLiked_by().push(req.body.liked_user_id)
+            if (!post.getLiked_by().includes(req.loggedUser.getId())) {
+                post.setLiked_by(
+                    post.getLiked_by().push(req.loggedUser.getId())
                 );
-                post_instance.setLikes_count(
-                    post_instance.getLikes_count() + 1
+                post.setLikes_count(
+                    post.getLikes_count() + 1
                 );
 
                 console.log("Like added");
 
-                const postDoc = await postCRUD.updatePost(
-                    post_instance.toMap()
+                const updatedPostDoc = await postCRUD.updatePost(
+                    post.toMap()
                 );
             }
         }
     } catch (error) {
-        return catchError(res, error);
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };

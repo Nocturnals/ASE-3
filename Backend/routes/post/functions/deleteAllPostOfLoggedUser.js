@@ -1,17 +1,24 @@
 //@ts-check
 
+const { PostfromFirestore } = require("../../../models/post");
+
 const postCRUD = require("../../../services/firestore/postCRUD");
+
+const removePostFromHashtag = require("./removePostFromHashtag");
 
 // delete all the posts of logged user
 module.exports = async (req, res) => {
     try {
         const post_ids = req.loggedUser.getPost_ids();
         for (let i = 0; i < post_ids.length; i++) {
-            const post = await postCRUD.getPostViaId(post_ids[i]);
-            if (post) {
+            let postDoc = await postCRUD.getPostViaId(post_ids[i]);
+            if (postDoc) {
+                // get post in Post Model type
+                let post = await PostfromFirestore({mapData: postDoc.data(), docId: postDoc.id});
+
                 let hashtags = await post.getHashtags();
                 for (let j = 0; j < hashtags.length; j++)
-                    this.removePostFromHashtag(req, res, hashtags[j]);
+                    await removePostFromHashtag(req, res, hashtags[j]);
 
                 // delete the post
                 await postCRUD.deletePost(req.body.post_id);
@@ -30,7 +37,9 @@ module.exports = async (req, res) => {
         return res
             .status(200)
             .json({ message: "All posts deleted sucessfully." });
+
     } catch (error) {
-        catchError(res, error);
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };

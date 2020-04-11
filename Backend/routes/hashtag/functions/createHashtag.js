@@ -2,7 +2,7 @@
 
 const { HashtagModel } = require("../../../models/hashtag");
 
-const { catchError } = require("../helper");
+const { catchError } = require("../../post/helper");
 
 const hashtagCRUD = require("../../../services/firestore/hashtagCRUD");
 

@@ -1,15 +1,18 @@
 //@ts-check
 
-const { catchError } = require("../helper");
-const { hashtagValidation } = require("../postValidations");
+const { hashtagsValidation } = require("../hashtagValidations");
+
+const addPostToHashtag = require("./addPostToHashtag");
+const removePostFromHashtag = require("../../post/functions/removePostFromHashtag");
+const deleteHashtag = require("./deleteHashtag");
 
 // adding post to hashtag immediately after creation
 module.exports = async (req, res) => {
     // Validaing the hashtags
-    const validatedNewHashtags = await hashtagValidation({
+    const validatedNewHashtags = await hashtagsValidation({
         hashtags: req.newPostHM.hashtags,
     });
-    const validatedOldHashtags = await hashtagValidation({
+    const validatedOldHashtags = await hashtagsValidation({
         hashtags: req.oldPostHM.hashtags,
     });
     if (validatedNewHashtags.error) {
@@ -31,12 +34,14 @@ module.exports = async (req, res) => {
             const old_hashtags = req.oldPostHM.hashtags;
             for (let i = 0; i < old_hashtags.length; i++) {
                 // removing post id from hashtag
-                await this.removePostFromHashtag(req, res, old_hashtags[i]);
+                let hashtag = await removePostFromHashtag(req, res, old_hashtags[i]);
 
                 // check if hashtag has 0 posts
-                hashtag_posts = await hashtag.getPost_ids();
-                if (hashtag_posts.length == 0)
-                    await this.deleteHashtag(req, res, old_hashtags[i]);
+                if (hashtag) {
+                    let hashtag_posts = await hashtag.getPost_ids();
+                    if (hashtag_posts.length == 0)
+                        await deleteHashtag(req, res, old_hashtags[i]);
+                }
             }
         }
 
@@ -46,16 +51,19 @@ module.exports = async (req, res) => {
 
             const new_hashtags = req.newPostHM.hashtags;
             for (let i = 0; i < new_hashtags.length; i++)
-                await this.addPostToHashtag(req, res, new_hashtags[i]);
+                await addPostToHashtag(req, res, new_hashtags[i]);
         }
 
+        // return responses
         if (req.postDeleted) {
             return res
                 .status(200)
                 .json({ message: "Post deleted succesfully" });
         }
         return res.status(200).json(req.post.toMap());
+
     } catch (error) {
-        catchError(res, error);
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };

@@ -1,7 +1,5 @@
 //@ts-check
 
-const { catchError } = require("../helper");
-
 const hashtagCRUD = require("../../../services/firestore/hashtagCRUD");
 
 // deleting hashtag
@@ -15,6 +13,7 @@ module.exports = async (req, res, hashtag_name) => {
 
         console.log("No hashtag found!");
     } catch (error) {
-        catchError(res, error);
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };

@@ -5,8 +5,6 @@ const {
     HashtagfromFirestore,
 } = require("../../../models/hashtag");
 
-const { catchError } = require("../helper");
-
 const hashtagCRUD = require("../../../services/firestore/hashtagCRUD");
 
 // adding post to hashtag
@@ -40,13 +38,16 @@ module.exports = async (req, res, hashtag_name) => {
         console.log(hashtag.getHashtag_name());
 
         if (!hashtag_post_ids.includes(req.post.getId())) {
-            await hashtag_post_ids.push(req.post.getId());
             console.log(hashtag_post_ids);
-            await hashtag.setPost_ids(hashtag_post_ids);
+            // add post id to hashtag
+            await hashtag.setPost_ids([ ...hashtag_post_ids, req.post.getId() ]);
             console.log(hashtag.getPost_ids());
+            // update hashtag document
             await hashtagCRUD.updateHashtag(hashtag.toMap());
         }
+
     } catch (error) {
-        catchError(res, error);
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };

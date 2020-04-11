@@ -3,7 +3,6 @@
 const { PostModel } = require("../../../models/post");
 
 const { getUserById } = require("../../auth/helper");
-const { catchError } = require("../helper");
 const { postValidation } = require("../postValidations");
 
 const userCRUD = require("../../../services/firestore/userCRUD");
@@ -12,7 +11,7 @@ const postCRUD = require("../../../services/firestore/postCRUD");
 // creating post
 module.exports = async (req, res, next) => {
     // validate post data
-    const validatedPostData = postValidation(req.body);
+    const validatedPostData = postValidation({...req.body, ...req.postHM});
     if (validatedPostData.error) {
         return res
             .status(400)
@@ -21,7 +20,7 @@ module.exports = async (req, res, next) => {
     try {
         console.log("Creating Post");
 
-        const post = new PostModel({
+        let post = new PostModel({
             id: null,
             author_id: req.loggedUser.getId(),
             media_urls: req.body.media_urls,
@@ -37,13 +36,15 @@ module.exports = async (req, res, next) => {
         const postDoc = await postCRUD.createPost(post.toMap());
         await post.setId(postDoc.id);
 
+        // get user using logged user id
         let user = await getUserById(req.loggedUser.getId());
         let post_ids = await user.getPost_ids();
         await user.setPost_ids([...post_ids, postDoc.id]);
 
+        // updating user document
         let userDoc = await userCRUD.updateUser(user.toMap());
 
-        console.log("Post created sucessfully");
+        console.log("Post created sucessfully and updated user");
 
         req.newPostHM = {
             hashtags: req.postHM.hashtags,
@@ -52,9 +53,12 @@ module.exports = async (req, res, next) => {
         req.oldPostHM = { hashtags: [], mentions: [] };
 
         req.post = post;
+
         next();
         // return res.status(200).json(post.toMap());
+
     } catch (error) {
-        return catchError(res, error);
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };

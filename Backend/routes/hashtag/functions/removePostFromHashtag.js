@@ -2,19 +2,17 @@
 
 const { HashtagfromFirestore } = require("../../../models/hashtag");
 
-const { catchError } = require("../helper");
-
 const hashtagCRUD = require("../../../services/firestore/hashtagCRUD");
 
 // removing post from hashtag
 module.exports = async (req, res, hashtag_name) => {
     try {
-        const hashtag = await hashtagCRUD.getHashtagViaName(hashtag_name);
+        const hashtagDoc = await hashtagCRUD.getHashtagViaName(hashtag_name);
 
-        if (hashtag) {
-            hashtag = await HashtagfromFirestore({
-                mapData: hashtag.data(),
-                docId: hashtag.id,
+        if (hashtagDoc) {
+            let hashtag = await HashtagfromFirestore({
+                mapData: hashtagDoc.data(),
+                docId: hashtagDoc.id,
             });
             // remove post id from hashtag post ids
             const hashtag_post_ids = await hashtag.getPost_ids();
@@ -25,12 +23,18 @@ module.exports = async (req, res, hashtag_name) => {
                         1
                     )
                 );
-                await this.updateHashtag(req, res, hashtag);
+                await hashtagCRUD.updateHashtag(hashtag.toMap());
+
+                return hashtag;
             }
         }
 
         console.log("Hashtag Not found!!");
+
+        return null;
+
     } catch (error) {
-        catchError(res, error);
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };

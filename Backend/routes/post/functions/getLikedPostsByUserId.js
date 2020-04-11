@@ -3,37 +3,38 @@
 const { PostfromFirestore } = require("../../../models/post");
 
 const { getUserById } = require("../../auth/helper");
-const { catchError } = require("../helper");
+const { checkPrivacyStatus } = require("../helper");
 
 const postCRUD = require("../../../services/firestore/postCRUD");
 
 // get liked posts of a user
 module.exports = async (req, res) => {
     try {
-        let user = getUserById(req.body.user_id);
-        if (!user.getPublic_to().includes(req.loggedUser.id))
-            return res.status(200).json({
-                message:
-                    "Post cannot be displayed! The user has a private account!!",
-            });
+        let user = await getUserById(req.body.user_id);
+
+        // check the pricvacy status of the user
+        await checkPrivacyStatus(req, res, user);
 
         let liked_posts = [];
         // get post ids of posts of a user
-        let liked_post_ids = await req.user.getLiked_post_ids();
+        const liked_post_ids = await user.getLiked_post_ids();
         // Looping through all the post ids
         for (let i = 0; i < liked_post_ids.length; i++) {
-            let post = postCRUD.getPostViaId(liked_post_ids[i]);
-            if (post) {
-                post = PostfromFirestore({
-                    mapData: post.data(),
-                    docId: post.id,
+            // get post document from firestore
+            let postDoc = await postCRUD.getPostViaId(liked_post_ids[i]);
+            if (postDoc) {
+                let post = PostfromFirestore({
+                    mapData: postDoc.data(),
+                    docId: postDoc.id,
                 });
                 liked_posts.push(post.toMap());
             }
         }
 
-        return res.json(liked_posts);
+        return res.json({ liked_posts: liked_posts });
+
     } catch (error) {
-        return catchError(res, error);
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };
