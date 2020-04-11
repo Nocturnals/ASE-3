@@ -16,7 +16,7 @@ router.post(
     verifyUserWithToken,
     getPostDataWithHashtagsMentions,
     require("./functions/createPost"),
-    require("./functions/managePostHashtag")
+    require("../hashtag/functions/managePostHashtag")
 );
 
 // Get Post
@@ -55,7 +55,7 @@ router.post(
     verifyUserWithToken,
     getPostDataWithHashtagsMentions,
     require("./functions/updatePost"),
-    require("./functions/managePostHashtag")
+    require("../hashtag/functions/managePostHashtag")
 );
 
 // Delete Post
@@ -64,7 +64,7 @@ router.post(
     verifyToken,
     verifyUserWithToken,
     require("./functions/deletePost"),
-    require("./functions/managePostHashtag")
+    require("../hashtag/functions/managePostHashtag")
 );
 
 // delete all post
