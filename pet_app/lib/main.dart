@@ -3,26 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux_thunk/redux_thunk.dart';
 
 import 'package:pet_app/constants/themeData.dart';
 import 'package:pet_app/redux/state.dart';
 import 'package:pet_app/redux/reducer.dart';
 
 // ALL PAGES HERE
-import 'package:pet_app/views/authentication/login/loginScreen.dart' show LoginScreen;
-import 'package:pet_app/views/authentication/signup/signUpScreen.dart' show SignUpScreen;
-import 'package:pet_app/views/authentication/forgotPassword/forgotPasswordScreen.dart' show ForgotPasswordScreen;
-import 'package:pet_app/views/authentication/resetPassword/resetPasswordScreen.dart' show ResetPasswordScreen;
-import 'package:pet_app/views/landingScreen/landingScreen.dart' show LandingPage;
-import 'package:pet_app/views/home/guest/guestHomeScreen.dart' show GuestHomeScreen;
+import 'package:pet_app/views/authentication/login/loginScreen.dart'
+    show LoginScreen;
+import 'package:pet_app/views/authentication/signup/signUpScreen.dart'
+    show SignUpScreen;
+import 'package:pet_app/views/authentication/forgotPassword/forgotPasswordScreen.dart'
+    show ForgotPasswordScreen;
+import 'package:pet_app/views/authentication/resetPassword/resetPasswordScreen.dart'
+    show ResetPasswordScreen;
+import 'package:pet_app/views/landingScreen/landingScreen.dart'
+    show LandingPage;
+import 'package:pet_app/views/home/guest/guestHomeScreen.dart'
+    show GuestHomeScreen;
 
 void main() async {
   // load the dot env file varaibles
   await DotEnv().load('.env');
 
   // define the global store of the application
-  final Store<AppState> store =
-      Store<AppState>(appStateReducer, initialState: AppState.initial());
+  final Store<AppState> store = Store<AppState>(
+    appStateReducer,
+    initialState: AppState.initial(),
+    middleware: [thunkMiddleware],
+  );
 
   // run the actual application
   return runApp(PetSApp(

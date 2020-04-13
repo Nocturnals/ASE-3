@@ -21,7 +21,7 @@ class AuthState {
     );
   }
 
-  AuthState copyWith({User loggedUser, bool loadingStatus}) {
+  AuthState copyWith({User loggedUser, LoadingStatus loadingStatus}) {
     return AuthState(
       loggedUser: loggedUser ?? this.loggedUser,
       loadingStatus: loadingStatus ?? this.loadingStatus,
