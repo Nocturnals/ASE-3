@@ -8,6 +8,7 @@ class User {
   final int age;
   final int petsCount;
   final List<String> petIds;
+  final List<String> postIds;
   final List<String> followers;
   final List<String> following;
   final List<String> likedPostIds;
@@ -23,6 +24,7 @@ class User {
       @required this.age,
       @required this.petsCount,
       @required this.petIds,
+      @required this.postIds,
       @required this.followers,
       @required this.following,
       @required this.likedPostIds,
@@ -39,6 +41,7 @@ class User {
       age: null,
       petsCount: null,
       petIds: null,
+      postIds: null,
       followers: null,
       following: null,
       likedPostIds: null,
@@ -56,6 +59,7 @@ class User {
     int age,
     int petsCount,
     List<String> petIds,
+    List<String> postIds,
     List<String> followers,
     List<String> following,
     List<String> likedPostIds,
@@ -71,6 +75,7 @@ class User {
       age: age ?? this.age,
       petsCount: petsCount ?? this.petsCount,
       petIds: petIds ?? this.petIds,
+      postIds: postIds ?? this.postIds,
       followers: followers ?? this.followers,
       following: following ?? this.following,
       likedPostIds: likedPostIds ?? this.likedPostIds,
@@ -81,15 +86,48 @@ class User {
     );
   }
 
+  User.fromMap(Map json)
+      : id = json['id'],
+        username = json['username'],
+        email = json['email'],
+        age = json['age'],
+        petsCount = json['pets_count'],
+        petIds = json['pet_ids'],
+        postIds = json['post_ids'],
+        followers = json['followers'],
+        following = json['following'],
+        likedPostIds = json['liked_post_ids'],
+        favAnimalsIds = json['fav_animals_ids'],
+        orderIds = json['order_ids'],
+        remainderIds = json['remainder_ids'],
+        emailVerified = json['email_verified'];
+
+  Map toMap() => {
+    'id': this.id,
+    'username': this.username,
+    'email': this.email,
+    'age': this.age,
+    'pets_count': this.petsCount,
+    'pet_ids': this.petIds,
+    'post_ids': this.postIds,
+    'followers': this.followers,
+    'following': this.following,
+    'liked_post_ids': this.likedPostIds,
+    'fav_animals_ids': this.favAnimalsIds,
+    'order_ids': this.orderIds,
+    'remainder_ids': this.remainderIds,
+    'email_verified': this.emailVerified,
+  };
+
   @override
-  bool operator == (Object other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
       other is User &&
           this.runtimeType == other.runtimeType &&
-          this.id == other.id && 
-          this.username == other.username && 
-          this.email == other.email && 
-          this.age == other.age && 
+          this.id == other.id &&
+          this.username == other.username &&
+          this.email == other.email &&
+          this.age == other.age &&
           this.petsCount == other.petsCount &&
           listEquals(this.petIds, other.petIds) &&
           listEquals(this.followers, other.followers) &&
