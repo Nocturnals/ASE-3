@@ -1,14 +1,16 @@
+//@ts-check
+
 const jwt = require("jsonwebtoken");
 
 const { UserfromFirestore } = require("../../models/user");
 const userFirestoreCRUD = require("../../services/firestore/userCRUD");
 const {
     EmailVerificationModel,
-    EmailVerificationFromFirestore
+    EmailVerificationFromFirestore,
 } = require("../../models/emailVerification");
 const {
     ForgotPasswordModel,
-    ForgotPasswordFromFirestore
+    ForgotPasswordFromFirestore,
 } = require("../../models/forgotPassword");
 const emailVerificationCRUD = require("../../services/firestore/emailVerificationCRUD");
 const forgotPasswordCRUD = require("../../services/firestore/forgotPasswordCRUD");
@@ -44,34 +46,37 @@ const verifyUserWithToken = async (req, res, next) => {
             return res.status(401).json({ message: err.message });
         } else {
             try {
-                let loggedUser = await userFirestoreCRUD.getUserViaID(
+                console.log(authData);
+                const loggedUser = await userFirestoreCRUD.getUserViaID(
                     authData.id
                 );
                 // if user doesn't exist
                 if (!loggedUser) {
                     return res.status(400).json({
-                        message: "No user exists with given id"
+                        message: "No user exists with given id",
                     });
                 }
                 // when user exists
                 else {
-                    loggedUser = loggedUser.data();
-                    loggedUser = UserfromFirestore({
-                        mapData: loggedUser,
-                        docId: loggedUser.id
+                    const userData = loggedUser.data();
+
+                    const user_instance = UserfromFirestore({
+                        mapData: userData,
+                        docId: authData.id,
                     });
-                    req.loggedUser = loggedUser;
+                    req.loggedUser = user_instance;
 
                     if (process.env.NODE_ENV === "development") {
                         // doesn't check email verification in development environment
                         next();
                     } else {
                         // checks email verification in production environment
-                        if (loggedUser.getEmail_verified()) {
+                        if (user_instance.getEmail_verified()) {
                             next();
                         } else {
                             return res.status(401).json({
-                                message: "Access denied as email isn't verified"
+                                message:
+                                    "Access denied as email isn't verified",
                             });
                         }
                     }
@@ -92,23 +97,23 @@ const verifyUserWithoutEmailVerification = async (req, res, next) => {
             return res.status(401).json({ message: err.message });
         } else {
             try {
-                let loggedUser = await userFirestoreCRUD.getUserViaID(
+                const loggedUser = await userFirestoreCRUD.getUserViaID(
                     authData.id
                 );
                 // if user doesn't exist
                 if (!loggedUser) {
                     return res.status(400).json({
-                        message: "No user exists with given id"
+                        message: "No user exists with given id",
                     });
                 }
                 // when user exists
                 else {
-                    loggedUser = loggedUser.data();
-                    loggedUser = UserfromFirestore({
-                        mapData: loggedUser,
-                        docId: loggedUser.id
+                    const userData = loggedUser.data();
+                    const user_instance = UserfromFirestore({
+                        mapData: userData,
+                        docId: authData.id,
                     });
-                    req.loggedUser = loggedUser;
+                    req.loggedUser = user_instance;
 
                     next();
                 }
@@ -120,13 +125,13 @@ const verifyUserWithoutEmailVerification = async (req, res, next) => {
     });
 };
 
-const sendEmailToVerifyEmail = async user => {
+const sendEmailToVerifyEmail = async (user) => {
     // create a email verification code and send email
     let secret_code = Math.floor(Math.random() * 1000000);
     const email_verification = new EmailVerificationModel({
         id: user.getId(),
         email: user.getEmail(),
-        secret_code: secret_code
+        secret_code: secret_code,
     });
 
     // save to database
@@ -136,13 +141,13 @@ const sendEmailToVerifyEmail = async user => {
     mailEmailVerification(user.getEmail(), secret_code);
 };
 
-const sendForgotPasswordEmail = async user => {
+const sendForgotPasswordEmail = async (user) => {
     // create a email verification code and send email
     let secret_code = Math.floor(Math.random() * 1000000);
     const forgot_password = new ForgotPasswordModel({
         id: user.getId(),
         email: user.getEmail(),
-        secret_code: secret_code
+        secret_code,
     });
 
     // save to database
@@ -150,10 +155,53 @@ const sendForgotPasswordEmail = async user => {
     mailForgotPassword(user.getEmail(), secret_code);
 };
 
+// -----------------------------------------------------------------------
+const getUserById = async (user_id) => {
+    try {
+        const userDoc = await userFirestoreCRUD.getUserViaID(user_id);
+        // when user exists
+        if (userDoc) {
+            let user = UserfromFirestore({
+                mapData: userDoc.data(),
+                docId: userDoc.id,
+            });
+
+            return user;
+        }
+
+        return false;
+
+    } catch (error) {
+        return false;
+    }
+};
+
+const getUserByUsername = async (username) => {
+    try {
+        let userDoc = await userFirestoreCRUD.getUserViaUsername(username);
+        // if user exists
+        if (userDoc) {
+            let user = UserfromFirestore({
+                mapData: userDoc.data(),
+                docId: userDoc.id,
+            });
+
+            return user;
+        }
+
+        return false;
+
+    } catch (error) {
+        return false;
+    }
+};
+
 module.exports = {
     verifyToken,
     verifyUserWithToken,
     sendEmailToVerifyEmail,
     verifyUserWithoutEmailVerification,
-    sendForgotPasswordEmail
+    sendForgotPasswordEmail,
+    getUserById,
+    getUserByUsername,
 };
