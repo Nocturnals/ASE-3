@@ -29,6 +29,7 @@ dependencies:
   redux_thunk: ^0.3.0
   
   shared_preferences: ^0.5.6+3
+  json_serializable: '>=3.2.5'
 
   google_fonts: ^0.3.5
   cached_network_image: ^2.0.0
@@ -43,6 +44,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: any
   
   flutter_redux_dev_tools: ^0.4.0
   redux_dev_tools: ^0.5.2

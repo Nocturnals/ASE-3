@@ -1,3 +1,5 @@
+//@ts-check
+
 function ShoppingItem({ id }) {
     let _shoppingitem_id = id;
     let _animal_types = [];
@@ -28,23 +30,23 @@ function ShoppingItem({ id }) {
 
     // setters
 
-    this.setId = id => {
+    this.setId = (id) => {
         _shoppingitem_id = id;
     };
 
-    this.setAnimal_types = animal_types => {
+    this.setAnimal_types = (animal_types) => {
         _animal_types = animal_types;
     };
 
-    this.setPrice = price => {
+    this.setPrice = (price) => {
         _price = price;
     };
 
-    this.setSeller_id = seller_id => {
+    this.setSeller_id = (seller_id) => {
         _seller_id = seller_id;
     };
 
-    this.setPayment_details = payment_details => {
+    this.setPayment_details = (payment_details) => {
         _payment_details = payment_details;
     };
 
@@ -67,7 +69,7 @@ function ShoppingItem({ id }) {
 // function to create instance from the firestore data
 const ShoppingItemfromFirestore = ({ mapData, docId }) => {
     const shoppingitem_instance = new ShoppingItem({
-        shoppingitem_id: docId
+        id: docId,
     });
 
     shoppingitem_instance.setAnimal_types(mapData["animal_types"]);

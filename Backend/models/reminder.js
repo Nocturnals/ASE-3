@@ -1,3 +1,5 @@
+//@ts-check
+
 function Reminder({ id }) {
     let _reminder_id = id;
     let _user_id = null;
@@ -25,23 +27,23 @@ function Reminder({ id }) {
 
     //setters
 
-    this.setId = id => {
+    this.setId = (id) => {
         _reminder_id = id;
     };
 
-    this.setUser_id = user_id => {
+    this.setUser_id = (user_id) => {
         _user_id = user_id;
     };
 
-    this.setMessage = message => {
+    this.setMessage = (message) => {
         _message = message;
     };
 
-    this.setTime = time => {
+    this.setTime = (time) => {
         _time = time;
     };
 
-    this.setRepitition = repetition => {
+    this.setRepitition = (repetition) => {
         _repetition = repetition;
     };
 
@@ -65,7 +67,7 @@ function Reminder({ id }) {
 
 const ReminderfromFirestore = ({ mapData, docId }) => {
     const reminder_instance = new Reminder({
-        reminder_id: docId
+        id: docId,
     });
 
     reminder_instance.setMessage(mapData["message"]);

@@ -1,3 +1,5 @@
+//@ts-check
+
 const database = require("./database");
 
 // reference to the collection
@@ -10,14 +12,14 @@ module.exports.createUser = async (userMap) => {
 };
 
 module.exports.updateUser = async (userMap) => {
-    const user_doc = await coll_ref.doc(userMap["id"]).get();
+    const user_doc = await coll_ref.doc(userMap["id"]).update(userMap);
     return user_doc;
 };
 
 // function to get user via email
 module.exports.getUserViaEmail = async (email) => {
     let docs = await coll_ref.where("email", "==", email).get();
-    if (docs.empty) return false;
+    if (docs.empty) return null;
 
     return docs.docs[0];
 };
