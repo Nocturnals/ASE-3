@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
             await sendForgotPasswordEmail(user);
 
             return res.status(200).json({
-                message: `reset password link is mailed to ${req.body.email}`,
+                message: `reset password link has been mailed to ${req.body.email}`,
             });
         } catch (error) {
             console.log(
