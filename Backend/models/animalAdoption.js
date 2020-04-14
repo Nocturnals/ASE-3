@@ -2,12 +2,12 @@
 
 function AnimalAdoption({ id }) {
     let _animal_adoption_id = id;
-    let _animal_id = null;
-    let _animal_type = null;
+    let _animal_id = "";
+    let _animal_type = "";
     let _age = 0;
     let _posts = [];
-    let _adopted_by = null;
-    let _adopted_from = null;
+    let _adopted_by = "";
+    let _adopted_from = "";
     let _date_of_adoption = new Date();
 
     // getters

@@ -60,7 +60,6 @@ ThunkAction loginUser({@required String username, @required String password}) {
 
         User authUser = User.fromMap(jsonResponse['user']);
         store.dispatch(LoginSuccessAction(user: authUser));
-        print('${authUser.followers.runtimeType}');
       }
       // the request is a failure
       else {
