@@ -40,20 +40,31 @@ class LoginViewModel {
 ThunkAction loginUser({@required String username, @required String password}) {
   return (Store store) async {
     Future(() async {
+      // set the loading to is loading for request is sent
       store.dispatch(LoginRequestSentAction());
+
+      // create the json data as the request body
       Map data = {'username': username, 'password': password};
       var body = convert.jsonEncode(data);
-      http.Response response =
-          await http.post('${DotEnv().env['localhost']}/api/auth/login', headers: {"Content-Type": "application/json"}, body: body);
-      debugPrint("request received");
+
+      // send the request
+      http.Response response = await http.post(
+          '${DotEnv().env['localhost']}/api/auth/login',
+          headers: {"Content-Type": "application/json"},
+          body: body);
+
+      // check if the request is a success
       if (response.statusCode == 200) {
-        // TODO: remove the log afterwards
-        debugPrint('successfully logged in');
-        var jsonResponse = convert.jsonDecode(response.body);
-        debugPrint(jsonResponse);
-        store.dispatch(LoginSuccessAction(user: User.initial()));
-      } else {
-        debugPrint(response.body);
+        // convert the response to json object
+        var jsonResponse = convert.json.decode(response.body);
+
+        User authUser = User.fromMap(jsonResponse['user']);
+        store.dispatch(LoginSuccessAction(user: authUser));
+        print('${authUser.followers.runtimeType}');
+      }
+      // the request is a failure
+      else {
+        // debugPrint(response.body);
         store.dispatch(LoginFailedAction());
       }
     });

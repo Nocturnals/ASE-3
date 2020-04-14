@@ -19,7 +19,7 @@ class Fields extends StatefulWidget {
 
 class _FieldsState extends State<Fields> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _email;
+  String _username;
   String _password;
 
   void validateAndSubmit(LoginViewModel loginViewModel) {
@@ -27,7 +27,7 @@ class _FieldsState extends State<Fields> {
     if (form.validate()) {
       // form is valid
       form.save();
-      loginViewModel.login(username: _email, password: _password);
+      loginViewModel.login(username: _username, password: _password);
     }
   }
 
@@ -86,7 +86,7 @@ class _FieldsState extends State<Fields> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'email',
+                  'username',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
@@ -105,12 +105,12 @@ class _FieldsState extends State<Fields> {
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Email can\'t be empty';
+                      return 'Username can\'t be empty';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    _email = value;
+                    _username = value;
                   },
                 ),
               ],
@@ -126,7 +126,7 @@ class _FieldsState extends State<Fields> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'password',
+                  'Password',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
