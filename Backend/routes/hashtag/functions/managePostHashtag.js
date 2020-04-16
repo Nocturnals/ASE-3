@@ -3,7 +3,7 @@
 const { hashtagsValidation } = require("../hashtagValidations");
 
 const addPostToHashtag = require("./addPostToHashtag");
-const removePostFromHashtag = require("../../post/functions/removePostFromHashtag");
+const removePostFromHashtag = require("./removePostFromHashtag");
 const deleteHashtag = require("./deleteHashtag");
 
 // adding post to hashtag immediately after creation
