@@ -33,7 +33,6 @@ void main() async {
   await DotEnv().load('.env');
 
   // define the global store of the application based on development mode
-  print(DotEnv().env['Development']);
   if (DotEnv().env['Development'] != 'true') {
     final Store<AppState> store = Store<AppState>(
       appStateReducer,
