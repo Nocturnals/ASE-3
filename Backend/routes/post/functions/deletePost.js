@@ -12,12 +12,17 @@ module.exports = async (req, res, next) => {
     try {
         const postDoc = await postCRUD.getPostViaId(req.body.post_id);
         if (postDoc) {
-            let post = await PostfromFirestore({ mapData: postDoc.data(), docId: postDoc.id });
+            let post = await PostfromFirestore({
+                mapData: postDoc.data(),
+                docId: postDoc.id,
+            });
 
             // get user using logged user id
             let user = await getUserById(req.loggedUser.getId());
             if (!user)
-                return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
+                return res.status(500).json({
+                    error: "Couldn't upload post! Problem with verifying user",
+                });
 
             req.newPostHM = { hashtags: [], mentions: [] };
             req.oldPostHM = {
@@ -45,7 +50,6 @@ module.exports = async (req, res, next) => {
             next();
         }
         return res.status(400).json({ error: "Error deleting the post." });
-
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" });
