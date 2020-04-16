@@ -3,16 +3,14 @@
 function Post({
     id,
     author_id = null,
-    media_urls = null,
-    hashtags = null,
-    mentions = null,
+    media_urls = null
 }) {
     // private variables
     let _post_id = id;
     let _media_urls = media_urls;
     let _description = null;
-    let _hashtags = hashtags;
-    let _mentions = mentions;
+    let _hashtags = [];
+    let _mentions = [];
     let _author_id = author_id;
     let _date_of_creation = Date.now();
     let _likes_count = 0;
@@ -90,6 +88,7 @@ function Post({
             map["post_id"] = _post_id;
         }
 
+        map["description"] = _description;
         map["media_urls"] = _media_urls;
         map["author_id"] = _author_id;
         map["likes_count"] = _likes_count;

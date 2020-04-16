@@ -43,7 +43,7 @@ const getPostDataWithHashtagsMentions = async (req, res, next) => {
                     ) {
                         break;
                     }
-                    mention.concat(description[j]);
+                    mention = mention.concat(description[j]);
                 }
                 mentions.push(mention);
 

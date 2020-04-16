@@ -48,8 +48,6 @@ module.exports = async (req, res) => {
         const userDoc = await userCRUD.createUser(user.toMap());
         await user.setId(userDoc.id);
 
-        await user.setPublic_to([userDoc.id]);
-
         // Assign a json web token
         const tokenSecret = process.env.Token_Secret;
         const jToken = jwt.sign({ id: user.getId() }, tokenSecret, {
