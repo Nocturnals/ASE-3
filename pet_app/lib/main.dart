@@ -1,8 +1,13 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:pet_app/widgets/toolNav.dart';
 import 'package:redux/redux.dart';
+import 'package:redux_dev_tools/redux_dev_tools.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_redux_dev_tools/flutter_redux_dev_tools.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 
 import 'package:pet_app/constants/themeData.dart';
@@ -30,22 +35,50 @@ void main() async {
   // load the dot env file varaibles
   await DotEnv().load('.env');
 
-  // define the global store of the application
-  final Store<AppState> store = Store<AppState>(
-    appStateReducer,
-    initialState: AppState.initial(),
-    middleware: [thunkMiddleware],
-  );
+  // define the global store of the application based on development mode
+  print(DotEnv().env['Development']);
+  if (DotEnv().env['Development'] != 'true') {
+    final Store<AppState> store = Store<AppState>(
+      appStateReducer,
+      initialState: AppState.initial(),
+      middleware: [thunkMiddleware],
+    );
 
-  // run the actual application
-  return runApp(PetSApp(
-    store: store,
-  ));
+    // run the actual application
+    return runApp(PetSApp(
+      store: store,
+    ));
+  }
+  // the app is in production mode
+  else {
+    final DevToolsStore<AppState> store = DevToolsStore<AppState>(
+      appStateReducer,
+      initialState: AppState.initial(),
+      middleware: [thunkMiddleware],
+    );
+
+    return runApp(
+      ReduxDevToolsContainer(
+        store: store,
+        child: PetSApp(
+          store: store,
+          devReduxBuilder: (context) => Drawer(
+            child: Padding(
+              padding: EdgeInsets.only(top: 25.0),
+              child: ReduxDevTools(store),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class PetSApp extends StatelessWidget {
-  const PetSApp({Key key, @required this.store}) : super(key: key);
+  const PetSApp({Key key, @required this.store, this.devReduxBuilder})
+      : super(key: key);
   final Store<AppState> store;
+  final WidgetBuilder devReduxBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -59,17 +92,19 @@ class PetSApp extends StatelessWidget {
         navigatorKey: Keys.navKey,
         routes: <String, WidgetBuilder>{
           // initail route
-          '/landingPage': (BuildContext context) => LandingPage(),
+          '/landingPage': (BuildContext context) =>
+              LandingPage(devReduxBuilder: devReduxBuilder),
 
           // auth routes
-          '/login': (BuildContext context) => LoginScreen(),
-          '/signup': (BuildContext context) => SignUpScreen(),
-          '/forgotPassword': (BuildContext context) => ForgotPasswordScreen(),
-          '/resetPassword': (BuildContext context) => ResetPasswordScreen(),
+          '/login': (BuildContext context) =>
+              LoginScreen(devReduxBuilder: devReduxBuilder),
+          '/signup': (BuildContext context) => SignUpScreen(devReduxBuilder: devReduxBuilder),
+          '/forgotPassword': (BuildContext context) => ForgotPasswordScreen(devReduxBuilder: devReduxBuilder),
+          '/resetPassword': (BuildContext context) => ResetPasswordScreen(devReduxBuilder: devReduxBuilder),
 
           // home page routes
-          '/guest': (BuildContext context) => GuestHomeScreen(),
-          '/homePage': (BuildContext context) => HomeScreen(),
+          '/guest': (BuildContext context) => GuestHomeScreen(devReduxBuilder: devReduxBuilder),
+          '/homePage': (BuildContext context) => HomeScreen(devReduxBuilder: devReduxBuilder),
         },
         initialRoute: '/landingPage',
       ),

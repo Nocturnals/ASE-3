@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:responsive_builder/responsive_builder.dart';
+import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
 
 import 'package:pet_app/views/authentication/login/mobileView.dart';
 import 'package:pet_app/views/authentication/login/desktopTabletView.dart';
@@ -10,7 +10,9 @@ import 'package:pet_app/widgets/cButtons.dart';
 import 'package:pet_app/widgets/BezierContainer.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key key}) : super(key: key);
+  final WidgetBuilder devReduxBuilder;
+
+  const LoginScreen({Key key, this.devReduxBuilder}) : super(key: key);
 
   Widget _createAccountLabel(BuildContext context) {
     return Container(
@@ -76,6 +78,7 @@ class LoginScreen extends StatelessWidget {
         );
       },
       child: Scaffold(
+        endDrawer: devReduxBuilder != null ? devReduxBuilder(context) : null,
         body: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,

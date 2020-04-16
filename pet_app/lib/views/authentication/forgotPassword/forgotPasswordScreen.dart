@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:responsive_builder/responsive_builder.dart';
+import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
 
 import 'package:pet_app/views/authentication/forgotPassword/desktopTabletView.dart';
 import 'package:pet_app/views/authentication/forgotPassword/mobileView.dart';
@@ -9,7 +9,9 @@ import 'package:pet_app/widgets/cButtons.dart';
 import 'package:pet_app/widgets/BezierContainer.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
-  const ForgotPasswordScreen({Key key}) : super(key: key);
+  final WidgetBuilder devReduxBuilder;
+
+  const ForgotPasswordScreen({Key key, this.devReduxBuilder}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class ForgotPasswordScreen extends StatelessWidget {
         );
       },
       child: Scaffold(
+        endDrawer: devReduxBuilder != null ? devReduxBuilder(context) : null,
         body: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,
