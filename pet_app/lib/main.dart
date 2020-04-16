@@ -22,6 +22,9 @@ import 'package:pet_app/views/landingScreen/landingScreen.dart'
     show LandingPage;
 import 'package:pet_app/views/home/guest/guestHomeScreen.dart'
     show GuestHomeScreen;
+import 'package:pet_app/views/home/homeFeed/homePage.dart';
+
+import 'package:pet_app/constants/keys.dart';
 
 void main() async {
   // load the dot env file varaibles
@@ -53,6 +56,7 @@ class PetSApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: appTheme,
         navigatorObservers: [],
+        navigatorKey: Keys.navKey,
         routes: <String, WidgetBuilder>{
           // initail route
           '/landingPage': (BuildContext context) => LandingPage(),
@@ -65,6 +69,7 @@ class PetSApp extends StatelessWidget {
 
           // home page routes
           '/guest': (BuildContext context) => GuestHomeScreen(),
+          '/homePage': (BuildContext context) => HomeScreen(),
         },
         initialRoute: '/landingPage',
       ),

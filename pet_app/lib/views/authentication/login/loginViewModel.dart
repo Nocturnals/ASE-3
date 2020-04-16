@@ -1,6 +1,6 @@
 import 'dart:convert' as convert;
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -8,6 +8,7 @@ import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'package:pet_app/constants/keys.dart';
 import 'package:pet_app/models/user.dart' show User;
 import 'package:pet_app/redux/state.dart' show AppState;
 import 'package:pet_app/redux/auth/authActions.dart';
@@ -60,6 +61,7 @@ ThunkAction loginUser({@required String username, @required String password}) {
 
         User authUser = User.fromMap(jsonResponse['user']);
         store.dispatch(LoginSuccessAction(user: authUser));
+        Keys.navKey.currentState.pushNamedAndRemoveUntil('/homePage', (Route<dynamic> route) => false);
       }
       // the request is a failure
       else {
