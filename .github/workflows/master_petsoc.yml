@@ -33,4 +33,4 @@ jobs:
         app-name: 'petsoc'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_4bfdcb832670495fae20d30d1be2bca8 }}
-        package: Backend/
+        package: ./Backend/
