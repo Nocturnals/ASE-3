@@ -28,7 +28,9 @@ class RegisterFailedAction {
 }
 
 class RegisterSuccessAction {
-  RegisterSuccessAction();
+  final String message;
+
+  RegisterSuccessAction({@required this.message});
 }
 
 class ResetMessageAction {

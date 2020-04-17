@@ -48,6 +48,7 @@ AuthState _registerRequestSent(
 AuthState _registerSuccess(AuthState state, RegisterSuccessAction action) {
   return state.copyWith(
     loadingStatus: LoadingStatus.loading,
+    notifyMessage: action.message,
     loggedUser: null,
   );
 }
