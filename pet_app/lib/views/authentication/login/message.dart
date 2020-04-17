@@ -29,7 +29,7 @@ ThunkAction _resetMessage() {
   return (Store store) async {
     Future(() async {
       // reset the message after some time
-      await Future.delayed(const Duration(seconds: 2), () {
+      await Future.delayed(const Duration(seconds: 0), () {
         store.dispatch(ResetMessageAction());
       });
     });

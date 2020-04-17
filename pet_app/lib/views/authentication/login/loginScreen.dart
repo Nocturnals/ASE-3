@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:toast/toast.dart';
 import 'package:pet_app/models/loadingStatus.dart';
 import 'package:pet_app/redux/state.dart';
 import 'package:pet_app/views/authentication/login/message.dart';
@@ -88,13 +87,27 @@ class LoginScreen extends StatelessWidget {
         builder: (BuildContext context, MessageViewModel messageViewModel) {
           // if message exists clear is after some time
           if (messageViewModel.state.loadingStatus == LoadingStatus.error) {
-            Toast.show(
-              messageViewModel.state.errorMessage,
-              context,
-              gravity: Toast.BOTTOM,
-              duration: 1,
-            );
-            messageViewModel.resetMessage();
+            Future.delayed(const Duration(milliseconds: 50), () {
+              showDialog(
+                  context: context,
+                  builder: (_) {
+                    return AlertDialog(
+                      title: Center(
+                        child: Text('Error'),
+                      ),
+                      content: Text(messageViewModel.state.errorMessage),
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            messageViewModel.resetMessage();
+                            Navigator.of(context, rootNavigator: true).pop('dialog');
+                          },
+                          child: Text('Retry'),
+                        )
+                      ],
+                    );
+                  });
+            });
           }
 
           // return the sceen
