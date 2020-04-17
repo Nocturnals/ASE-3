@@ -5,6 +5,8 @@ import 'package:redux/redux.dart';
 
 import 'package:pet_app/redux/state.dart';
 import 'package:pet_app/widgets/cButtons.dart';
+import 'package:pet_app/models/loadingStatus.dart';
+import 'package:pet_app/widgets/loader.dart';
 
 import './registerViewModel.dart';
 
@@ -180,32 +182,36 @@ class _FieldsState extends State<Fields> {
     return StoreConnector<AppState, RegisterViewModel>(
       converter: (Store<AppState> store) => RegisterViewModel.create(store),
       builder: (BuildContext context, RegisterViewModel registerViewModel) {
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                flex: 3,
-                child: SizedBox(),
-              ),
-              cTitle2(context),
-              SizedBox(
-                height: 50,
-              ),
-              _emailPasswordWidget(registerViewModel),
-              SizedBox(
-                height: 20,
-              ),
-              _submitButton(registerViewModel),
-              Expanded(
-                flex: 2,
-                child: SizedBox(),
+        return registerViewModel.state.loadingStatus == LoadingStatus.loading
+            ? Center(
+                child: Loader(),
               )
-            ],
-          ),
-        );
+            : Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 3,
+                      child: SizedBox(),
+                    ),
+                    cTitle2(context),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    _emailPasswordWidget(registerViewModel),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _submitButton(registerViewModel),
+                    Expanded(
+                      flex: 2,
+                      child: SizedBox(),
+                    )
+                  ],
+                ),
+              );
       },
     );
   }

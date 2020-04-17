@@ -63,7 +63,7 @@ ThunkAction _register(
 
         // navigate to home page
         Keys.navKey.currentState.pushNamedAndRemoveUntil(
-            '/loginPage', (Route<dynamic> route) => false);
+            '/login', (Route<dynamic> route) => false);
       }
       // the request is a failure
       else {

@@ -108,6 +108,28 @@ class LoginScreen extends StatelessWidget {
                     );
                   });
             });
+          } else if (messageViewModel.state.loadingStatus == LoadingStatus.showMessage) {
+            Future.delayed(const Duration(milliseconds: 50), () {
+              showDialog(
+                  context: context,
+                  builder: (_) {
+                    return AlertDialog(
+                      title: Center(
+                        child: Text('Error'),
+                      ),
+                      content: Text(messageViewModel.state.notifyMessage),
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            messageViewModel.resetMessage();
+                            Navigator.of(context, rootNavigator: true).pop('dialog');
+                          },
+                          child: Text('Retry'),
+                        )
+                      ],
+                    );
+                  });
+            });
           }
 
           // return the sceen
