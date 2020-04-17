@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:toast/toast.dart';
+import 'package:pet_app/models/loadingStatus.dart';
+import 'package:pet_app/redux/state.dart';
+import 'package:pet_app/views/authentication/login/message.dart';
+import 'package:redux/redux.dart';
 import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
 
 import 'package:pet_app/views/authentication/login/mobileView.dart';
@@ -77,32 +83,50 @@ class LoginScreen extends StatelessWidget {
           },
         );
       },
-      child: Scaffold(
-        endDrawer: devReduxBuilder != null ? devReduxBuilder(context) : null,
-        body: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            child: Stack(
-              children: <Widget>[
-                ScreenTypeLayout(
-                  mobile: MobileView(),
-                  tablet: DestopTabletView(),
-                  desktop: DestopTabletView(),
+      child: StoreConnector<AppState, MessageViewModel>(
+        converter: (Store<AppState> store) => MessageViewModel.create(store),
+        builder: (BuildContext context, MessageViewModel messageViewModel) {
+          // if message exists clear is after some time
+          if (messageViewModel.state.loadingStatus == LoadingStatus.error) {
+            Toast.show(
+              messageViewModel.state.errorMessage,
+              context,
+              gravity: Toast.BOTTOM,
+              duration: 1,
+            );
+            messageViewModel.resetMessage();
+          }
+
+          // return the sceen
+          return Scaffold(
+            endDrawer:
+                devReduxBuilder != null ? devReduxBuilder(context) : null,
+            body: SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: Stack(
+                  children: <Widget>[
+                    ScreenTypeLayout(
+                      mobile: MobileView(),
+                      tablet: DestopTabletView(),
+                      desktop: DestopTabletView(),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: _createAccountLabel(context),
+                    ),
+                    Positioned(top: 40, left: 0, child: cBackButton(context)),
+                    Positioned(
+                      top: -MediaQuery.of(context).size.height * .15,
+                      right: -MediaQuery.of(context).size.width * .4,
+                      child: BezierContainer(),
+                    ),
+                  ],
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: _createAccountLabel(context),
-                ),
-                Positioned(top: 40, left: 0, child: cBackButton(context)),
-                Positioned(
-                  top: -MediaQuery.of(context).size.height * .15,
-                  right: -MediaQuery.of(context).size.width * .4,
-                  child: BezierContainer(),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

@@ -25,7 +25,7 @@ class LoginViewModel {
 
   factory LoginViewModel.create(Store<AppState> store) {
     _onLogin({@required String username, @required String password}) {
-      store.dispatch(loginUser(
+      store.dispatch(_loginUser(
         username: username,
         password: password,
       ));
@@ -38,7 +38,7 @@ class LoginViewModel {
   }
 }
 
-ThunkAction loginUser({@required String username, @required String password}) {
+ThunkAction _loginUser({@required String username, @required String password}) {
   return (Store store) async {
     Future(() async {
       // set the loading to is loading for request is sent
@@ -72,8 +72,8 @@ ThunkAction loginUser({@required String username, @required String password}) {
       }
       // the request is a failure
       else {
-        // debugPrint(response.body);
-        store.dispatch(LoginFailedAction());
+        var jsonResponse = convert.json.decode(response.body);
+        store.dispatch(LoginFailedAction(message: jsonResponse['message']));
       }
     });
   };
