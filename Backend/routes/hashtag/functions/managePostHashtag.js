@@ -6,7 +6,7 @@ const addPostToHashtag = require("./addPostToHashtag");
 const removePostFromHashtag = require("./removePostFromHashtag");
 const deleteHashtag = require("./deleteHashtag");
 
-// adding post to hashtag immediately after creation
+// managing post hashtags
 module.exports = async (req, res) => {
     // Validaing the hashtags
     const validatedNewHashtags = await hashtagsValidation({
@@ -77,6 +77,6 @@ module.exports = async (req, res) => {
 };
 
 // Catch Error
-const catchError = async (req, res) => {
+const catchError = (req, res) => {
     return res.status(500).json({ message: "Error updating hashtags" });
 }

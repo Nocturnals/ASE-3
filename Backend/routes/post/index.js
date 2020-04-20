@@ -2,7 +2,11 @@
 
 const express = require("express");
 
-const { verifyToken, verifyUserWithToken } = require("../auth/helper");
+const {
+    verifyToken,
+    verifyUserWithToken,
+    verifyLogin 
+} = require("../auth/helper");
 const { getPostDataWithHashtagsMentions } = require("./helper");
 
 // instance of new router
@@ -16,12 +20,17 @@ router.post(
     verifyUserWithToken,
     getPostDataWithHashtagsMentions,
     require("./functions/createPost"),
+    require("./functions/updatePostMentions"),
     require("../hashtag/functions/managePostHashtag")
 );
 
 // Get Post
 // getting a single post by it;s id
-router.get("/", require("./functions/getPostById"));
+router.get(
+    "/id",
+    verifyLogin,
+    require("./functions/getPostById")
+);
 
 // getting all posts of a user by id
 router.get(
@@ -32,11 +41,15 @@ router.get(
 );
 
 // getting all posts of a user by username
-router.get("/user/username", require("./functions/getPostsByUsername"));
+router.get(
+    "/user/username",
+    verifyLogin,
+    require("./functions/getPostsByUsername")
+);
 
 // getting posts liked by a user
 router.get(
-    "/liked_posts",
+    "/liked",
     verifyToken,
     verifyUserWithToken,
     require("./functions/getLikedPostsByUserId")
@@ -44,7 +57,8 @@ router.get(
 
 // getting posts of a mentioned user
 router.get(
-    "/mentioned_user_posts",
+    "/mentioned_user",
+    verifyLogin,
     require("./functions/getPostsByMentionedUser")
 );
 
@@ -55,12 +69,13 @@ router.post(
     verifyUserWithToken,
     getPostDataWithHashtagsMentions,
     require("./functions/updatePost"),
+    require("./functions/updatePostMentions"),
     require("../hashtag/functions/managePostHashtag")
 );
 
 // Delete Post
 router.post(
-    "/delete",
+    "/delete/id",
     verifyToken,
     verifyUserWithToken,
     require("./functions/deletePost"),

@@ -11,8 +11,8 @@ module.exports.createPost = async (postMap) => {
 };
 
 module.exports.updatePost = async (postMap) => {
-    const updated_post_ref = await coll_ref.doc(postMap["id"]).update(postMap);
-    return updated_post_ref;
+    const post_doc = await coll_ref.doc(postMap["id"]).update(postMap);
+    return post_doc;
 };
 
 module.exports.deletePost = async (id) => {

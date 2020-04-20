@@ -33,7 +33,7 @@ const getPostDataWithHashtagsMentions = async (req, res, next) => {
             }
             // looping for mention
             if (description[i] == "@") {
-                let mention = "@";
+                let mention = "";
                 let j = i + 1;
                 for (j; j < description.length; j++) {
                     if (
@@ -58,7 +58,7 @@ const getPostDataWithHashtagsMentions = async (req, res, next) => {
 };
 
 // check the pricvacy status of the user
-const checkPrivacyStatus = async (req, res, user) => {
+const checkPrivacyStatus = (req, res, user) => {
     if (user.getPrivacy_status()) {
         if (req.loggedUser) {
             if (!user.getPublic_to().includes(req.loggedUser.getId()))

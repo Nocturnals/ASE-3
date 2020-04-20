@@ -50,6 +50,7 @@ module.exports = async (req, res, next) => {
             next();
         }
         return res.status(400).json({ error: "Error deleting the post." });
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" });
