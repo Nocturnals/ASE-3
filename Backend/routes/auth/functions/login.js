@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken"); // for modifing the array contents
 
 const { UserfromFirestore } = require("../../../models/user");
 
+const { sendEmailToVerifyEmail } = require("../helper");
 const { loginValidation } = require("../authValidations");
 
 const userCRUD = require("../../../services/firestore/userCRUD");
@@ -36,6 +37,7 @@ module.exports = async (req, res) => {
 
         if (process.env.NODE_ENV !== "development") {
             if (!userData.user.email_verified) {
+                await sendEmailToVerifyEmail(req.loggedUser);
                 return res
                     .status(401)
                     .json({ message: "Access denied as email isn't verified" });
