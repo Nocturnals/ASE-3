@@ -26,7 +26,12 @@ jobs:
           channel: 'beta'
       - run: dart --version
       - run: flutter --version
-      - run: cd pet_app
-      - run: flutter pub get
-      - run: flutter test
-      - run: flutter build apk
+      - run: | 
+          cd pet_app/
+          flutter pub get
+      - run: |
+          cd pet_app/
+          flutter test
+      - run: | 
+          cd pet_app/
+          flutter build apk
