@@ -1,2 +1,5 @@
 # local host ip address
-localhost=http://{your wifi ip address}:4000
+localhost=http://{your wifi ip address}:portnumber
+
+# development mode
+Development=true

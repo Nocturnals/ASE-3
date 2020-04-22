@@ -4,11 +4,11 @@ function Order({ id }) {
     //private variables
 
     let _order_id = id;
-    let _item_id = null;
+    let _item_id = "";
     let _date_of_booking = Date.now();
-    let _order_status = null;
-    let _ordered_by_user = null;
-    let _seller_id = null;
+    let _order_status = "";
+    let _ordered_by_user = "";
+    let _seller_id = "";
     let _payment_details = [];
 
     // getters

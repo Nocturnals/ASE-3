@@ -2,15 +2,17 @@
 
 function Post({
     id,
-    author_id = null,
-    media_urls = null
+    author_id = "",
+    media_urls = "",
+    hashtags = [],
+    mentions = [],
 }) {
     // private variables
     let _id = id;
     let _media_urls = media_urls;
-    let _description = null;
-    let _hashtags = [];
-    let _mentions = [];
+    let _description = "";
+    let _hashtags = hashtags;
+    let _mentions = mentions;
     let _author_id = author_id;
     let _date_of_creation = Date.now();
     let _likes_count = 0;

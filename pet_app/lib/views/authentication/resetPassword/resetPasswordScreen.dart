@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pet_app/views/authentication/login/desktopTabletView.dart';
 
-import 'package:responsive_builder/responsive_builder.dart';
+import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
 
 import 'desktopTabletView.dart';
 import 'mobileView.dart';
@@ -9,11 +9,14 @@ import 'package:pet_app/widgets/cButtons.dart';
 import 'package:pet_app/widgets/BezierContainer.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
-  const ResetPasswordScreen({Key key}) : super(key: key);
+  final WidgetBuilder devReduxBuilder;
+  
+  const ResetPasswordScreen({Key key, this.devReduxBuilder}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: devReduxBuilder != null ? devReduxBuilder(context) : null,
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
