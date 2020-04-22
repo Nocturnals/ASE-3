@@ -2,7 +2,11 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7834788f72274cde8b32afb968ca6eb2)](https://app.codacy.com/gh/Nocturnals/ASE-3?utm_source=github.com&utm_medium=referral&utm_content=Nocturnals/ASE-3&utm_campaign=Badge_Grade_Dashboard)
 
-![Build and deploy Node.js app to Azure Web App - petsoc](https://github.com/Nocturnals/ASE-3/workflows/Build%20and%20deploy%20Node.js%20app%20to%20Azure%20Web%20App%20-%20petsoc/badge.svg?branch=master)
+![Build backend aPIs](https://github.com/Nocturnals/ASE-3/workflows/Build%20backend%20NODEJS%20app%20and%20test/badge.svg)
+
+![Build Flutter App](https://github.com/Nocturnals/ASE-3/workflows/Flutter%20app%20test/badge.svg?branch=master)
+
+![Deploy Node.js app to Azure Web App](https://github.com/Nocturnals/ASE-3/workflows/Build%20and%20deploy%20Node.js%20app%20to%20Azure%20Web%20App%20-%20petsoc/badge.svg?branch=master)
 
 A social media application for pets management
 
