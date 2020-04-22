@@ -156,6 +156,75 @@ const sendForgotPasswordEmail = async (user) => {
 };
 
 // -----------------------------------------------------------------------
+// verify wether any user is logged in or not
+const verifyLogin = async (req, res, next) => {
+    try {
+        // Get auth header value
+        const bearerHeader = req.headers["authorization"];
+
+        // Check if bearer is undefined
+        if (typeof bearerHeader !== "undefined") {
+            // Split the header
+            const bearer = bearerHeader.split(" ");
+            // Get the token
+            const bearerToken = bearer[1];
+
+            // verifies the given token is correct and gets the user data
+            jwt.verify(bearerToken, process.env.Token_Secret, async (err, authData) => {
+                if (err) {
+                    console.log(`Error at verifying jwt token: ${err}`);
+                    return res.status(401).json({ message: err.message });
+                } else {
+                    console.log(authData);
+                    const loggedUser = await userFirestoreCRUD.getUserViaID(
+                        authData.id
+                    );
+                    // if user doesn't exist
+                    if (!loggedUser) {
+                        return res.status(400).json({
+                            message: "No user exists with given id",
+                        });
+                    }
+                    // when user exists
+                    else {
+                        const userData = loggedUser.data();
+
+                        const user_instance = UserfromFirestore({
+                            mapData: userData,
+                            docId: authData.id,
+                        });
+                        req.loggedUser = user_instance;
+
+                        if (process.env.NODE_ENV === "development") {
+                            // doesn't check email verification in development environment
+                            next();
+                        } else {
+                            // checks email verification in production environment
+                            if (user_instance.getEmail_verified()) {
+                                next();
+                            } else {
+                                return res.status(401).json({
+                                    message:
+                                        "Access denied as email isn't verified",
+                                });
+                            }
+                        }
+                    }
+                }
+            });
+
+        } else {
+            req.loggedUser = false;
+            next();
+        }
+
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Error finding user" });
+    }
+};
+
 const getUserById = async (user_id) => {
     try {
         const userDoc = await userFirestoreCRUD.getUserViaID(user_id);
@@ -202,6 +271,7 @@ module.exports = {
     sendEmailToVerifyEmail,
     verifyUserWithoutEmailVerification,
     sendForgotPasswordEmail,
+    verifyLogin,    // function added...
     getUserById,
     getUserByUsername,
 };

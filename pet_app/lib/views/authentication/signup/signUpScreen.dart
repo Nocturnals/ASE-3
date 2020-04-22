@@ -5,7 +5,7 @@ import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
 
 import 'package:pet_app/views/authentication/signup/desktopTabletView.dart';
 import 'package:pet_app/views/authentication/signup/mobileView.dart';
-import 'package:pet_app/widgets/bezierContainer.dart';
+import 'package:pet_app/widgets/BezierContainer.dart';
 import 'package:pet_app/widgets/cButtons.dart';
 
 class SignUpScreen extends StatelessWidget {

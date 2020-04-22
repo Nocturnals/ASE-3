@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
             return res.status(400).json({ message: "Password is invalid" });
 
         if (process.env.NODE_ENV !== "development") {
-            if (!userData.user.email_verified) {
+            if (!userData.email_verified) {
                 await sendEmailToVerifyEmail(req.loggedUser);
                 return res
                     .status(401)

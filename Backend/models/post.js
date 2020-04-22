@@ -4,11 +4,11 @@ function Post({
     id,
     author_id = "",
     media_urls = "",
-    hashtags = "",
-    mentions = "",
+    hashtags = [],
+    mentions = [],
 }) {
     // private variables
-    let _post_id = id;
+    let _id = id;
     let _media_urls = media_urls;
     let _description = "";
     let _hashtags = hashtags;
@@ -20,7 +20,7 @@ function Post({
 
     // getters
     this.getId = () => {
-        return _post_id;
+        return _id;
     };
     this.getMedia_url = () => {
         return _media_urls;
@@ -49,7 +49,7 @@ function Post({
 
     // setters
     this.setId = (id) => {
-        _post_id = id;
+        _id = id;
     };
     this.setMedia_url = (media_urls) => {
         _media_urls = media_urls;
@@ -74,22 +74,19 @@ function Post({
     this.setLiked_by = (liked_by) => {
         _liked_by = liked_by;
     };
-    // this.removeLiked_by = unliked_by => {
-    //     _liked_by.splice(_liked_by.indexOf(unliked_by), 1);
-    // };
 
     this.setDate_of_creation = (date_of_creation) => {
         _date_of_creation = date_of_creation;
     };
 
     //function toconvert ot map
-
     this.toMap = () => {
         const map = {};
-        if (_post_id) {
-            map["post_id"] = _post_id;
+        if (_id) {
+            map["id"] = _id;
         }
 
+        map["description"] = _description;
         map["media_urls"] = _media_urls;
         map["author_id"] = _author_id;
         map["likes_count"] = _likes_count;

@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
             if (!user)
                 return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
 
-            let post = PostfromFirestore({
+            let post = await PostfromFirestore({
                 mapData: postDoc.data(),
                 docId: postDoc.id,
             });
@@ -26,17 +26,14 @@ module.exports = async (req, res) => {
             // check if user already liked this post and update liked by users
             if (!post.getLiked_by().includes(user.getId())) {
                 post.setLiked_by(
-                    post.getLiked_by().push(user.getId())
+                    [ ...post.getLiked_by(), user.getId() ]
                 );
                 post.setLikes_count(
                     post.getLikes_count() + 1
                 );
 
-                console.log("Like added");
+                await postCRUD.updatePost(post.toMap());
 
-                const updatedPostDoc = await postCRUD.updatePost(
-                    post.toMap()
-                );
 
                 if (!user.getLiked_post_ids().includes(post.getId())) {
                     let liked_post_ids = await user.getLiked_post_ids();
@@ -44,8 +41,14 @@ module.exports = async (req, res) => {
                     await user.setLiked_post_ids([ ...liked_post_ids, post.getId() ]);
                     let updatedUserDoc = await userCRUD.updateUser(user.toMap());
                 }
+
+                return res.status(200).json({message: "Liked Added"});
             }
+
+            return res.status(400).json({message: "Already Liked!!"});
         }
+        return res.status(400).json({error: "Error finding post"});
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" });

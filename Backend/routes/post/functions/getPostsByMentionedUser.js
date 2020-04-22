@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
     try {
         let mentioned_posts = [];
         // get mentioned user by username
-        let user = await getUserByUsername(req.body.mention);
+        let user = await getUserByUsername(req.body.username);
         if (!user)
             return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
 

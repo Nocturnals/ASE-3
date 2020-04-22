@@ -58,5 +58,19 @@ router.post(
     verifyUserWithToken,
     require("./functions/setPublic_to")
 );
+// follow user
+router.post(
+    "/follow",
+    verifyToken,
+    verifyUserWithToken,
+    require("./functions/followUser")
+);
+// unfollow user
+router.post(
+    "/unfollow",
+    verifyToken,
+    verifyUserWithToken,
+    require("./functions/unfollowUser")
+);
 
 module.exports = router;
