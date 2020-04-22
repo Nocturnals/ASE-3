@@ -4,7 +4,7 @@ function DeliveryPerson({ id }) {
     // private variables/
 
     let _delivery_person_id = id;
-    let _user_id = null;
+    let _user_id = "";
     let _list_of_deliveries = [];
     let _completed_deliveries = [];
     let _ongoing_deliveries = [];

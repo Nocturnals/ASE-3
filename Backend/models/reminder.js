@@ -2,8 +2,8 @@
 
 function Reminder({ id }) {
     let _reminder_id = id;
-    let _user_id = null;
-    let _message = null;
+    let _user_id = "";
+    let _message = "";
     let _time = new Date();
     let _repetition = false;
 

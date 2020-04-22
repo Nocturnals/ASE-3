@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:responsive_builder/responsive_builder.dart';
+import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
 
 import 'mobileView.dart';
 import 'desktopTabletView.dart';
 
 class LandingPage extends StatefulWidget {
-  LandingPage({Key key, this.title}) : super(key: key);
+  LandingPage({Key key, this.title, this.devReduxBuilder}) : super(key: key);
 
   final String title;
+  final WidgetBuilder devReduxBuilder;
 
   @override
   _LandingPageState createState() => _LandingPageState();
@@ -47,6 +48,7 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: widget.devReduxBuilder != null ? widget.devReduxBuilder(context) : null,
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),

@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken"); // for modifing the array contents
 
 const { UserfromFirestore } = require("../../../models/user");
 
+const { sendEmailToVerifyEmail } = require("../helper");
 const { loginValidation } = require("../authValidations");
 
 const userCRUD = require("../../../services/firestore/userCRUD");
@@ -19,6 +20,10 @@ module.exports = async (req, res) => {
 
     try {
         let user = await userCRUD.getUserViaUsername(req.body.username);
+        // check if the user exists
+        if (!user) {
+            return res.status(400).json({ message: "User doesn't exist" });
+        }
 
         const userData = user.data();
         // Check user password
@@ -32,6 +37,7 @@ module.exports = async (req, res) => {
 
         if (process.env.NODE_ENV !== "development") {
             if (!userData.email_verified) {
+                await sendEmailToVerifyEmail(req.loggedUser);
                 return res
                     .status(401)
                     .json({ message: "Access denied as email isn't verified" });
@@ -43,7 +49,6 @@ module.exports = async (req, res) => {
         const jToken = jwt.sign({ id: user.id }, tokenSecret, {
             expiresIn: "1d",
         });
-        console.log(jToken);
 
         const user_instance = UserfromFirestore({
             mapData: userData,

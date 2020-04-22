@@ -4,7 +4,7 @@ function ShoppingItem({ id }) {
     let _shoppingitem_id = id;
     let _animal_types = [];
     let _price = 0;
-    let _seller_id = null;
+    let _seller_id = "";
     let _payment_details = [];
 
     //getters
