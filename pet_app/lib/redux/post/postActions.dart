@@ -7,12 +7,14 @@ class CreatePostRequestSentAction {
   CreatePostRequestSentAction();
 }
 class CreatePostSuccessAction {
-  final Post post;
+  final String message;
 
-  CreatePostSuccessAction({ @required this.post });
+  CreatePostSuccessAction({ @required this.message });
 }
 class CreatePostFailedAction {
-  CreatePostFailedAction();
+  final String message;
+  
+  CreatePostFailedAction({ @required this.message });
 }
 
 
@@ -26,7 +28,9 @@ class UpdatePostSuccessAction {
   UpdatePostSuccessAction({ @required this.post });
 }
 class UpdatePostFailedAction {
-  UpdatePostFailedAction();
+  final String message;
+
+  UpdatePostFailedAction({ @required this.message });
 }
 
 
@@ -35,10 +39,14 @@ class DeletePostRequestSentAction {
   DeletePostRequestSentAction();
 }
 class DeletePostSuccessAction {
-  DeletePostSuccessAction();
+  final String message;
+
+  DeletePostSuccessAction({ @required this.message });
 }
 class DeletePostFailedAction {
-  DeletePostFailedAction();
+  final String message;
+
+  DeletePostFailedAction({ @required this.message });
 }
 
 
@@ -52,21 +60,25 @@ class GetPostSuccessAction {
   GetPostSuccessAction({ @required this.post });
 }
 class GetPostFailedAction {
-  GetPostFailedAction();
+  final String message;
+
+  GetPostFailedAction({ @required this.message });
 }
 
 
 // POSTS OF USER BY USER_ID
-class GetUserPostsByIdRequestSentAction {
-  GetUserPostsByIdRequestSentAction();
+class GetPostsByUserIdRequestSentAction {
+  GetPostsByUserIdRequestSentAction();
 }
-class GetUserPostsByIdSuccessAction {
+class GetPostsByUserIdSuccessAction {
   final List<Post> posts;
 
-  GetUserPostsByIdSuccessAction({ @required this.posts });
+  GetPostsByUserIdSuccessAction({ @required this.posts });
 }
-class GetUserPostsByIdFailedAction {
-  GetUserPostsByIdFailedAction();
+class GetPostsByUserIdFailedAction {
+  final String message;
+
+  GetPostsByUserIdFailedAction({ @required this.message });
 }
 
 
@@ -80,7 +92,9 @@ class GetUserPostsByUsernameSuccessAction {
   GetUserPostsByUsernameSuccessAction({ @required this.posts });
 }
 class GetUserPostsByUsernameFailedAction {
-  GetUserPostsByUsernameFailedAction();
+  final String message;
+
+  GetUserPostsByUsernameFailedAction({ @required this.message });
 }
 
 
@@ -94,7 +108,9 @@ class GetUserLikedPostsByIdSuccessAction {
   GetUserLikedPostsByIdSuccessAction({ @required this.posts });
 }
 class GetUserLikedPostsByIdFailedAction {
-  GetUserLikedPostsByIdFailedAction();
+  final String message;
+
+  GetUserLikedPostsByIdFailedAction({ @required this.message });
 }
 
 
@@ -108,7 +124,9 @@ class GetMentionedUserPostsSuccessAction {
   GetMentionedUserPostsSuccessAction({ @required this.posts });
 }
 class GetMentionedUserPostsFailedAction {
-  GetMentionedUserPostsFailedAction();
+  final String message;
+
+  GetMentionedUserPostsFailedAction({ @required this.message });
 }
 
 
@@ -117,10 +135,14 @@ class AddLikeRequestSentAction {
   AddLikeRequestSentAction();
 }
 class AddLikeSuccessAction {
-  AddLikeSuccessAction();
+  final String message;
+
+  AddLikeSuccessAction({ @required this.message });
 }
 class AddLikeFailedAction {
-  AddLikeFailedAction();
+  final String message;
+
+  AddLikeFailedAction({ @required this.message });
 }
 
 // REMOVE LIKE
@@ -128,8 +150,12 @@ class RemoveLikeRequestSentAction {
   RemoveLikeRequestSentAction();
 }
 class RemoveLikeSuccessAction {
-  RemoveLikeSuccessAction();
+  final String message;
+
+  RemoveLikeSuccessAction({ @required this.message });
 }
 class RemoveLikeFailedAction {
-  RemoveLikeFailedAction();
+  final String message;
+
+  RemoveLikeFailedAction({ @required this.message });
 }

@@ -8,7 +8,6 @@ import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:pet_app/models/post.dart' show Post;
 import 'package:pet_app/redux/state.dart' show AppState;
 import 'package:pet_app/redux/post/postActions.dart';
 import 'package:pet_app/redux/post/postState.dart' show PostState;
@@ -48,24 +47,33 @@ ThunkAction createPost({@required String description, @required List<String> med
       // dispatch request sent action
       store.dispatch(CreatePostRequestSentAction());
 
+      // create the json data as the request body
       Map data = {'description': description, 'media_urls': mediaUrls};
       var body = convert.jsonEncode(data);
+
+      // send post request
       http.Response response =
-          await http.post('${DotEnv().env['localhost']}/post/create', headers: {"Content-Type": "application/json"}, body: body);
+          await http.post(
+            '${DotEnv().env['localhost']}/post/create',
+            headers: {"Content-Type": "application/json"},
+            body: body
+          );
 
-      debugPrint("request received");
-
+      // check the response status code
       if (response.statusCode == 200) {
-        // TODO: remove the log afterwards
-        debugPrint('successfully created post');
+        // convert response to json object
         var jsonResponse = convert.jsonDecode(response.body);
         debugPrint(jsonResponse);
+
         // dispatch success action
-        store.dispatch(CreatePostSuccessAction(post: Post.initial()));
-      } else {
-        debugPrint(response.body);
+        store.dispatch(CreatePostSuccessAction(message: jsonResponse['message']));
+      }
+      else {
+        // convert response to json object
+        var jsonResponse = convert.json.decode(response.body);
+
         // dispatch failure action
-        store.dispatch(CreatePostFailedAction());
+        store.dispatch(CreatePostFailedAction(message: jsonResponse['error']));
       }
     });
   };
