@@ -1,11 +1,10 @@
 # Made by Vanam Hemanth
 
+# name of the workflow
 name: Build backend NODEJS app and test
 
-on: 
-  pull_request:
-    branches: 
-      - master
+# Trigger the workflow push or pull request.
+on: [pull_request,push]
 
 
 jobs:
