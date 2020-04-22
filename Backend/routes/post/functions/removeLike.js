@@ -23,44 +23,50 @@ module.exports = async (req, res) => {
                             "Couldn't upload post! Problem with verifying user",
                     });
 
-            let post = PostfromFirestore({
+            let post = await PostfromFirestore({
                 mapData: postDoc.data(),
                 docId: postDoc.id,
             });
 
             // check if user already liked this post and update liked by users
-            if (post.getLiked_by().includes(req.loggedUser.getId())) {
-                post.setLiked_by(
-                    post
-                        .getLiked_by()
-                        .splice(
-                            post
-                                .getLiked_by()
-                                .indexOf(req.body.unliked_user_id),
-                            1
-                        )
-                );
-                post.setLikes_count(post.getLikes_count() - 1);
+            let liked_by = await post.getLiked_by();
+            if (liked_by.includes(user.getId())) {
+                // remove unliked user from liked by and get updated liked by list
+                let updated_liked_by = [];
+                for (let i = 0; i < liked_by.length; i++) {
+                    if (liked_by[i] == user.getId())
+                        continue;
+                    updated_liked_by.push(liked_by[i]);
+                }
+
+                await post.setLiked_by(updated_liked_by);
+                await post.setLikes_count(post.getLiked_by().length);
+
+                await postCRUD.updatePost(post.toMap());
 
                 console.log("Like removed");
 
-                const updatedPostDoc = await postCRUD.updatePost(post.toMap());
-
                 if (user.getLiked_post_ids().includes(post.getId())) {
                     let liked_post_ids = user.getLiked_post_ids();
+                    // remove unliked user from liked by and get updated liked by list
+                    let updated_liked_post_ids = [];
+                    for (let i = 0; i < liked_post_ids.length; i++) {
+                        if (liked_post_ids[i] == post.getId())
+                            continue;
+                        updated_liked_post_ids.push(liked_post_ids[i]);
+                    }
 
-                    user.setLiked_post_ids(
-                        liked_post_ids.slice(
-                            liked_post_ids.indexOf(post.getId()),
-                            1
-                        )
-                    );
-                    let updatedUserDoc = await userCRUD.updateUser(
-                        user.toMap()
-                    );
+                    await user.setLiked_post_ids(updated_liked_post_ids );
+                    await userCRUD.updateUser(user.toMap());
                 }
+
+                return res.status(200).json({message: "Liked Removed"});
             }
+
+            return res.status(400).json({message: "You haven't liked this post yet!!"});
         }
+        return res.status(400).json({error: "Error finding post"});
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" });

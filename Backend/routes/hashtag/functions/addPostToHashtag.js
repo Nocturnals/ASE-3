@@ -10,16 +10,17 @@ const hashtagCRUD = require("../../../services/firestore/hashtagCRUD");
 // adding post to hashtag
 module.exports = async (req, res, hashtag_name) => {
     try {
-        let hashtag = await hashtagCRUD.getHashtagViaName(hashtag_name);
+        const hashtagDoc = await hashtagCRUD.getHashtagViaName(hashtag_name);
+        let hashtag;
 
         // check if hashtag already exists
-        if (hashtag) {
+        if (hashtagDoc) {            
             hashtag = await HashtagfromFirestore({
-                mapData: hashtag.data(),
-                docId: hashtag.id,
+                mapData: hashtagDoc.data(),
+                docId: hashtagDoc.id,
             });
         }
-        if (!hashtag) {
+        if (!hashtagDoc) {
             console.log("Creating hashtag");
 
             hashtag = new HashtagModel({
@@ -27,27 +28,27 @@ module.exports = async (req, res, hashtag_name) => {
                 hashtag_name: hashtag_name,
             });
 
-            const hashtagDoc = await hashtagCRUD.createHashtag(hashtag.toMap());
-            console.log(hashtagDoc);
+            const newHashtagDoc = await hashtagCRUD.createHashtag(hashtag.toMap());
 
-            await hashtag.setId(hashtagDoc.id);
+            await hashtag.setId(newHashtagDoc.id);
         }
 
         // add post id to hashtag post ids
         let hashtag_post_ids = await hashtag.getPost_ids();
-        console.log(hashtag.getHashtag_name());
 
         if (!hashtag_post_ids.includes(req.post.getId())) {
-            console.log(hashtag_post_ids);
+            console.log("Updating Hashtag");
+            
             // add post id to hashtag
             await hashtag.setPost_ids([ ...hashtag_post_ids, req.post.getId() ]);
-            console.log(hashtag.getPost_ids());
             // update hashtag document
             await hashtagCRUD.updateHashtag(hashtag.toMap());
         }
 
+        return true;
+
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ message: "Internal server error" });
+        return false;
     }
 };

@@ -1,0 +1,37 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+# Made by Vanam Hemanth
+
+name: deploy the code base to azure web app
+
+on: 
+  push:
+    branches: 
+      - master
+
+
+jobs:
+  deploy_to_azure:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Set up NODEJS version
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'  
+      
+    - name: install all dependencies, build and test
+      run: |
+        cd Backend/
+        npm ci
+        npm run build --if-present
+    
+    - name: 'Deploy to Azure Web App'
+      uses: azure/webapps-deploy@v1
+      with:
+        app-name: 'petsoc'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_4bfdcb832670495fae20d30d1be2bca8 }}
+        package: ./Backend/

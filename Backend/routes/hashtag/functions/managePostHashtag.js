@@ -6,7 +6,7 @@ const addPostToHashtag = require("./addPostToHashtag");
 const removePostFromHashtag = require("./removePostFromHashtag");
 const deleteHashtag = require("./deleteHashtag");
 
-// adding post to hashtag immediately after creation
+// managing post hashtags
 module.exports = async (req, res) => {
     // Validaing the hashtags
     const validatedNewHashtags = await hashtagsValidation({
@@ -40,6 +40,8 @@ module.exports = async (req, res) => {
                     old_hashtags[i]
                 );
 
+                if (hashtag == false)
+                    catchError(req, res);
                 // check if hashtag has 0 posts
                 if (hashtag) {
                     let hashtag_posts = await hashtag.getPost_ids();
@@ -54,8 +56,12 @@ module.exports = async (req, res) => {
             console.log("Updating new hashtags");
 
             const new_hashtags = req.newPostHM.hashtags;
-            for (let i = 0; i < new_hashtags.length; i++)
-                await addPostToHashtag(req, res, new_hashtags[i]);
+            for (let i = 0; i < new_hashtags.length; i++){
+                const response =  await addPostToHashtag(req, res, new_hashtags[i]);
+
+                if (!response)
+                    catchError(req, res);
+            }
         }
 
         // return responses
@@ -66,7 +72,11 @@ module.exports = async (req, res) => {
         }
         return res.status(200).json(req.post.toMap());
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: "Internal server error" });
+        catchError(req, res);
     }
 };
+
+// Catch Error
+const catchError = (req, res) => {
+    return res.status(500).json({ message: "Error updating hashtags" });
+}

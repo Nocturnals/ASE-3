@@ -9,4 +9,7 @@ const router = express.Router();
 // get all hashtags from the collection
 router.get("/get_all", require("./functions/getAllHashtags"));
 
+// get hashtag by name
+router.get("/get_hashtag_by_name", require("./functions/getHashtagByName"));
+
 module.exports = router;

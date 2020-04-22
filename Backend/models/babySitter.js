@@ -2,7 +2,7 @@
 
 function BabySitter({ id }) {
     let _babysitter_id = id;
-    let _address = null;
+    let _address = "";
     let _status = false;
     let _contact_no = 0;
     let _list_of_pets_accepted_before = [];

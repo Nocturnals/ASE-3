@@ -10,12 +10,7 @@ module.exports = async (req, res) => {
 
         res.json({ hashtags: hashtags });
     } catch (error) {
-        catchError(res, error);
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };
-
-// common catch error function
-function catchError(res, error) {
-    console.log(error);
-    return res.status(500).json({ message: "Internal server error" });
-}
