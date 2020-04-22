@@ -22,20 +22,18 @@ module.exports.deleteHashtag = async (id) => {
 };
 
 module.exports.getHashtagViaId = async (id) => {
-    const hashtag = await coll_ref.doc(id).get();
-    return hashtag;
+    const doc_ref = await coll_ref.doc(id);
+    return doc_ref.get();
 };
 
 module.exports.getHashtagViaName = async (hashtag_name) => {
-    const hashtags = await coll_ref
-        .where("hashtag_name", "==", hashtag_name)
-        .get();
-    if (hashtags.empty) return false;
+    const docs = await coll_ref.where("hashtag_name", "==", hashtag_name).get();
+    if (docs.empty) return null;
 
-    return hashtags[0];
+    return docs.docs[0];
 };
 
 module.exports.getAll = async () => {
-    const hashtags = await coll_ref.get();
-    return hashtags;
+    const docs = await coll_ref.get();
+    return docs;
 };

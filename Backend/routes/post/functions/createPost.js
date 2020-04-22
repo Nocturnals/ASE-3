@@ -28,14 +28,18 @@ module.exports = async (req, res, next) => {
         let post = new PostModel({
             id: null,
             author_id: req.loggedUser.getId(),
-            media_urls: req.body.media_urls,
-            hashtags: req.postHM.hashtags,
-            mentions: req.postHM.mentions,
+            media_urls: req.body.media_urls
         });
 
         // checking if description is null
         if (req.body.description)
             await post.setDescription(req.body.description);
+        // checking if there are no hashtags
+        if (req.postHM.hashtags.length != 0)
+            await post.setHashtags(req.postHM.hashtags);
+        // checking if there are no mentions
+        if (req.postHM.mentions.length != 0)
+            await post.setMentions(req.postHM.mentions);
 
         // creating new post document
         const postDoc = await postCRUD.createPost(post.toMap());
