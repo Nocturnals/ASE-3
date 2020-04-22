@@ -27,7 +27,6 @@ jobs:
       - run: dart --version
       - run: flutter --version
       - run: cd pet_app
-      - run: cd Backend
       - run: flutter pub get
       - run: flutter test
       - run: flutter build apk
