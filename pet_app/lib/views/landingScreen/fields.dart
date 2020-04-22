@@ -66,7 +66,7 @@ class _FieldsState extends State<Fields> {
           children: <Widget>[
             InkWell(
               onTap: () {
-                Navigator.pushNamed(context, '/guest');
+                Navigator.pushNamed(context, '/home');
               },
               child: new Container(
                 child: Text(

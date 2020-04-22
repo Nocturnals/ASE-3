@@ -4,7 +4,7 @@ const { PostfromFirestore } = require("../../../models/post");
 
 const postCRUD = require("../../../services/firestore/postCRUD");
 
-const { getUserById } = require("../../auth/helper");
+const { getUserByUsername } = require("../../auth/helper");
 const { checkPrivacyStatus } = require("../helper");
 
 // getting post
@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
             });
 
             // get user by id and ckeck privacy status of account
-            let user = await getUserById(post.getAuthor_id());
+            let user = await getUserByUsername(post.getauthor_name());
             if (!user)
                 return res.status(401).json({error: "Couldn't get post! Problem with verifying user"});
 

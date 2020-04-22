@@ -20,8 +20,8 @@ import 'package:pet_app/views/authentication/resetPassword/resetPasswordScreen.d
     show ResetPasswordScreen;
 import 'package:pet_app/views/landingScreen/landingScreen.dart'
     show LandingPage;
-import 'package:pet_app/views/home/guest/guestHomeScreen.dart'
-    show GuestHomeScreen;
+import 'package:pet_app/views/home/homeScreen.dart'
+    show HomeScreen;
 
 void main() async {
   // load the dot env file varaibles
@@ -64,7 +64,7 @@ class PetSApp extends StatelessWidget {
           '/resetPassword': (BuildContext context) => ResetPasswordScreen(),
 
           // home page routes
-          '/guest': (BuildContext context) => GuestHomeScreen(),
+          '/home': (BuildContext context) => HomeScreen(),
         },
         initialRoute: '/landingPage',
       ),

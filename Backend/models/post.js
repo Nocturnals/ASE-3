@@ -2,7 +2,7 @@
 
 function Post({
     id,
-    author_id = null,
+    author_name = null,
     media_urls = null
 }) {
     // private variables
@@ -11,7 +11,7 @@ function Post({
     let _description = null;
     let _hashtags = [];
     let _mentions = [];
-    let _author_id = author_id;
+    let _author_name = author_name;
     let _date_of_creation = Date.now();
     let _likes_count = 0;
     let _liked_by = [];
@@ -32,8 +32,8 @@ function Post({
     this.getMentions = () => {
         return _mentions;
     };
-    this.getAuthor_id = () => {
-        return _author_id;
+    this.getauthor_name = () => {
+        return _author_name;
     };
     this.getLikes_count = () => {
         return _likes_count;
@@ -61,8 +61,8 @@ function Post({
     this.setMentions = (mentions) => {
         _mentions = mentions;
     };
-    this.setAuthor_id = (author_id) => {
-        _author_id = author_id;
+    this.setauthor_name = (author_name) => {
+        _author_name = author_name;
     };
 
     this.setLikes_count = (likes_count) => {
@@ -86,7 +86,7 @@ function Post({
 
         map["description"] = _description;
         map["media_urls"] = _media_urls;
-        map["author_id"] = _author_id;
+        map["author_name"] = _author_name;
         map["likes_count"] = _likes_count;
         map["liked_by"] = _liked_by;
         map["date_of_creation"] = _date_of_creation;
@@ -102,7 +102,7 @@ const PostfromFirestore = ({ mapData, docId }) => {
         id: docId,
     });
 
-    post_instance.setAuthor_id(mapData["author_id"]);
+    post_instance.setauthor_name(mapData["author_name"]);
     post_instance.setDate_of_creation(mapData["date_of_creation"]);
     post_instance.setLikes_count(mapData["likes_count"]);
     post_instance.setMedia_url(mapData["media_urls"]);
