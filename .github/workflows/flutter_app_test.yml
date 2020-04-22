@@ -28,9 +28,5 @@ jobs:
       - run: | 
           cd pet_app/
           flutter pub get
-      - run: |
-          cd pet_app/
           flutter test
-      - run: | 
-          cd pet_app/
           flutter build apk
