@@ -2,11 +2,11 @@
 
 function RequestForBabysitting({ id }) {
     let _request_for_babysitting_id = id;
-    let _request_user_id = null;
-    let _request_for_babysitter_id = null;
-    let _pet_type = null;
-    let _extra_notes = null;
-    let _food_types = null;
+    let _request_user_id = "";
+    let _request_for_babysitter_id = "";
+    let _pet_type = "";
+    let _extra_notes = "";
+    let _food_types = "";
     let _no_of_days = 0;
     let _start_date = new Date();
     let _service_fee = 0;

@@ -4,7 +4,9 @@ import 'package:pet_app/widgets/toolNav.dart';
 import 'package:pet_app/widgets/cWidgets.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key}) : super(key: key);
+  final WidgetBuilder devReduxBuilder;
+
+  HomeScreen({Key key, this.devReduxBuilder}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -14,9 +16,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context),
-
       drawer: drawer(context),
-
+      endDrawer: widget.devReduxBuilder != null ? widget.devReduxBuilder(context) : null,
       body: ListView.builder(
         padding: EdgeInsets.all(0),
         itemCount: 10,

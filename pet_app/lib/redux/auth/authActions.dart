@@ -13,5 +13,26 @@ class LoginSuccessAction {
 }
 
 class LoginFailedAction {
-  LoginFailedAction();
+  final String message;
+
+  LoginFailedAction({@required this.message});
+}
+class RegisterRequestSentAction {
+  RegisterRequestSentAction();
+}
+
+class RegisterFailedAction {
+  final String message;
+
+  RegisterFailedAction({@required this.message});
+}
+
+class RegisterSuccessAction {
+  final String message;
+
+  RegisterSuccessAction({@required this.message});
+}
+
+class ResetMessageAction {
+  ResetMessageAction();
 }

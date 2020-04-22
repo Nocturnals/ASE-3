@@ -100,12 +100,12 @@ function Post({
 const PostfromFirestore = ({ mapData, docId }) => {
     const post_instance = new Post({
         id: docId,
+        author_name: mapData["author_data"],
+        media_urls: mapData["media_urls"]
     });
 
-    post_instance.setauthor_name(mapData["author_name"]);
     post_instance.setDate_of_creation(mapData["date_of_creation"]);
     post_instance.setLikes_count(mapData["likes_count"]);
-    post_instance.setMedia_url(mapData["media_urls"]);
     post_instance.setDescription(mapData["description"]);
     post_instance.setHashtags(mapData["hashtags"]);
     post_instance.setMentions(mapData["mentions"]);

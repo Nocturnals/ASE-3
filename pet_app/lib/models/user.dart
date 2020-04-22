@@ -7,14 +7,14 @@ class User {
   final String email;
   final int age;
   final int petsCount;
-  final List<String> petIds;
-  final List<String> postIds;
-  final List<String> followers;
-  final List<String> following;
-  final List<String> likedPostIds;
-  final List<String> favAnimalsIds;
-  final List<String> orderIds;
-  final List<String> remainderIds;
+  final List<dynamic> petIds;
+  final List<dynamic> postIds;
+  final List<dynamic> followers;
+  final List<dynamic> following;
+  final List<dynamic> likedPostIds;
+  final List<dynamic> favAnimalsIds;
+  final List<dynamic> orderIds;
+  final List<dynamic> remainderIds;
   final bool emailVerified;
 
   User(
@@ -58,14 +58,14 @@ class User {
     String email,
     int age,
     int petsCount,
-    List<String> petIds,
-    List<String> postIds,
-    List<String> followers,
-    List<String> following,
-    List<String> likedPostIds,
-    List<String> favAnimalsIds,
-    List<String> orderIds,
-    List<String> remainderIds,
+    List<dynamic> petIds,
+    List<dynamic> postIds,
+    List<dynamic> followers,
+    List<dynamic> following,
+    List<dynamic> likedPostIds,
+    List<dynamic> favAnimalsIds,
+    List<dynamic> orderIds,
+    List<dynamic> remainderIds,
     bool emailVerified,
   }) {
     return User(

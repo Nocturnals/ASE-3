@@ -20,7 +20,7 @@ class PostState {
     return PostState(
       post: Post.initial(),
       posts: [],
-      loadingStatus: LoadingStatus.x,
+      loadingStatus: LoadingStatus.idle,
     );
   }
 
