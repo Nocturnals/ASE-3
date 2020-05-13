@@ -11,7 +11,7 @@ class PostState {
   final String errorMessage;
   final String notifyMessage;
 
-  /// initialize the auth state with Post
+  /// initialize the post state with Post
   PostState({
     @required this.post,
     @required this.posts,

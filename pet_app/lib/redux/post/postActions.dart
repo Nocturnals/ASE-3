@@ -159,3 +159,9 @@ class RemoveLikeFailedAction {
 
   RemoveLikeFailedAction({ @required this.message });
 }
+
+
+// RESET MESSAGE
+class ResetMessageAction {
+  ResetMessageAction();
+}

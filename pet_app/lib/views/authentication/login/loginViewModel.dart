@@ -68,7 +68,7 @@ ThunkAction _loginUser({@required String username, @required String password}) {
         prefs.setString('JToken', response.headers['authorization']);
 
         // navigate to home page
-        Keys.navKey.currentState.pushNamedAndRemoveUntil('/homePage', (Route<dynamic> route) => false);
+        Keys.navKey.currentState.pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
       }
       // the request is a failure
       else {

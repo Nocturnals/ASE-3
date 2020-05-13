@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
             let unfollow_user = await getUserByUsername(req.body.username);
 
             if (!unfollow_user)
-                return res.status(401).json({error: "Error finding user"});
+                return res.status(401).json({message: "Error finding user"});
 
             // check if user is not following
             let followers = unfollow_user.getFollowers();
@@ -51,10 +51,10 @@ module.exports = async (req, res) => {
             return res.status(200).json({message: "Unfollowed succesfully"});
         }
 
-        return res.status(401).json({error: "No username found in request. Provide one to unfollow them."});
+        return res.status(401).json({message: "No username found in request. Provide one to unfollow them."});
 
     } catch (error) {
         console.log(error);
-        return res.status(500).json({error: "Internal server error"});
+        return res.status(500).json({message: "Internal server error"});
     }
 }

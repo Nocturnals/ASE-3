@@ -60,10 +60,13 @@ app.get("/testing", (req, res, next) => {
 app.use("/api/auth", require("./routes/auth/index"));
 
 // route for post management
-app.use("/post", require("./routes/post/index"));
+app.use("/api/post", require("./routes/post/index"));
+
+// route for home feed
+app.use("/api/home", require("./routes/home/index"));
 
 // route for hashtag management
-app.use("/hashtag", require("./routes/hashtag/index"));
+app.use("/api/hashtag", require("./routes/hashtag/index"));
 
 const port = process.env.PORT || 3000; // get the port number from the dotenv file if not 3000
 // The listening of the server

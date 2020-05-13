@@ -18,11 +18,11 @@ class UpdatePostViewModel {
 
   final Function({
     @required String description
-  }) create;
+  }) update;
 
   UpdatePostViewModel({
     @required this.state,
-    @required this.create,
+    @required this.update,
   });
 
   factory UpdatePostViewModel.create(Store<AppState> store) {
@@ -34,7 +34,7 @@ class UpdatePostViewModel {
 
     return UpdatePostViewModel(
       state: store.state.postState,
-      create: _onPostUpdate,
+      update: _onPostUpdate,
     );
   }
 }
@@ -46,24 +46,32 @@ ThunkAction updatePost({@required String description}) {
       // dispatch request sent action
       store.dispatch(UpdatePostRequestSentAction());
 
+      // create the json data as the request body
       Map data = {'description': description};
       var body = convert.jsonEncode(data);
+
+      // send post request
       http.Response response =
-          await http.post('${DotEnv().env['localhost']}/post/update', headers: {"Content-Type": "application/json"}, body: body);
+          await http.post(
+            '${DotEnv().env['localhost']}/post/update',
+            headers: {"Content-Type": "application/json"},
+            body: body
+          );
 
-      debugPrint("request received");
-
+      // check the response status code
       if (response.statusCode == 200) {
-        // TODO: remove the log afterwards
-        debugPrint('successfully updated post');
+        // convert response to json object
         var jsonResponse = convert.jsonDecode(response.body);
         debugPrint(jsonResponse);
+
         // dispatch success action
         store.dispatch(UpdatePostSuccessAction(post: Post.initial()));
       } else {
-        debugPrint(response.body);
+        // convert response to json object
+        var jsonResponse = convert.json.decode(response.body);
+
         // dispatch failure action
-        store.dispatch(UpdatePostFailedAction());
+        store.dispatch(UpdatePostFailedAction(message: jsonResponse["error"]));
       }
     });
   };

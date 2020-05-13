@@ -4,7 +4,7 @@ import 'package:redux/redux.dart';
 import 'postState.dart';
 import 'postActions.dart';
 
-final Function postReducer = combineReducers([
+final Function postReducer = combineReducers<PostState>([
   // POST
   // CREATE POST
   TypedReducer<PostState, CreatePostRequestSentAction>(_createPostRequest),
@@ -48,10 +48,13 @@ final Function postReducer = combineReducers([
   TypedReducer<PostState, GetMentionedUserPostsRequestSentAction>(_getMentionedUserPostsRequest),
   TypedReducer<PostState, GetMentionedUserPostsSuccessAction>(_getMentionedUserPostsSuccess),
   TypedReducer<PostState, GetMentionedUserPostsFailedAction>(_getMentionedUserPostsFailed),
+
+  // RESET MESSAGE
+  TypedReducer<PostState, ResetMessageAction>(_resetMessage),
 ]);
 
 
-// reducers
+/// reducers
 // CREATE POST
 PostState _createPostRequest(PostState state, CreatePostRequestSentAction action) {
   return state.copyWith(
@@ -255,4 +258,10 @@ PostState _getMentionedUserPostsFailed(PostState state, GetMentionedUserPostsFai
     posts: null,
     errorMessage: action.message
   );
+}
+
+
+// RESET MESSAGE
+PostState _resetMessage(PostState state, ResetMessageAction action) {
+  return state.copyWith(errorMessage: null, loadingStatus: LoadingStatus.idle);
 }

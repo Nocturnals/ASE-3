@@ -100,7 +100,7 @@ function Post({
 const PostfromFirestore = ({ mapData, docId }) => {
     const post_instance = new Post({
         id: docId,
-        author_name: mapData["author_data"],
+        author_name: mapData["author_name"],
         media_urls: mapData["media_urls"]
     });
 

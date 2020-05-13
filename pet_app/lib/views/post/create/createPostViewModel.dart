@@ -1,5 +1,7 @@
 import 'dart:convert' as convert;
 
+import 'package:flutter/material.dart';
+
 import 'package:flutter/foundation.dart';
 
 import 'package:http/http.dart' as http;
@@ -7,7 +9,9 @@ import 'package:http/http.dart' as http;
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:pet_app/constants/keys.dart';
 import 'package:pet_app/redux/state.dart' show AppState;
 import 'package:pet_app/redux/post/postActions.dart';
 import 'package:pet_app/redux/post/postState.dart' show PostState;
@@ -44,8 +48,15 @@ class CreatePostViewModel {
 ThunkAction createPost({@required String description, @required List<String> mediaUrls}) {
   return (Store store) async {
     Future(() async {
+      // store the Jtoken in the shared preferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString('JToken');
+
       // dispatch request sent action
       store.dispatch(CreatePostRequestSentAction());
+
+      // navigate to home page
+      Keys.navKey.currentState.pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
 
       // create the json data as the request body
       Map data = {'description': description, 'media_urls': mediaUrls};
@@ -54,8 +65,11 @@ ThunkAction createPost({@required String description, @required List<String> med
       // send post request
       http.Response response =
           await http.post(
-            '${DotEnv().env['localhost']}/post/create',
-            headers: {"Content-Type": "application/json"},
+            '${DotEnv().env['localhost']}/api/post/create',
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer $token",
+            },
             body: body
           );
 
