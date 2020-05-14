@@ -8,6 +8,9 @@ const {
 const popularPostsCRUD = require("../../../services/firestore/popularPostsCRUD");
 const postCRUD = require("../../../services/firestore/postCRUD");
 
+const { getUserByUsername } = require("../../auth/helper");
+const { checkPrivacyStatus } = require("../../post/helper");
+
 const { maxPopularPosts } = require("../constants");
 
 module.exports = async (req, res, next) => {
@@ -22,9 +25,21 @@ module.exports = async (req, res, next) => {
                 (post_a, post_b) => (post_a.getLikes_count() < post_b.getLikes_count()) ? 1 : -1);
 
             let updatedpopularPostIds = [];
-            let numberOfPosts = (all_posts.length < maxPopularPosts) ? all_posts.length : maxPopularPosts;
-            for (let index = 0; index < numberOfPosts; index++)
-                updatedpopularPostIds.push(all_posts[index].getId());
+            let max_no_of_posts = maxPopularPosts;
+            for (let index = 0; index < max_no_of_posts; index++) {
+                if (index < all_posts.length) {
+                    let postDoc = await postCRUD.getPostViaId(all_posts[index].getId());
+
+                    if (postDoc) {
+                        let post_user = await getUserByUsername(postDoc.data()["author_name"]);
+
+                        if (!checkPrivacyStatus(req, res, post_user))
+                            updatedpopularPostIds.push(all_posts[index].getId());
+                        else max_no_of_posts = max_no_of_posts + 1;
+
+                    } else return res.status(400).json({message: "Couldn't fetch feed!!"});
+                } else break;
+            }
 
             if (!popularPostIdsDoc) {
                 let popularPostsMap = new PopularPostsModel({

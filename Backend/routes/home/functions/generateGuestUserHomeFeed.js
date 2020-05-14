@@ -27,8 +27,7 @@ module.exports = async (req, res) => {
                     let post = await PostfromFirestore({ mapData: postDoc.data(), docId: postDoc.id });
 
                     guestUserHomeFeed = [ ...guestUserHomeFeed, post.toMap() ];
-                } else 
-                    return res.status(400).json({message: "Error fetching feed"});
+                }
             }
 
             return res.status(200).json({ posts: guestUserHomeFeed });

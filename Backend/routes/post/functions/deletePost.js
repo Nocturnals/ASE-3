@@ -4,6 +4,8 @@ const { PostfromFirestore } = require("../../../models/post");
 
 const { getUserById } = require("../../auth/helper");
 
+const removePostFromPopularPosts = require("../../popularPost/functions/removePostFromPopularPosts");
+
 const userCRUD = require("../../../services/firestore/userCRUD");
 const postCRUD = require("../../../services/firestore/postCRUD");
 
@@ -32,6 +34,8 @@ module.exports = async (req, res, next) => {
             // delete the post
             await postCRUD.deletePost(req.body.post_id);
 
+            req.post_id = req.body.post_id;
+
             // remove post id from author post ids
             let post_ids = await user.getPost_ids();
             await user.setPost_ids(
@@ -40,6 +44,9 @@ module.exports = async (req, res, next) => {
 
             // updating user document
             let userDoc = await userCRUD.updateUser(user.toMap());
+
+            // updating popular posts if true
+            await removePostFromPopularPosts(req, res);
 
             // return res.status(200).json({ message: "Post deleted sucessfully." });
             console.log("Post deleted sucessfully.");
