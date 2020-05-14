@@ -9,7 +9,7 @@ const popularPostsCRUD = require("../../../services/firestore/popularPostsCRUD")
 
 module.exports = async (req, res) => {
     try {
-        const allPopularPostIdsDoc = await popularPostsCRUD.getPopularPostsViaId();
+        const allPopularPostIdsDoc = await popularPostsCRUD.getPopularPosts();
         
         if (allPopularPostIdsDoc) {
             let allPopularPostIds = await PopularPostsfromFirestore({ 
@@ -18,6 +18,7 @@ module.exports = async (req, res) => {
             });
 
             let post_ids = allPopularPostIds.getPost_ids();
+            console.log(allPopularPostIds.toMap());
 
             let guestUserHomeFeed = [];
             for (let index = 0; index < post_ids.length; index++) {

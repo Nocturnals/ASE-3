@@ -32,7 +32,7 @@ function Post({
     this.getMentions = () => {
         return _mentions;
     };
-    this.getauthor_name = () => {
+    this.getAuthor_name = () => {
         return _author_name;
     };
     this.getLikes_count = () => {

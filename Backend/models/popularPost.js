@@ -6,7 +6,7 @@ function PopularPosts({
     // private variables
     let _id = id;
     let _post_ids = [];
-    let _last_modified_time = Date.now();
+    let _last_modified_time = new Date(Date.now());
 
     // getters
     this.getId = () => {

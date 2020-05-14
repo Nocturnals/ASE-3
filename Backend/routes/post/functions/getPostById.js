@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
             });
 
             // get user by id and ckeck privacy status of account
-            let user = await getUserByUsername(post.getauthor_name());
+            let user = await getUserByUsername(post.getAuthor_name());
             if (!user)
                 return res.status(401).json({message: "Couldn't get post! Problem with verifying user"});
 
