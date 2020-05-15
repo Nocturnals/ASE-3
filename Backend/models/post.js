@@ -2,16 +2,18 @@
 
 function Post({
     id,
-    author_name = null,
-    media_urls = null
+    author_id = "",
+    media_urls = "",
+    hashtags = [],
+    mentions = [],
 }) {
     // private variables
     let _id = id;
     let _media_urls = media_urls;
-    let _description = null;
-    let _hashtags = [];
-    let _mentions = [];
-    let _author_name = author_name;
+    let _description = "";
+    let _hashtags = hashtags;
+    let _mentions = mentions;
+    let _author_id = author_id;
     let _date_of_creation = Date.now();
     let _likes_count = 0;
     let _liked_by = [];
@@ -32,8 +34,8 @@ function Post({
     this.getMentions = () => {
         return _mentions;
     };
-    this.getAuthor_name = () => {
-        return _author_name;
+    this.getAuthor_id = () => {
+        return _author_id;
     };
     this.getLikes_count = () => {
         return _likes_count;
@@ -61,8 +63,8 @@ function Post({
     this.setMentions = (mentions) => {
         _mentions = mentions;
     };
-    this.setauthor_name = (author_name) => {
-        _author_name = author_name;
+    this.setAuthor_id = (author_id) => {
+        _author_id = author_id;
     };
 
     this.setLikes_count = (likes_count) => {
@@ -86,7 +88,7 @@ function Post({
 
         map["description"] = _description;
         map["media_urls"] = _media_urls;
-        map["author_name"] = _author_name;
+        map["author_id"] = _author_id;
         map["likes_count"] = _likes_count;
         map["liked_by"] = _liked_by;
         map["date_of_creation"] = _date_of_creation;
@@ -100,12 +102,12 @@ function Post({
 const PostfromFirestore = ({ mapData, docId }) => {
     const post_instance = new Post({
         id: docId,
-        author_name: mapData["author_name"],
-        media_urls: mapData["media_urls"]
     });
 
+    post_instance.setAuthor_id(mapData["author_id"]);
     post_instance.setDate_of_creation(mapData["date_of_creation"]);
     post_instance.setLikes_count(mapData["likes_count"]);
+    post_instance.setMedia_url(mapData["media_urls"]);
     post_instance.setDescription(mapData["description"]);
     post_instance.setHashtags(mapData["hashtags"]);
     post_instance.setMentions(mapData["mentions"]);

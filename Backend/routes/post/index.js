@@ -25,7 +25,7 @@ router.post(
 );
 
 // Get Post
-// getting a single post by post id
+// getting a single post by it;s id
 router.get(
     "/id",
     verifyLogin,

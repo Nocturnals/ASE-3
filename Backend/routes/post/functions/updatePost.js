@@ -71,7 +71,7 @@ module.exports = async (req, res, next) => {
             }
 
             // updating the post
-            await postCRUD.updatePost(post.toMap());
+            const updatedPostDoc = await postCRUD.updatePost(post.toMap());
 
             console.log("Post Updated");
 

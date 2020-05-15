@@ -19,7 +19,8 @@ module.exports = async (req, res) => {
                 return res
                     .status(500)
                     .json({
-                        message: "Couldn't upload post! Problem with verifying user",
+                        error:
+                            "Couldn't upload post! Problem with verifying user",
                     });
 
             let post = await PostfromFirestore({
@@ -64,7 +65,7 @@ module.exports = async (req, res) => {
 
             return res.status(400).json({message: "You haven't liked this post yet!!"});
         }
-        return res.status(400).json({message: "Error finding post"});
+        return res.status(400).json({error: "Error finding post"});
 
     } catch (error) {
         console.log(error);
