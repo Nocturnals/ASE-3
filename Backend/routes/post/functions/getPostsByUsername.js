@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
         let user = await getUserByUsername(req.body.username);
         
         if (!user)
-            return res.status(500).json({message: "Couldn't upload post! Problem with verifying user"});
+            return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
 
         // check the pricvacy status of the user
         const access = await checkPrivacyStatus(req, res, user);

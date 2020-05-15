@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
             return res.status(200).json({hashtag: hashtag.toMap()});
         }
 
-        return res.status(400).json({ message: "No hashtag found with name: " + req.body.hashtag_name });
+        return res.status(200).json({error: "No hashtag found with name: " + req.body.hashtag_name});
 
     } catch (error) {
         console.log(error);
