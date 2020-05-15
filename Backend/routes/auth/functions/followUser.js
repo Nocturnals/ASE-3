@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
             let follow_user = await getUserByUsername(req.body.username);
 
             if (!follow_user)
-                return res.status(401).json({error: "Error finding user"});
+                return res.status(401).json({message: "Error finding user"});
 
             // check if user is already following
             let followers = follow_user.getFollowers();
@@ -39,10 +39,10 @@ module.exports = async (req, res) => {
             return res.status(200).json({message: "Followed succesfully"});
         }
 
-        return res.status(401).json({error: "No username found in request. Provide one to follow them."});
+        return res.status(401).json({message: "No username found in request. Provide one to follow them."});
 
     } catch (error) {
         console.log(error);
-        return res.status(500).json({error: "Internal server error"});
+        return res.status(500).json({message: "Internal server error"});
     }
 }

@@ -11,7 +11,7 @@ import 'package:pet_app/constants/themeData.dart';
 import 'package:pet_app/redux/state.dart';
 import 'package:pet_app/redux/reducer.dart';
 
-// ALL PAGES HERE
+/// ALL PAGES HERE
 import 'package:pet_app/views/authentication/login/loginScreen.dart'
     show LoginScreen;
 import 'package:pet_app/views/authentication/signup/signUpScreen.dart'
@@ -22,9 +22,12 @@ import 'package:pet_app/views/authentication/resetPassword/resetPasswordScreen.d
     show ResetPasswordScreen;
 import 'package:pet_app/views/landingScreen/landingScreen.dart'
     show LandingPage;
-import 'package:pet_app/views/home/guest/guestHomeScreen.dart'
-    show GuestHomeScreen;
-import 'package:pet_app/views/home/homeFeed/homePage.dart';
+import 'package:pet_app/views/home/homeFeed/homeFeedScreen.dart'
+    show HomeFeed;
+import 'package:pet_app/views/post/create/createPostScreen.dart'
+    show CreatePostScreen;
+// POSTS
+import 'package:pet_app/views/post/create/createPostScreen.dart';
 
 import 'package:pet_app/constants/keys.dart';
 
@@ -98,9 +101,11 @@ class PetSApp extends StatelessWidget {
           '/forgotPassword': (BuildContext context) => ForgotPasswordScreen(devReduxBuilder: devReduxBuilder),
           '/resetPassword': (BuildContext context) => ResetPasswordScreen(devReduxBuilder: devReduxBuilder),
 
+          // post routes
+          '/createPost': (BuildContext context) => CreatePostScreen(devReduxBuilder: devReduxBuilder),
+
           // home page routes
-          '/guest': (BuildContext context) => GuestHomeScreen(devReduxBuilder: devReduxBuilder),
-          '/homePage': (BuildContext context) => HomeScreen(devReduxBuilder: devReduxBuilder),
+          '/home': (BuildContext context) => HomeFeed(),
         },
         initialRoute: '/landingPage',
       ),

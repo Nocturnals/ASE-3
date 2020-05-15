@@ -23,11 +23,11 @@ module.exports = async (req, res, next) => {
         // get user using logged user id
         let user = await getUserById(req.loggedUser.getId());
         if (!user)
-            return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
+            return res.status(500).json({message: "Couldn't upload post! Problem with verifying user"});
 
         let post = new PostModel({
             id: null,
-            author_id: req.loggedUser.getId(),
+            author_name: req.loggedUser.getUsername(),
             media_urls: req.body.media_urls
         });
 
