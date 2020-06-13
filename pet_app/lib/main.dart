@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:pet_app/views/errorPages/RouteNotFound.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_dev_tools/redux_dev_tools.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -27,6 +28,7 @@ import 'package:pet_app/views/home/guest/guestHomeScreen.dart'
 import 'package:pet_app/views/home/homeFeed/homePage.dart';
 
 import 'package:pet_app/constants/keys.dart';
+import 'package:pet_app/constants/routeNames.dart';
 
 void main() async {
   // load the dot env file varaibles
@@ -86,21 +88,50 @@ class PetSApp extends StatelessWidget {
         theme: appTheme,
         navigatorObservers: [],
         navigatorKey: Keys.navKey,
-        routes: <String, WidgetBuilder>{
-          // initail route
-          '/landingPage': (BuildContext context) =>
-              LandingPage(devReduxBuilder: devReduxBuilder),
+        onGenerateRoute: (RouteSettings settings) {
+          // Get the arguments from settings
+          final args = settings.arguments;
 
-          // auth routes
-          '/login': (BuildContext context) =>
-              LoginScreen(devReduxBuilder: devReduxBuilder),
-          '/signup': (BuildContext context) => SignUpScreen(devReduxBuilder: devReduxBuilder),
-          '/forgotPassword': (BuildContext context) => ForgotPasswordScreen(devReduxBuilder: devReduxBuilder),
-          '/resetPassword': (BuildContext context) => ResetPasswordScreen(devReduxBuilder: devReduxBuilder),
+          switch (settings.name) {
+            // Initail route
+            case RouteNames.landingPage:
+              return MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      LandingPage(devReduxBuilder: devReduxBuilder));
 
-          // home page routes
-          '/guest': (BuildContext context) => GuestHomeScreen(devReduxBuilder: devReduxBuilder),
-          '/homePage': (BuildContext context) => HomeScreen(devReduxBuilder: devReduxBuilder),
+            // auth routes
+            case RouteNames.loginPage:
+              return MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      LoginScreen(devReduxBuilder: devReduxBuilder));
+            case RouteNames.signup:
+              return MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      SignUpScreen(devReduxBuilder: devReduxBuilder));
+            case RouteNames.forgotPassword:
+              return MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      ForgotPasswordScreen(devReduxBuilder: devReduxBuilder));
+            case RouteNames.resetPassword:
+              return MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      ResetPasswordScreen(devReduxBuilder: devReduxBuilder));
+
+            // home page routes
+            case RouteNames.homePage:
+              return MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      HomeScreen(devReduxBuilder: devReduxBuilder));
+            case RouteNames.guest:
+              return MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      GuestHomeScreen(devReduxBuilder: devReduxBuilder));
+            default:
+              return MaterialPageRoute(
+                  builder: (BuildContext context) => PageNotFoundScreen(
+                      devReduxBuilder: devReduxBuilder,
+                      routeName: settings.name));
+          }
         },
         initialRoute: '/landingPage',
       ),
