@@ -45,3 +45,4 @@ A social media application for pets management
 ### Join our Discord channel to help in the development of our app
 
 - Click [Discord](https://discord.gg/EcPaz5b) to join our server and collaborate with us
+- Check our work progress here [MilaNote](https://app.milanote.com/1Jucft1DwkEh9m)
