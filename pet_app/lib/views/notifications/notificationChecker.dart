@@ -1,7 +1,10 @@
+// flutter imports
 import 'package:flutter/material.dart';
 
+// model imports
 import 'package:pet_app/models/loadingStatus.dart';
 
+// internal imports
 import 'notifications.dart';
 
 void notificationChecker({@required NotificationViewModel notificationViewModel, @required BuildContext context}) {

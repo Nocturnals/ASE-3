@@ -1,7 +1,10 @@
+// flutter imports
 import 'package:flutter/material.dart';
 
+// responsive app imports
 import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
 
+// internal imports
 import 'mobileView.dart';
 import 'desktopTabletView.dart';
 

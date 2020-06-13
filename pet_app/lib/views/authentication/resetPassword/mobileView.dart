@@ -1,5 +1,7 @@
+// flutter imports
 import 'package:flutter/material.dart';
 
+// internal imports
 import 'fields.dart';
 
 class MobileView extends StatelessWidget {

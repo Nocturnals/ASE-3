@@ -1,5 +1,7 @@
+// dart imports
 import 'dart:math';
 
+// flutter imports
 import 'package:flutter/material.dart';
 
 class Loader extends StatefulWidget {

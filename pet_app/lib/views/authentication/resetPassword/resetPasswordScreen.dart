@@ -1,12 +1,17 @@
+// flutter imports
 import 'package:flutter/material.dart';
+
+// responsive app imports
+import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
 import 'package:pet_app/views/authentication/login/desktopTabletView.dart';
 
-import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
-
-import 'desktopTabletView.dart';
-import 'mobileView.dart';
+// UI imports
 import 'package:pet_app/widgets/cButtons.dart';
 import 'package:pet_app/widgets/BezierContainer.dart';
+
+// internal imports
+import 'desktopTabletView.dart';
+import 'mobileView.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   final WidgetBuilder devReduxBuilder;

@@ -1,16 +1,20 @@
+// flutter imports
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// redux imports
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pet_app/redux/state.dart';
 import 'package:redux/redux.dart';
-import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
-
-import 'package:pet_app/views/authentication/login/mobileView.dart';
-import 'package:pet_app/views/authentication/login/desktopTabletView.dart';
 import 'package:pet_app/views/notifications/notificationChecker.dart';
 import 'package:pet_app/views/notifications/notifications.dart';
 
+// responsive app imports
+import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
+import 'package:pet_app/views/authentication/login/mobileView.dart';
+import 'package:pet_app/views/authentication/login/desktopTabletView.dart';
+
+// UI Imports
 import 'package:pet_app/widgets/cButtons.dart';
 import 'package:pet_app/widgets/BezierContainer.dart';
 import 'package:pet_app/constants/routeNames.dart';

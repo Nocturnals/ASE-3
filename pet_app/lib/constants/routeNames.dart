@@ -1,3 +1,4 @@
+/// contains the list of all available routes
 class RouteNames {
   static const String landingPage = '/landingPage';
   static const String loginPage = '/loginPage';

@@ -1,5 +1,7 @@
+// flutter imports
 import 'package:flutter/foundation.dart';
 
+// internal imports
 import 'auth/authState.dart';
 
 @immutable

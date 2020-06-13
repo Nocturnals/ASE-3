@@ -1,11 +1,13 @@
+// flutter imports
 import 'package:flutter/material.dart';
 
+// redux imports
 import 'package:redux/redux.dart';
-
 import 'package:pet_app/redux/state.dart' show AppState;
 import 'package:pet_app/redux/auth/authActions.dart';
 import 'package:pet_app/redux/auth/authState.dart' show AuthState;
 import 'package:redux_thunk/redux_thunk.dart';
+
 
 class NotificationViewModel {
   final AuthState state;
