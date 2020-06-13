@@ -7,6 +7,7 @@ import 'package:pet_app/views/authentication/signup/desktopTabletView.dart';
 import 'package:pet_app/views/authentication/signup/mobileView.dart';
 import 'package:pet_app/widgets/BezierContainer.dart';
 import 'package:pet_app/widgets/cButtons.dart';
+import 'package:pet_app/constants/routeNames.dart';
 
 class SignUpScreen extends StatelessWidget {
   final WidgetBuilder devReduxBuilder;
@@ -30,7 +31,7 @@ class SignUpScreen extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed('/login');
+              Navigator.of(context).pushNamed(RouteNames.loginPage);
             },
             child: Text(
               'Login',

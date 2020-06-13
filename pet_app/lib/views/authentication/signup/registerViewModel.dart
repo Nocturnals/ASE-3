@@ -11,6 +11,7 @@ import 'package:pet_app/constants/keys.dart';
 import 'package:pet_app/redux/auth/authActions.dart';
 import 'package:pet_app/redux/auth/authState.dart' show AuthState;
 import 'package:pet_app/redux/state.dart' show AppState;
+import 'package:pet_app/constants/routeNames.dart';
 
 class RegisterViewModel {
   final AuthState state;
@@ -61,9 +62,9 @@ ThunkAction _register(
         store.dispatch(
             RegisterSuccessAction(message: 'Successfully registered !!'));
 
-        // navigate to home page
+        // navigate to login page
         Keys.navKey.currentState.pushNamedAndRemoveUntil(
-            '/login', (Route<dynamic> route) => false);
+            RouteNames.loginPage, (Route<dynamic> route) => false);
       }
       // the request is a failure
       else {

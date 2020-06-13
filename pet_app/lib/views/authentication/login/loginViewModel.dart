@@ -13,6 +13,7 @@ import 'package:pet_app/models/user.dart' show User;
 import 'package:pet_app/redux/state.dart' show AppState;
 import 'package:pet_app/redux/auth/authActions.dart';
 import 'package:pet_app/redux/auth/authState.dart' show AuthState;
+import 'package:pet_app/constants/routeNames.dart';
 
 class LoginViewModel {
   final AuthState state;
@@ -68,7 +69,7 @@ ThunkAction _loginUser({@required String username, @required String password}) {
         prefs.setString('JToken', response.headers['authorization']);
 
         // navigate to home page
-        Keys.navKey.currentState.pushNamedAndRemoveUntil('/homePage', (Route<dynamic> route) => false);
+        Keys.navKey.currentState.pushNamedAndRemoveUntil(RouteNames.homePage, (Route<dynamic> route) => false);
       }
       // the request is a failure
       else {

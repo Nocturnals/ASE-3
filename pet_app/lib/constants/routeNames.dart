@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class RouteNames {
   static const String landingPage = '/landingPage';
   static const String loginPage = '/loginPage';

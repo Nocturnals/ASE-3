@@ -7,6 +7,7 @@ import 'package:pet_app/redux/state.dart' show AppState;
 import 'package:pet_app/models/loadingStatus.dart';
 import 'package:pet_app/widgets/loader.dart';
 import 'package:pet_app/widgets/cButtons.dart';
+import 'package:pet_app/constants/routeNames.dart';
 
 import 'loginViewModel.dart';
 
@@ -201,7 +202,7 @@ class _FieldsState extends State<Fields> {
                             child: InkWell(
                               onTap: () {
                                 Navigator.of(context)
-                                    .pushNamed('/forgotPassword');
+                                    .pushNamed(RouteNames.forgotPassword);
                               },
                               child: Text(
                                 'Forgot Password?',

@@ -133,7 +133,7 @@ class PetSApp extends StatelessWidget {
                       routeName: settings.name));
           }
         },
-        initialRoute: '/landingPage',
+        initialRoute: RouteNames.landingPage,
       ),
     );
   }
