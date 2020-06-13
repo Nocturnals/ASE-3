@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
+// import 'package:pet_app/src/Widget/imageSlider/imageSlider.dart';
 
 import 'package:pet_app/constants/postPopUpItems.dart';
 
 
 class PostItem extends StatefulWidget {
-  final String profilePhoto;
-  final String description;
-  final String mediaUrls;
+  final String dp;
+  final String descr;
+  final String postImage;
+  final String name;
   final String username;
   final String time;
-  final bool other;
+
 
   PostItem({
     Key key,
-    @required this.profilePhoto,
-    @required this.description,
-    @required this.mediaUrls,
+    @required this.dp,
+    @required this.descr,
+    @required this.postImage,
+    @required this.name,
     @required this.username,
     @required this.time,
-    @required this.other,
   }) : super(key: key);
   @override
   _PostItemState createState() => _PostItemState();
@@ -28,14 +30,9 @@ class _PostItemState extends State<PostItem> {
   @override
   Widget build(BuildContext context) {
     // Getting post menu options...
-    List popUpItems = [];
-    if (widget.other) {
-      popUpItems.add(new OtherPostPopUpItems());
-      popUpItems[0].username = '${widget.username}';
-    }
-    else popUpItems.add(new UserPostPopUpItems());
-
-    List<String> postPopUpItems = popUpItems[0].popUpItems;
+    PostPopUpItems popUpItems = new PostPopUpItems();
+    popUpItems.username = 'neelakanta.sriram';
+    List<String> postPopUpItems = popUpItems.popUpItems;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 0),
@@ -49,13 +46,13 @@ class _PostItemState extends State<PostItem> {
             ListTile(
               leading: CircleAvatar(
                 backgroundImage: AssetImage(
-                  "${widget.profilePhoto}",
+                  "${widget.dp}",
                 ),
               ),
 
               contentPadding: EdgeInsets.only(left: 10),
               title: Text(
-                '@' + '${widget.username}' + ' · ' + '${widget.time}',
+                "${widget.name}",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -78,6 +75,11 @@ class _PostItemState extends State<PostItem> {
                   }
                 ),
               ),
+              subtitle: Text(
+                '@' + '${widget.username}' + ' · ' + '${widget.time}',
+                softWrap: false,
+                overflow: TextOverflow.fade,
+              ),
             ),
             
             Container(
@@ -91,14 +93,14 @@ class _PostItemState extends State<PostItem> {
                       Container(
                         padding: EdgeInsets.only(bottom: 10, left: 5, right: 5),
                         child: Text(
-                          "${widget.description}"
+                          "${widget.descr}"
                         ),
                       )
                     ],
                   ),
 
                   Image.asset(
-                    "${widget.mediaUrls[0]}",
+                    "${widget.postImage}",
                     width: MediaQuery.of(context).size.width,
                     fit: BoxFit.cover,
                   ),

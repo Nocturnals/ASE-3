@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
             // get user using id
             let user = await getUserById(req.loggedUser.getId());
             if (!user)
-                return res.status(500).json({message: "Couldn't upload post! Problem with verifying user"});
+                return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
 
             let post = await PostfromFirestore({
                 mapData: postDoc.data(),
@@ -44,9 +44,10 @@ module.exports = async (req, res) => {
 
                 return res.status(200).json({message: "Liked Added"});
             }
+
             return res.status(400).json({message: "Already Liked!!"});
         }
-        return res.status(400).json({message: "Error finding post"});
+        return res.status(400).json({error: "Error finding post"});
 
     } catch (error) {
         console.log(error);
