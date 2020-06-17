@@ -1,13 +1,20 @@
+// flutter imports
 import 'package:flutter/material.dart';
 
+// redux imports
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-
 import 'package:pet_app/redux/state.dart' show AppState;
+
+// model imports
 import 'package:pet_app/models/loadingStatus.dart';
 import 'package:pet_app/widgets/loader.dart';
-import 'package:pet_app/widgets/cButtons.dart';
 
+// UI imports
+import 'package:pet_app/widgets/cButtons.dart';
+import 'package:pet_app/constants/routeNames.dart';
+
+// internal imports
 import 'loginViewModel.dart';
 
 class Fields extends StatefulWidget {
@@ -201,7 +208,7 @@ class _FieldsState extends State<Fields> {
                             child: InkWell(
                               onTap: () {
                                 Navigator.of(context)
-                                    .pushNamed('/forgotPassword');
+                                    .pushNamed(RouteNames.forgotPassword);
                               },
                               child: Text(
                                 'Forgot Password?',

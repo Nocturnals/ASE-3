@@ -1,6 +1,9 @@
+// flutter imports
 import 'package:flutter/material.dart';
 
+// UI imports
 import 'package:pet_app/widgets/cButtons.dart';
+import 'package:pet_app/constants/routeNames.dart';
 
 class Fields extends StatefulWidget {
   Fields({Key key}) : super(key: key);
@@ -14,7 +17,7 @@ class _FieldsState extends State<Fields> {
   Widget _submitButton() {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/login');
+        Navigator.pushNamed(context, RouteNames.loginPage);
       },
       child: Container(
         width: MediaQuery.of(context).size.width,

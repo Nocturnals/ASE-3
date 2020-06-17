@@ -1,18 +1,25 @@
+// dart imports
 import 'dart:convert' as convert;
 
+// flutter imports
 import 'package:flutter/material.dart';
 
+// networking Imports
 import 'package:http/http.dart' as http;
-import 'package:redux_thunk/redux_thunk.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:pet_app/constants/keys.dart';
+// redux imports
+import 'package:redux_thunk/redux_thunk.dart';
+import 'package:redux/redux.dart';
 import 'package:pet_app/models/user.dart' show User;
 import 'package:pet_app/redux/state.dart' show AppState;
 import 'package:pet_app/redux/auth/authActions.dart';
 import 'package:pet_app/redux/auth/authState.dart' show AuthState;
+
+// navigation imports
+import 'package:pet_app/constants/keys.dart';
+import 'package:pet_app/constants/routeNames.dart';
 
 class LoginViewModel {
   final AuthState state;
@@ -68,7 +75,7 @@ ThunkAction _loginUser({@required String username, @required String password}) {
         prefs.setString('JToken', response.headers['authorization']);
 
         // navigate to home page
-        Keys.navKey.currentState.pushNamedAndRemoveUntil('/homePage', (Route<dynamic> route) => false);
+        Keys.navKey.currentState.pushNamedAndRemoveUntil(RouteNames.homePage, (Route<dynamic> route) => false);
       }
       // the request is a failure
       else {

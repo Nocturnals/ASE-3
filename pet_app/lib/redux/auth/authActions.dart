@@ -1,5 +1,7 @@
+// flutter imports
 import 'package:flutter/foundation.dart';
 
+// model imports
 import 'package:pet_app/models/user.dart';
 
 class LoginRequestSentAction {

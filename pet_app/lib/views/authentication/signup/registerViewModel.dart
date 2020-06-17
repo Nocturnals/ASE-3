@@ -1,16 +1,23 @@
+// dart imports
 import 'dart:convert' as convert;
 
+// flutter imports
 import 'package:flutter/material.dart';
 
+// networking imports
 import 'package:http/http.dart' as http;
-import 'package:redux_thunk/redux_thunk.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:pet_app/constants/keys.dart';
+// redux imports
+import 'package:redux_thunk/redux_thunk.dart';
+import 'package:redux/redux.dart';
 import 'package:pet_app/redux/auth/authActions.dart';
 import 'package:pet_app/redux/auth/authState.dart' show AuthState;
 import 'package:pet_app/redux/state.dart' show AppState;
+
+// navigation imports
+import 'package:pet_app/constants/routeNames.dart';
+import 'package:pet_app/constants/keys.dart';
 
 class RegisterViewModel {
   final AuthState state;
@@ -61,9 +68,9 @@ ThunkAction _register(
         store.dispatch(
             RegisterSuccessAction(message: 'Successfully registered !!'));
 
-        // navigate to home page
+        // navigate to login page
         Keys.navKey.currentState.pushNamedAndRemoveUntil(
-            '/login', (Route<dynamic> route) => false);
+            RouteNames.loginPage, (Route<dynamic> route) => false);
       }
       // the request is a failure
       else {

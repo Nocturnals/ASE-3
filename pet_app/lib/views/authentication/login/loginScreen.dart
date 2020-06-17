@@ -1,18 +1,23 @@
+// flutter imports
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// redux imports
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pet_app/models/loadingStatus.dart';
 import 'package:pet_app/redux/state.dart';
-import 'package:pet_app/views/authentication/login/message.dart';
 import 'package:redux/redux.dart';
-import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
+import 'package:pet_app/views/notifications/notificationChecker.dart';
+import 'package:pet_app/views/notifications/notifications.dart';
 
+// responsive app imports
+import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
 import 'package:pet_app/views/authentication/login/mobileView.dart';
 import 'package:pet_app/views/authentication/login/desktopTabletView.dart';
 
+// UI Imports
 import 'package:pet_app/widgets/cButtons.dart';
 import 'package:pet_app/widgets/BezierContainer.dart';
+import 'package:pet_app/constants/routeNames.dart';
 
 class LoginScreen extends StatelessWidget {
   final WidgetBuilder devReduxBuilder;
@@ -35,7 +40,7 @@ class LoginScreen extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, '/signup');
+              Navigator.pushNamed(context, RouteNames.signup);
             },
             child: Text(
               'Register',
@@ -82,55 +87,14 @@ class LoginScreen extends StatelessWidget {
           },
         );
       },
-      child: StoreConnector<AppState, MessageViewModel>(
-        converter: (Store<AppState> store) => MessageViewModel.create(store),
-        builder: (BuildContext context, MessageViewModel messageViewModel) {
-          // if message exists clear is after some time
-          if (messageViewModel.state.loadingStatus == LoadingStatus.error) {
-            Future.delayed(const Duration(milliseconds: 50), () {
-              showDialog(
-                  context: context,
-                  builder: (_) {
-                    return AlertDialog(
-                      title: Center(
-                        child: Text('Error'),
-                      ),
-                      content: Text(messageViewModel.state.errorMessage),
-                      actions: <Widget>[
-                        FlatButton(
-                          onPressed: () {
-                            messageViewModel.resetMessage();
-                            Navigator.of(context, rootNavigator: true).pop('dialog');
-                          },
-                          child: Text('Retry'),
-                        )
-                      ],
-                    );
-                  });
-            });
-          } else if (messageViewModel.state.loadingStatus == LoadingStatus.showMessage) {
-            Future.delayed(const Duration(milliseconds: 50), () {
-              showDialog(
-                  context: context,
-                  builder: (_) {
-                    return AlertDialog(
-                      title: Center(
-                        child: Text('Error'),
-                      ),
-                      content: Text(messageViewModel.state.notifyMessage),
-                      actions: <Widget>[
-                        FlatButton(
-                          onPressed: () {
-                            messageViewModel.resetMessage();
-                            Navigator.of(context, rootNavigator: true).pop('dialog');
-                          },
-                          child: Text('Retry'),
-                        )
-                      ],
-                    );
-                  });
-            });
-          }
+      child: StoreConnector<AppState, NotificationViewModel>(
+        converter: (Store<AppState> store) =>
+            NotificationViewModel.create(store),
+        builder: (BuildContext context,
+            NotificationViewModel notificationViewModel) {
+          // checks for notifications if any shows
+          notificationChecker(
+              notificationViewModel: notificationViewModel, context: context);
 
           // return the sceen
           return Scaffold(
