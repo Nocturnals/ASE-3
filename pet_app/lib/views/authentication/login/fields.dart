@@ -93,7 +93,7 @@ class _FieldsState extends State<Fields> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'username',
+                  'Username',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
