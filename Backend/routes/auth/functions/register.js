@@ -54,7 +54,8 @@ module.exports = async (req, res) => {
             expiresIn: "1d",
         });
 
-        await sendEmailToVerifyEmail(user);
+        // // mail the verification link to the user
+        // await sendEmailToVerifyEmail(user);
 
         return res.header("authorization", jToken).json(jToken);
     } catch (error) {
