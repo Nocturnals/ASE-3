@@ -1,16 +1,24 @@
+// flutter imports
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
+// redux imports
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pet_app/redux/state.dart';
+import 'package:redux/redux.dart';
+import 'package:pet_app/views/notifications/notificationChecker.dart';
+import 'package:pet_app/views/notifications/notifications.dart';
 
+// responsive app imports
+import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
 import 'package:pet_app/views/authentication/signup/desktopTabletView.dart';
 import 'package:pet_app/views/authentication/signup/mobileView.dart';
 import 'package:pet_app/widgets/BezierContainer.dart';
 import 'package:pet_app/widgets/cButtons.dart';
+import 'package:pet_app/constants/routeNames.dart';
 
 class SignUpScreen extends StatelessWidget {
   final WidgetBuilder devReduxBuilder;
-
 
   const SignUpScreen({Key key, this.devReduxBuilder}) : super(key: key);
 
@@ -30,7 +38,7 @@ class SignUpScreen extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed('/login');
+              Navigator.of(context).pushNamed(RouteNames.loginPage);
             },
             child: Text(
               'Login',
@@ -77,31 +85,44 @@ class SignUpScreen extends StatelessWidget {
           },
         );
       },
-      child: Scaffold(
-        endDrawer: devReduxBuilder != null ? devReduxBuilder(context) : null,
-        body: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            child: Stack(
-              children: <Widget>[
-                ScreenTypeLayout(
-                  mobile: MobileView(),
-                  tablet: DesktopTabletView(),
-                  desktop: DesktopTabletView(),
+      child: StoreConnector<AppState, NotificationViewModel>(
+        converter: (Store<AppState> store) =>
+            NotificationViewModel.create(store),
+        builder: (BuildContext context,
+            NotificationViewModel notificationViewModel) {
+          // checks for notifications if any shows
+          notificationChecker(
+              notificationViewModel: notificationViewModel, context: context);
+
+          // return the screen
+          return Scaffold(
+            endDrawer:
+                devReduxBuilder != null ? devReduxBuilder(context) : null,
+            body: SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: Stack(
+                  children: <Widget>[
+                    ScreenTypeLayout(
+                      mobile: MobileView(),
+                      tablet: DesktopTabletView(),
+                      desktop: DesktopTabletView(),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: _loginAccountLabel(context),
+                    ),
+                    Positioned(top: 40, left: 0, child: cBackButton(context)),
+                    Positioned(
+                        top: -MediaQuery.of(context).size.height * .15,
+                        right: -MediaQuery.of(context).size.width * .4,
+                        child: BezierContainer())
+                  ],
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: _loginAccountLabel(context),
-                ),
-                Positioned(top: 40, left: 0, child: cBackButton(context)),
-                Positioned(
-                    top: -MediaQuery.of(context).size.height * .15,
-                    right: -MediaQuery.of(context).size.width * .4,
-                    child: BezierContainer())
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

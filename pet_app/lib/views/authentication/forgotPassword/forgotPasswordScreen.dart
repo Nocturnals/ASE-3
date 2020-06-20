@@ -1,10 +1,13 @@
+// flutter imports
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// responsive app imports
 import 'package:responsive_builder/responsive_builder.dart' hide WidgetBuilder;
-
 import 'package:pet_app/views/authentication/forgotPassword/desktopTabletView.dart';
 import 'package:pet_app/views/authentication/forgotPassword/mobileView.dart';
+
+// UI imports
 import 'package:pet_app/widgets/cButtons.dart';
 import 'package:pet_app/widgets/BezierContainer.dart';
 

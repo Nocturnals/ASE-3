@@ -1,18 +1,25 @@
+// flutter imports
 import 'package:flutter/material.dart';
 
+// networking imports
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:pet_app/views/errorPages/RouteNotFound.dart';
+import 'package:pet_app/constants/keys.dart';
+import 'package:pet_app/constants/routeNames.dart';
+
+// redux imports
 import 'package:redux/redux.dart';
 import 'package:redux_dev_tools/redux_dev_tools.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_dev_tools/flutter_redux_dev_tools.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-
-import 'package:pet_app/constants/themeData.dart';
 import 'package:pet_app/redux/state.dart';
 import 'package:pet_app/redux/reducer.dart';
 
-// ALL PAGES HERE
+// UI imports
+import 'package:pet_app/constants/themeData.dart';
+
+// All Routes imports
+import 'package:pet_app/views/errorPages/RouteNotFound.dart';
 import 'package:pet_app/views/authentication/login/loginScreen.dart'
     show LoginScreen;
 import 'package:pet_app/views/authentication/signup/signUpScreen.dart'
@@ -26,9 +33,6 @@ import 'package:pet_app/views/landingScreen/landingScreen.dart'
 import 'package:pet_app/views/home/guest/guestHomeScreen.dart'
     show GuestHomeScreen;
 import 'package:pet_app/views/home/homeFeed/homePage.dart';
-
-import 'package:pet_app/constants/keys.dart';
-import 'package:pet_app/constants/routeNames.dart';
 
 void main() async {
   // load the dot env file varaibles
@@ -133,7 +137,7 @@ class PetSApp extends StatelessWidget {
                       routeName: settings.name));
           }
         },
-        initialRoute: '/landingPage',
+        initialRoute: RouteNames.landingPage,
       ),
     );
   }

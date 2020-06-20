@@ -1,7 +1,10 @@
+// redux imports
 import 'package:redux/redux.dart';
 
+// model imports
 import 'package:pet_app/models/loadingStatus.dart';
 
+// internal imports
 import 'authState.dart';
 import 'authActions.dart';
 

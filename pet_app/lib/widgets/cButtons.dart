@@ -1,8 +1,12 @@
+// flutter imports
 import 'package:flutter/material.dart';
 
+// UI imports
+import 'package:google_fonts/google_fonts.dart';
+
+// route imports
 import 'package:pet_app/views/landingScreen/landingScreen.dart';
 
-import 'package:google_fonts/google_fonts.dart';
 
 Widget cTitle(BuildContext context) {
   var a = false;
