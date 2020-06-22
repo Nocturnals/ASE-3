@@ -1,6 +1,14 @@
 // flutter imports
 import 'package:flutter/material.dart';
 
+// redux imports
+import 'package:pet_app/redux/auth/authActions.dart';
+import 'package:redux/redux.dart';
+
+// navigation imports
+import 'package:pet_app/constants/routeNames.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 // internal imports
 import 'cButtons.dart';
 
@@ -14,7 +22,7 @@ Widget appBar(BuildContext context) {
 }
 
 // Side Drawer
-Widget drawer(BuildContext context) {
+Widget drawer(BuildContext context, {@required Store store}) {
   var a = false;
   return Drawer(
     // Add a ListView to the drawer. This ensures the user can scroll
@@ -26,15 +34,14 @@ Widget drawer(BuildContext context) {
       children: <Widget>[
         DrawerHeader(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xfffbb448), Color(0xffe46b10)])),
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xfffbb448), Color(0xffe46b10)])),
           child: () {
             if (a) {
               return Text('Username');
-            }
-            else {
+            } else {
               return Center(
                 child: RaisedButton(
                   onPressed: () {},
@@ -47,13 +54,13 @@ Widget drawer(BuildContext context) {
                   disabledElevation: 0,
                   padding: EdgeInsets.zero,
                   child: Text(
-                    "Sign In", 
+                    "Sign In",
                     style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
                 ),
               );
             }
-          } (),
+          }(),
         ),
         ListTile(
           title: Text('Item 1'),
@@ -64,13 +71,24 @@ Widget drawer(BuildContext context) {
             Navigator.pop(context);
           },
         ),
+        // signout profile card
         ListTile(
-          title: Text('Item 2'),
+          leading: Icon(Icons.exit_to_app),
+          title: Text('Sign out'),
           onTap: () {
-            // Update the state of the app
-            // ...
-            // Then close the drawer
-            Navigator.pop(context);
+            // signout the user
+            store.dispatch(LogOutAction());
+
+            // remove the stored shared preference
+            SharedPreferences.getInstance().then((instance) {
+              instance.remove('JToken');
+            });
+
+            // navigate to login and remove all before pages
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              RouteNames.loginPage,
+              (Route<dynamic> route) => false,
+            );
           },
         ),
       ],
