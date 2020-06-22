@@ -38,3 +38,7 @@ class RegisterSuccessAction {
 class ResetMessageAction {
   ResetMessageAction();
 }
+
+class LogOutAction {
+  LogOutAction();
+}
