@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 // redux imports
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pet_app/redux/state.dart';
+import 'package:redux/redux.dart';
 
 // UI imports
 import 'package:pet_app/widgets/toolNav.dart';
@@ -19,7 +21,7 @@ class GuestHomeScreen extends StatefulWidget {
 
 class _GuestHomeScreenState extends State<GuestHomeScreen> {
   Widget build(BuildContext context) {
-    return StoreBuilder(builder: (context, store) {
+    return StoreBuilder(builder: (BuildContext context, Store<AppState> store) {
       return Scaffold(
         appBar: appBar(context),
         drawer: drawer(context, store: store),
