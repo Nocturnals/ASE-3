@@ -15,6 +15,7 @@ final Function authReducer = combineReducers<AuthState>([
   TypedReducer<AuthState, RegisterRequestSentAction>(_registerRequestSent),
   TypedReducer<AuthState, RegisterFailedAction>(_registerFailed),
   TypedReducer<AuthState, RegisterSuccessAction>(_registerSuccess),
+  TypedReducer<AuthState, AddMessageAction>(_addMessage),
   TypedReducer<AuthState, ResetMessageAction>(_resetMessage),
   TypedReducer<AuthState, LogOutAction>(_logOut),
 ]);
@@ -63,6 +64,10 @@ AuthState _registerFailed(AuthState state, RegisterFailedAction action) {
     loggedUser: null,
     errorMessage: action.message,
   );
+}
+
+AuthState _addMessage(AuthState state, AddMessageAction action) {
+  return state.copyWith(notifyMessage: action.message, loadingStatus: LoadingStatus.showMessage);
 }
 
 AuthState _resetMessage(AuthState state, ResetMessageAction action) {

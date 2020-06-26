@@ -66,7 +66,7 @@ const verifyUserWithToken = async (req, res, next) => {
                     });
                     req.loggedUser = user_instance;
 
-                    if (process.env.NODE_ENV === "development") {
+                    if (process.env.NODE_ENV !== "product") {
                         // doesn't check email verification in development environment
                         next();
                     } else {
@@ -195,7 +195,7 @@ const verifyLogin = async (req, res, next) => {
                         });
                         req.loggedUser = user_instance;
 
-                        if (process.env.NODE_ENV === "development") {
+                        if (process.env.NODE_ENV !== "product") {
                             // doesn't check email verification in development environment
                             next();
                         } else {

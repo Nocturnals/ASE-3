@@ -38,14 +38,14 @@ module.exports = async (req, res) => {
         // convert the user data to user instance
         req.loggedUser = UserfromFirestore({mapData: user.data(), docId: user.id});
 
-        // if (process.env.NODE_ENV !== "development") {
-        //     if (!userData.email_verified) {
-        //         sendEmailToVerifyEmail(req.loggedUser);
-        //         return res
-        //             .status(401)
-        //             .json({ message: "Access denied as email isn't verified" });
-        //     }
-        // }
+        if (process.env.NODE_ENV === "product") {
+            if (!userData.email_verified) {
+                sendEmailToVerifyEmail(req.loggedUser);
+                return res
+                    .status(401)
+                    .json({ message: "Access denied as email isn't verified" });
+            }
+        }
 
         // Assign a json web token
         const tokenSecret = process.env.Token_Secret;
