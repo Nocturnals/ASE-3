@@ -59,6 +59,9 @@ app.get("/testing", (req, res, next) => {
 // route for authentication
 app.use("/api/auth", require("./routes/auth/index"));
 
+// route for babysitter
+app.use("/api/babysitter", require("./routes/babysitter/index"));
+
 // route for post management
 app.use("/post", require("./routes/post/index"));
 
