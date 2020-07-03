@@ -229,7 +229,7 @@ const getUserById = async (user_id) => {
     try {
         const userDoc = await userFirestoreCRUD.getUserViaID(user_id);
         // when user exists
-        if (userDoc) {
+        if (userDoc.data()) {
             let user = UserfromFirestore({
                 mapData: userDoc.data(),
                 docId: userDoc.id,
@@ -249,7 +249,7 @@ const getUserByUsername = async (username) => {
     try {
         let userDoc = await userFirestoreCRUD.getUserViaUsername(username);
         // if user exists
-        if (userDoc) {
+        if (userDoc.data()) {
             let user = UserfromFirestore({
                 mapData: userDoc.data(),
                 docId: userDoc.id,

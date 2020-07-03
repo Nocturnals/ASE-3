@@ -12,60 +12,57 @@ module.exports = async (req, res) => {
     try {
         // get post document from firestore using id
         const postDoc = await postCRUD.getPostViaId(req.body.post_id);
-        if (postDoc) {
-            // get user using id
-            let user = await getUserById(req.loggedUser.getId());
-            if (!user)
-                return res
-                    .status(500)
-                    .json({
-                        error:
-                            "Couldn't upload post! Problem with verifying user",
-                    });
+        if (!postDoc.data())
+            return res.status(404).json({error: "Problem with finding post"});
+        
+        // get user using id
+        let user = await getUserById(req.loggedUser.getId());
+        if (!user)
+            return res
+                .status(404)
+                .json({ message: "Couldn't upload post! Problem with verifying user" });
 
-            let post = await PostfromFirestore({
-                mapData: postDoc.data(),
-                docId: postDoc.id,
-            });
+        let post = await PostfromFirestore({
+            mapData: postDoc.data(),
+            docId: postDoc.id,
+        });
+        if (!post) return res.status(404).json({ message: 'Error in finding post' });
 
-            // check if user already liked this post and update liked by users
-            let liked_by = await post.getLiked_by();
-            if (liked_by.includes(user.getId())) {
-                // remove unliked user from liked by and get updated liked by list
-                let updated_liked_by = [];
-                for (let i = 0; i < liked_by.length; i++) {
-                    if (liked_by[i] == user.getId())
-                        continue;
-                    updated_liked_by.push(liked_by[i]);
-                }
-
-                await post.setLiked_by(updated_liked_by);
-                await post.setLikes_count(post.getLiked_by().length);
-
-                await postCRUD.updatePost(post.toMap());
-
-                console.log("Like removed");
-
-                if (user.getLiked_post_ids().includes(post.getId())) {
-                    let liked_post_ids = user.getLiked_post_ids();
-                    // remove unliked user from liked by and get updated liked by list
-                    let updated_liked_post_ids = [];
-                    for (let i = 0; i < liked_post_ids.length; i++) {
-                        if (liked_post_ids[i] == post.getId())
-                            continue;
-                        updated_liked_post_ids.push(liked_post_ids[i]);
-                    }
-
-                    await user.setLiked_post_ids(updated_liked_post_ids );
-                    await userCRUD.updateUser(user.toMap());
-                }
-
-                return res.status(200).json({message: "Liked Removed"});
+        // check if user already liked this post and update liked by users
+        let liked_by = await post.getLiked_by();
+        if (liked_by.includes(user.getId())) {
+            // remove unliked user from liked by and get updated liked by list
+            let updated_liked_by = [];
+            for (let i = 0; i < liked_by.length; i++) {
+                if (liked_by[i] == user.getId())
+                    continue;
+                updated_liked_by = [ ...updated_liked_by, liked_by[i] ];
             }
 
-            return res.status(400).json({message: "You haven't liked this post yet!!"});
+            await post.setLiked_by(updated_liked_by);
+            await post.setLikes_count(post.getLiked_by().length);
+
+            await postCRUD.updatePost(post.toMap());
+
+            if (user.getLiked_post_ids().includes(post.getId())) {
+                let liked_post_ids = user.getLiked_post_ids();
+                // remove unliked user from liked by and get updated liked by list
+                let updated_liked_post_ids = [];
+                for (let i = 0; i < liked_post_ids.length; i++) {
+                    if (liked_post_ids[i] == post.getId())
+                        continue;
+                    updated_liked_post_ids = [ ...updated_liked_post_ids, liked_post_ids[i] ];
+                }
+
+                await user.setLiked_post_ids(updated_liked_post_ids );
+                await userCRUD.updateUser(user.toMap());
+            }
+            console.log("Like removed");
+
+            return res.status(200).json({message: "Liked Removed"});
         }
-        return res.status(400).json({error: "Error finding post"});
+
+        return res.status(400).json({message: "You haven't liked this post yet!!"});
 
     } catch (error) {
         console.log(error);

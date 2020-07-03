@@ -4,6 +4,9 @@ const postCRUD = require("../../../services/firestore/postCRUD");
 
 const { PostfromFirestore } = require("../../../models/post");
 
+const { getUserById } = require("../../auth/helper");
+const { checkPrivacyStatus } = require("../helper");
+
 // Generating Feed for user
 module.exports.refreshFeed = async (req, res) => {
     try {
@@ -13,8 +16,6 @@ module.exports.refreshFeed = async (req, res) => {
             following = req.loggedUser.getFollowing();
         else
             following = req.body.following;
-
-        console.log(following);
         
         // sort the users accordingly
         const sorted_users = following;
@@ -22,18 +23,24 @@ module.exports.refreshFeed = async (req, res) => {
         // getting all post ids
         let following_posts = [];
         for (let i = 0; i < sorted_users.length; i++) {
-            // check the privacy status of the user
-            if (
-                sorted_users[i].getPrivacy_status() 
-                &&
-                !sorted_users[i].getPublic_to().includes(req.loggedUser.getId())) 
-                continue;
+            let _user = await getUserById(sorted_users[i]);
 
-            const post_ids = await sorted_users[i].getPos_ids();
+            if (!_user)
+                return res.status(404).json({ message: 'Error in finding user' });
+
+            // check the privacy status of the user
+            const access = await checkPrivacyStatus(req, res, _user);
+            if (!access) continue;
+
+            const post_ids = await _user.getPost_ids();
             let posts = [];
             for (let j = 0; j < post_ids.length; j++) {
                 const postDoc = await postCRUD.getPostViaId(post_ids[j]);
+                if (!postDoc.data())
+                    return res.status(404).json({ message: 'Error in finding post' });
+
                 let post = await PostfromFirestore({mapData: postDoc.data(), docId: postDoc.id});
+                if (!post) return res.status(404).json({ message: 'Error in finding post' });
 
                 posts = [ ...posts, post.toMap() ];
             }
@@ -49,26 +56,26 @@ module.exports.refreshFeed = async (req, res) => {
         if (req.body.refersh) {
             // if there are more than 25 posts
             if (following_posts.length >= 25)
-                res.status(200).json({ posts: following_posts.slice(0, 25) });
+                return res.status(200).json({ posts: following_posts.slice(0, 25) });
             
             // if there are less than 25 posts
-            res.status(200).json({ posts: following_posts });
+            return res.status(200).json({ posts: following_posts });
         }
 
         const scroll_number = req.body.scroll_number;
         if (scroll_number) {
             // if there are more than 5 posts
             if (following_posts.length >= scroll_number*5 + 25)
-                res.status(200).json({ posts: following_posts.slice((scroll_number-1)*5 + 25, scroll_number*5 + 25) });
+                return res.status(200).json({ posts: following_posts.slice((scroll_number-1)*5 + 25, scroll_number*5 + 25) });
 
             // if there are less than 5 posts
-            res.status(200).json({ posts: following_posts.slice((scroll_number-1)*5 + 25, following_posts.length -1) });
+            return res.status(200).json({ posts: following_posts.slice((scroll_number-1)*5 + 25, following_posts.length -1) });
         }
 
-        res.json({error: "Couldn't update feed"})
+        return res.json({error: "Couldn't update feed"})
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({error: "Couldn't update feed."});
+        return res.status(500).json({error: "Couldn't update feed."});
     }
 };

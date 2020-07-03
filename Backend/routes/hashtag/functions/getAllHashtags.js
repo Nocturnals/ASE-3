@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
         let hashtags = await hashtagCRUD.getAll();
         console.log(hashtags);
 
-        res.json({ hashtags: hashtags });
+        return res.json({ hashtags: hashtags });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" });

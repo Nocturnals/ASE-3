@@ -9,10 +9,11 @@ const removePostFromHashtag = require("../../hashtag/functions/removePostFromHas
 // delete all the posts of logged user
 module.exports = async (req, res) => {
     try {
+        let err_fp = false;
         const post_ids = req.loggedUser.getPost_ids();
         for (let i = 0; i < post_ids.length; i++) {
             let postDoc = await postCRUD.getPostViaId(post_ids[i]);
-            if (postDoc) {
+            if (postDoc.data()) {
                 // get post in Post Model type
                 let post = await PostfromFirestore({mapData: postDoc.data(), docId: postDoc.id});
 
@@ -30,13 +31,15 @@ module.exports = async (req, res) => {
                 );
 
                 console.log("Post deleted sucessfully.");
-            }
+            } else err_fp = true;
         }
-        console.log("All posts deleted sucessfully.");
-
-        return res
-            .status(200)
-            .json({ message: "All posts deleted sucessfully." });
+        if (err_fp) {
+            console.log("Error finding some posts!!, Remaining are deleted sucessfully.");
+            return res.status(200).json({ message: "Error finding some posts!!, Remaining are deleted sucessfully." });
+        } else {
+            console.log("All posts deleted sucessfully.");
+            return res.status(200).json({ message: "All posts deleted sucessfully." });
+        }  
 
     } catch (error) {
         console.log(error);

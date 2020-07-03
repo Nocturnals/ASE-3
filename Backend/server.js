@@ -60,7 +60,7 @@ app.get("/testing", (req, res, next) => {
 app.use("/api/auth", require("./routes/auth/index"));
 
 // route for post management
-app.use("/post", require("./routes/post/index"));
+app.use("/api/post", require("./routes/post/index"));
 
 // route for hashtag management
 app.use("/hashtag", require("./routes/hashtag/index"));

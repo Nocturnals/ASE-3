@@ -39,7 +39,7 @@ module.exports = async (req, res, next) => {
                 let new_user_mentioned = [];
                 for (let j = 0; j < user_mentioned.length; j++)
                     if (user_mentioned[j] != req.post.getId())
-                        new_user_mentioned.push(user_mentioned[j]);
+                        new_user_mentioned = [ ...new_user_mentioned, user_mentioned[j] ];
                 
                 await user.setMentioned_post_ids(new_user_mentioned);
                 await userCRUD.updateUser(user.toMap());

@@ -27,7 +27,7 @@ module.exports = async (req, res, next) => {
 
         let post = new PostModel({
             id: null,
-            author_id: req.loggedUser.getId(),
+            author_name: req.loggedUser.getUsername(),
             media_urls: req.body.media_urls
         });
 

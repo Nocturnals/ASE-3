@@ -14,16 +14,13 @@ module.exports = async (req, res) => {
         let user = await getUserByUsername(req.body.username);
         
         if (!user)
-            return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
+            return res.status(404).json({error: "Couldn't get posts! Problem with verifying user"});
 
         // check the pricvacy status of the user
         const access = await checkPrivacyStatus(req, res, user);
-        
         if (!access)
             return res.status(200).json({
-                message:
-                    "Post cannot be displayed! The user has a private account!!",
-            });
+                message:"Posts cannot be displayed! The user has a private account!!" });
 
         let posts = [];
         let post_ids = await user.getPost_ids();
@@ -32,10 +29,13 @@ module.exports = async (req, res) => {
             // get post document using id
             let postDoc = await postCRUD.getPostViaId(post_ids[i]);
             
-            if (postDoc.data()) {
-                let post = await PostfromFirestore({ mapData: postDoc.data(), docId: postDoc.id });
-                posts.push(post.toMap());
-            }
+            if (!postDoc.data())
+                return res.status(404).json({error: "Couldn't get posts! Problem with finding post"});
+
+            let post = await PostfromFirestore({ mapData: postDoc.data(), docId: postDoc.id });
+            if (!post) return res.status(404).json({ message: 'Error in finding post' });
+
+            posts = [ ...posts, post.toMap() ];
         }
 
         return res.status(200).json({ posts: posts });

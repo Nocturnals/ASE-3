@@ -5,6 +5,6 @@ module.exports = async (req, res) => {
         // await req.loggedUser.setPublic_to([req.loggedUser.getId()]);
         console.log(req.loggedUser.getId());
 
-        res.status(200).json(req.loggedUser.toMap());
+        return res.status(200).json(req.loggedUser.toMap());
     }
 };

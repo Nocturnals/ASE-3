@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
             // get user using id
             let user = await getUserById(req.loggedUser.getId());
             if (!user)
-                return res.status(500).json({error: "Couldn't upload post! Problem with verifying user"});
+                return res.status(500).json({error: "Couldn't like post! Problem with verifying user"});
 
             let post = await PostfromFirestore({
                 mapData: postDoc.data(),

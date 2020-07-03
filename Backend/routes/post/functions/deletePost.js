@@ -11,7 +11,7 @@ const postCRUD = require("../../../services/firestore/postCRUD");
 module.exports = async (req, res, next) => {
     try {
         const postDoc = await postCRUD.getPostViaId(req.body.post_id);
-        if (postDoc) {
+        if (postDoc.data()) {
             let post = await PostfromFirestore({
                 mapData: postDoc.data(),
                 docId: postDoc.id,
@@ -34,12 +34,17 @@ module.exports = async (req, res, next) => {
 
             // remove post id from author post ids
             let post_ids = await user.getPost_ids();
-            await user.setPost_ids(
-                post_ids.splice(post_ids.indexOf(req.body.post_id), 1)
-            );
+
+            let _post_ids = [];
+            const _i = post_ids.indexOf(req.body.post_id);
+            await post_ids.forEach((id, i) => {
+                if (i != _i)  _post_ids = [ ..._post_ids, id ];
+            });
+
+            await user.setPost_ids( _post_ids );
 
             // updating user document
-            let userDoc = await userCRUD.updateUser(user.toMap());
+            await userCRUD.updateUser(user.toMap());
 
             // return res.status(200).json({ message: "Post deleted sucessfully." });
             console.log("Post deleted sucessfully.");
