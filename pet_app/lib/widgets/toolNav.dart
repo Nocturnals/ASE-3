@@ -68,6 +68,16 @@ Widget drawer(BuildContext context, {@required Store<AppState> store}) {
                   ),
                 ),
         ),
+        // manage pets tile
+        ListTile(
+          leading: Icon(Icons.pets),
+          title: Text('Your Pets'),
+          onTap: () {
+            // navigate to the pets page
+            Navigator.of(context).pushNamed(RouteNames.petPage);
+          },
+        ),
+
         // signout profile card
         ListTile(
           leading: Icon(Icons.exit_to_app),
