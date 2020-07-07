@@ -9,7 +9,7 @@ let coll_ref = database.collection("pets");
 
 /**
  * function to create a new pet
- * @param {Map<any, any>} petMap
+ * @param {object} petMap
  */
 module.exports.createPet = async (petMap) => {
 	const new_pet_ref = await coll_ref.add(petMap);

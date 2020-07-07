@@ -3,6 +3,7 @@
 /**
  * Model to pets for creating
  * @param {*} param0
+ * @returns Petmodel
  */
 function Pet({ id, name, ownerId }) {
 	// private variables
@@ -107,6 +108,8 @@ function Pet({ id, name, ownerId }) {
 		map["owner_id"] = this._owner_id;
 		map["animal_type"] = this._animal_type;
 		map["dob"] = this._dob;
+
+		return map;
 	};
 }
 
@@ -125,3 +128,5 @@ const PetFromFirestore = (mapData, docId) => {
 	pet_instance.setAnimalType(mapData["animal_type"]);
 	pet_instance.setDOB(mapData["dob"]);
 };
+
+module.exports = { PetModel: Pet, PetFromFirestore };
