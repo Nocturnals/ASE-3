@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // navigation imports
-import 'package:pet_app/services/authServices/checkLoggedUser.dart';
+import 'package:pet_app/services/authVerify/checkLoggedUser.dart';
 
 // UI imports
 import 'package:pet_app/widgets/loader.dart';

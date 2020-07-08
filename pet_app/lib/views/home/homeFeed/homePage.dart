@@ -7,7 +7,7 @@ import 'package:redux/redux.dart';
 import 'package:pet_app/redux/state.dart';
 
 // navigation imports
-import 'package:pet_app/services/authServices/checkLoggedUser.dart';
+import 'package:pet_app/services/authVerify/checkLoggedUser.dart';
 
 // UI imports
 import 'package:pet_app/widgets/cWidgets.dart';
@@ -27,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading;
 
   Future<void> checkUserState() async {
-
     // check if user is logged in and valid
     await CheckLoggedUser().checkUserStatus(context: context);
 
