@@ -30,9 +30,10 @@ import 'package:pet_app/views/authentication/resetPassword/resetPasswordScreen.d
     show ResetPasswordScreen;
 import 'package:pet_app/views/landingScreen/landingScreen.dart'
     show LandingPage;
-import 'package:pet_app/views/home/guest/guestHomeScreen.dart'
-    show GuestHomeScreen;
-import 'package:pet_app/views/home/homeFeed/homePage.dart';
+import 'package:pet_app/views/home/homeFeed/homeFeedScreen.dart'
+    show HomeFeed;
+import 'package:pet_app/views/post/create/createPostScreen.dart'
+    show CreatePostScreen;
 
 void main() async {
   // load the dot env file varaibles
@@ -125,11 +126,20 @@ class PetSApp extends StatelessWidget {
             case RouteNames.homePage:
               return MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      HomeScreen(devReduxBuilder: devReduxBuilder));
-            case RouteNames.guest:
+                      // HomeFeed(devReduxBuilder: devReduxBuilder));
+                      HomeFeed());
+
+            // create post page route
+            case RouteNames.homePage:
               return MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      GuestHomeScreen(devReduxBuilder: devReduxBuilder));
+                      // HomeFeed(devReduxBuilder: devReduxBuilder));
+                      CreatePostScreen(devReduxBuilder: devReduxBuilder));
+
+            // case RouteNames.guest:
+            //   return MaterialPageRoute(
+            //       builder: (BuildContext context) =>
+            //           GuestHomeScreen(devReduxBuilder: devReduxBuilder));
             default:
               return MaterialPageRoute(
                   builder: (BuildContext context) => PageNotFoundScreen(

@@ -7,4 +7,5 @@ class RouteNames {
   static const String resetPassword = '/resetPassword';
   static const String guest = '/guest';
   static const String homePage = '/homePage';
+  static const String createPost = '/createPost';
 }
