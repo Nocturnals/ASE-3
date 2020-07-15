@@ -16,11 +16,13 @@ import 'package:pet_app/redux/homeFeed/homeFeedState.dart' show HomeFeedState;
 class HomeFeedViewModel {
   final HomeFeedState state;
   final bool isAuthed;
+  final String loggedUsername;
   final Function() getHomeFeed;
 
   HomeFeedViewModel({
     @required this.state,
     @required this.isAuthed,
+    @required this.loggedUsername,
     @required this.getHomeFeed,
   });
 
@@ -34,7 +36,8 @@ class HomeFeedViewModel {
     return HomeFeedViewModel(
       state: store.state.homeFeedState,
       isAuthed: store.state.authState.loggedUser != null ? true : false,
-      getHomeFeed: _onGetUserHomeFeed(),
+      loggedUsername: store.state.authState.loggedUser.username,
+      getHomeFeed: _onGetUserHomeFeed,
     );
   }
 }
@@ -51,14 +54,15 @@ ThunkAction _getUserHomeFeed({ @required bool isAuthed, @required List following
         store.dispatch(GetLoggedUserHomeFeedRequestAction());
 
         // create the json data as the request body
-        Map data = {'following': following};
-        var body = convert.jsonEncode(data);
+        Map<String, String> queryParams = {'refresh': "true", "scroll_number": "1"};
 
+        final uri = Uri.http('${DotEnv().env['localhost']}', '/api/home/feed/logged_user', queryParams);
         // send the request
-        http.Response response = await http.post(
-            '${DotEnv().env['localhost']}/api/home/feed/logged_user',
-            body: body,
-            headers: {"Authorization": "Bearer $token",},
+        http.Response response = await http.get(
+            uri,
+            headers: {
+              "Authorization": "Bearer $token",
+            }
         );
 
         // check if the request is a success
@@ -69,8 +73,9 @@ ThunkAction _getUserHomeFeed({ @required bool isAuthed, @required List following
           // create post model and set the new state 
           List<Post> posts = [];
           List res = jsonResponse['posts'];
-          for (var i = 0; i < res.length; i++)
+          for (var i = 0; i < res.length; i++){
             posts.add(Post.fromMap(res[i]));
+          }
 
           store.dispatch(GetLoggedUserHomeFeedSuccessAction(posts: posts));
         }
@@ -84,7 +89,7 @@ ThunkAction _getUserHomeFeed({ @required bool isAuthed, @required List following
         store.dispatch(GetGuestUserHomeFeedRequestAction());
 
         // send the request
-        http.Response response = await http.post(
+        http.Response response = await http.get(
             '${DotEnv().env['localhost']}/api/home/feed/guest_user',
         );
 
@@ -103,8 +108,8 @@ ThunkAction _getUserHomeFeed({ @required bool isAuthed, @required List following
         }
         // the request is a failure
         else {
-          var jsonResponse = convert.json.decode(response.body);
-          store.dispatch(GetGuestUserHomeFeedFailedAction(message: jsonResponse['message']));
+          debugPrint(response.body);
+          store.dispatch(GetGuestUserHomeFeedFailedAction(message: response.body));
         }
       }
     });

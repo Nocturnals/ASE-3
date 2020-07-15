@@ -5,10 +5,10 @@ const postCRUD = require("../../../services/firestore/postCRUD");
 const { PostfromFirestore } = require("../../../models/post");
 
 const { getUserById } = require("../../auth/helper");
-const { checkPrivacyStatus } = require("../helper");
+const { checkPrivacyStatus } = require("../../post/helper");
 
 // Generating Feed for user
-module.exports.refreshFeed = async (req, res) => {
+module.exports = async (req, res) => {
     try {
         // get logged user following users list
         let following

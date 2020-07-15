@@ -62,29 +62,29 @@ class _FieldsState extends State<Fields> {
     );
   }
 
-  Widget guestProceed() {
-    return Container(
-        margin: EdgeInsets.only(top: 40, bottom: 20),
-        child: Column(
-          children: <Widget>[
-            InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/guest');
-              },
-              child: new Container(
-                child: Text(
-                  'Proceed as Guest',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ));
-  }
+  // Widget guestProceed() {
+  //   return Container(
+  //       margin: EdgeInsets.only(top: 40, bottom: 20),
+  //       child: Column(
+  //         children: <Widget>[
+  //           InkWell(
+  //             onTap: () {
+  //               Navigator.pushNamed(context, '/guest');
+  //             },
+  //             child: new Container(
+  //               child: Text(
+  //                 'Proceed as Guest',
+  //                 style: TextStyle(
+  //                   color: Colors.white,
+  //                   fontSize: 15,
+  //                   decoration: TextDecoration.underline,
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,7 @@ class _FieldsState extends State<Fields> {
                 height: 20,
               ),
               // _label()
-              guestProceed()
+              // guestProceed()
             ],
           ),
     );

@@ -14,7 +14,8 @@ import 'package:pet_app/constants/bottomNavBarItems.dart';
 
 import 'homeFeedViewModel.dart';
 
-import 'package:pet_app/views/post/postScreen.dart';
+import 'package:pet_app/views/post/other/otherPostScreen.dart';
+import 'package:pet_app/views/post/user/userPostScreen.dart';
 
 class Fields extends StatefulWidget {
   Fields({Key key}) : super(key: key);
@@ -36,10 +37,13 @@ class _FieldsState extends State<Fields> {
   }
 
   // initializing state
-  Widget _initialState(HomeFeedViewModel homeFeedViewModel) {
-    homeFeedViewModel.getHomeFeed();
+  Widget _initiateState(HomeFeedViewModel homeFeedViewModel) {
+    // homeFeedViewModel.getHomeFeed();
 
-    return SizedBox(width: 0, height: 0,);
+    return SizedBox(
+      width: 0, height: 0,
+      child: Text("data"),
+    );
   }
 
   // function to change bottom navigation bar selected index
@@ -55,11 +59,17 @@ class _FieldsState extends State<Fields> {
   @override
   Widget build(BuildContext context) {
     // App Bar
-    Widget _appBar(BuildContext context) {
+    Widget _appBar(BuildContext context, HomeFeedViewModel homeFeedViewModel) {
       return AppBar(
         centerTitle: true,
         title: cTitle(context),
         backgroundColor: Color(0xfff99100),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () { homeFeedViewModel.getHomeFeed(); }
+          )
+        ],
       );
     }
 
@@ -137,27 +147,48 @@ class _FieldsState extends State<Fields> {
       converter: (Store<AppState> store) => HomeFeedViewModel.create(store),
       builder: (BuildContext context, HomeFeedViewModel homeFeedViewModel) =>
           Scaffold(
-            appBar: _appBar(context),
+            appBar: _appBar(context, homeFeedViewModel),
             drawer: homeFeedViewModel.isAuthed ? null : _drawer(context),
-            body: homeFeedViewModel.state.loadingStatus == LoadingStatus.idle 
-                    ? _initialState(homeFeedViewModel)
-                    : homeFeedViewModel.state.loadingStatus == LoadingStatus.loading
-                          ? Center(
-                              child: Loader(),
-                            )
-                          : homeFeedViewModel.state.loadingStatus == LoadingStatus.success 
-                              ? ListView.builder(
-                                  padding: EdgeInsets.all(0),
-                                  controller: _scrollController,
-                                  dragStartBehavior: DragStartBehavior.down,
-                                  itemCount: 10,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return PostScreen(
-                                      post: homeFeedViewModel.state.posts[index]
-                                    );
-                                  },
-                                )
-                              : SnackBar(content: Text("Couldn't update feed! Try again")),
+            body: Center(
+              child: homeFeedViewModel != null 
+                ? homeFeedViewModel.state.loadingStatus == LoadingStatus.idle
+                  ? homeFeedViewModel.getHomeFeed()
+                  : homeFeedViewModel.state.loadingStatus == LoadingStatus.loading
+                    ? Center(
+                        child: Loader(),
+                      )
+                    : homeFeedViewModel.state.loadingStatus == LoadingStatus.success 
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            padding: EdgeInsets.all(0),
+                            controller: _scrollController,
+                            dragStartBehavior: DragStartBehavior.down,
+                            itemCount: homeFeedViewModel.state.posts.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return  homeFeedViewModel.isAuthed
+                                      ? homeFeedViewModel.loggedUsername == homeFeedViewModel.state.posts[index].authorName
+                                        ? UserPostScreen(
+                                            post: homeFeedViewModel.state.posts[index]
+                                          )
+                                        : OtherPostScreen(
+                                            post: homeFeedViewModel.state.posts[index]
+                                          )
+                                      : OtherPostScreen(
+                                          post: homeFeedViewModel.state.posts[index]
+                                        );
+                                      
+                            },
+                          )
+                        : homeFeedViewModel.state.loadingStatus == LoadingStatus.error
+                            ? Center(
+                                // child: Text("Couldn't update feed! Try again"),
+                                child: Text(homeFeedViewModel.state.errorMessage),
+                              )
+                            : Center(
+                                child: Text("Couldn't update feed! Try again"),
+                              )
+                : SizedBox(),
+            ),
             bottomNavigationBar: BottomNavigationBar(
               onTap: (index) {
                 _navigate(index: index);
