@@ -8,8 +8,8 @@
 function Pet({ id, name, ownerId }) {
 	// private variables
 	let _pet_id = id;
-	const _pet_name = name;
-	const _owner_id = ownerId;
+	let _pet_name = name;
+	let _owner_id = ownerId;
 	let _animal_type = "";
 	let _dob = "";
 
@@ -18,7 +18,7 @@ function Pet({ id, name, ownerId }) {
 	 * @returns pet id of the model
 	 */
 	this.getPetId = () => {
-		return this._pet_id;
+		return _pet_id;
 	};
 
 	/**
@@ -26,7 +26,7 @@ function Pet({ id, name, ownerId }) {
 	 * @returns pet name of the pet model instance
 	 */
 	this.getPetName = () => {
-		return this._pet_name;
+		return _pet_name;
 	};
 
 	/**
@@ -34,7 +34,7 @@ function Pet({ id, name, ownerId }) {
 	 * @returns owner id of the pet model instance
 	 */
 	this.getOwnerId = () => {
-		return this._owner_id;
+		return _owner_id;
 	};
 
 	/**
@@ -42,7 +42,7 @@ function Pet({ id, name, ownerId }) {
 	 * @returns animal type of the pet
 	 */
 	this.getAnimalType = () => {
-		return this._animal_type;
+		return _animal_type;
 	};
 
 	/**
@@ -50,7 +50,7 @@ function Pet({ id, name, ownerId }) {
 	 * @returns date of birth of the pet
 	 */
 	this.getDOB = () => {
-		return this._dob;
+		return _dob;
 	};
 
 	// setter here
@@ -60,7 +60,7 @@ function Pet({ id, name, ownerId }) {
 	 * @param {String} petId
 	 */
 	this.setPetId = (petId) => {
-		this._pet_id = petId;
+		_pet_id = petId;
 	};
 
 	/**
@@ -68,7 +68,7 @@ function Pet({ id, name, ownerId }) {
 	 * @param {string} petName
 	 */
 	this.setPetName = (petName) => {
-		this._pet_name = petName;
+		_pet_name = petName;
 	};
 
 	/**
@@ -76,7 +76,7 @@ function Pet({ id, name, ownerId }) {
 	 * @param {string} ownerId
 	 */
 	this.setOwnerId = (ownerId) => {
-		this._owner_id = ownerId;
+		_owner_id = ownerId;
 	};
 
 	/**
@@ -84,7 +84,7 @@ function Pet({ id, name, ownerId }) {
 	 * @param {string} animalType
 	 */
 	this.setAnimalType = (animalType) => {
-		this._animal_type = animalType;
+		_animal_type = animalType;
 	};
 
 	/**
@@ -92,7 +92,7 @@ function Pet({ id, name, ownerId }) {
 	 * @param {string} dob
 	 */
 	this.setDOB = (dob) => {
-		this._dob = dob;
+		_dob = dob;
 	};
 
 	/**
@@ -101,13 +101,13 @@ function Pet({ id, name, ownerId }) {
 	 */
 	this.toMap = () => {
 		const map = {};
-		if (this._pet_id) {
-			map["pet_id"] = this._pet_id;
+		if (_pet_id) {
+			map["pet_id"] = _pet_id;
 		}
-		map["pet_name"] = this._pet_name;
-		map["owner_id"] = this._owner_id;
-		map["animal_type"] = this._animal_type;
-		map["dob"] = this._dob;
+		map["pet_name"] = _pet_name;
+		map["owner_id"] = _owner_id;
+		map["animal_type"] = _animal_type;
+		map["dob"] = _dob;
 
 		return map;
 	};
