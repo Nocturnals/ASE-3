@@ -16,4 +16,6 @@ router.post(
 	require("./functions/register")
 );
 
+router.get("/", verifyToken, verifyUserWithToken, require("./functions/getAllPets"));
+
 module.exports = router;

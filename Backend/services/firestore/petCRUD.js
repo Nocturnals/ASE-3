@@ -28,6 +28,7 @@ module.exports.updatePet = async (petMap) => {
 /**
  * function to get pet via pet id
  * @param {string} petId
+ * @returns document of the pet with given id
  */
 module.exports.getPetViaId = async (petId) => {
 	let doc_ref = coll_ref.doc(petId);

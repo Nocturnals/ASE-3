@@ -115,8 +115,9 @@ function Pet({ id, name, ownerId }) {
 
 /**
  * create the pet model instance from the firestore data object
- * @param {Map<any, any>} mapData
+ * @param {import("@google-cloud/firestore").DocumentData} mapData
  * @param {string} docId
+ * @returns the pet instance created from the firestore data
  */
 const PetFromFirestore = (mapData, docId) => {
 	const pet_instance = new Pet({
@@ -127,6 +128,7 @@ const PetFromFirestore = (mapData, docId) => {
 
 	pet_instance.setAnimalType(mapData["animal_type"]);
 	pet_instance.setDOB(mapData["dob"]);
+	return pet_instance;
 };
 
 module.exports = { PetModel: Pet, PetFromFirestore };
