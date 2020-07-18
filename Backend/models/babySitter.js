@@ -1,14 +1,16 @@
 //@ts-check
 
+const { AddressModel, AddressFromFirestore } = require("./address");
+
 /**
  * BabySitter model class
  * @param {object} object takes id as input 
  */
 function BabySitter({ id }) {
     let _babysitter_id = id;
-    let _address = "";
-    let _status = false;
-    let _contact_no = 0;
+    let _address = new AddressModel();
+    let _status = true;
+    let _contact_no = null;
     let _list_of_pets_accepted_before = [];
     let _current_babysitting_pets = [];
     let _requests_list = [];
@@ -20,7 +22,10 @@ function BabySitter({ id }) {
         return _babysitter_id;
     };
 
-    /**Gets the address of the babysitter */
+    /**
+     * Gets the address of the babysitter
+     * @returns Address model of the babysitter
+     */
     this.getaddress = () => {
         return _address;
     };
@@ -69,7 +74,7 @@ function BabySitter({ id }) {
 
     /**
      * Sets the address of the baby sitter
-     * @param {string} address 
+     * @param {any} address 
      */
     this.setAddress = (address) => {
         _address = address;
@@ -133,7 +138,7 @@ function BabySitter({ id }) {
         if (_babysitter_id) {
             map["babysitter_id"] = _babysitter_id;
         }
-        map["address"] = _address;
+        map["address"] = _address.toMap();
         map["status"] = _status;
         map["contact_no"] = _contact_no;
         map["list_of_pets_accepted_before"] = _list_of_pets_accepted_before;
@@ -155,7 +160,7 @@ const BabySitterfromFirestore = ({ mapData, docId }) => {
         id: docId,
     });
 
-    babysitter_instance.setAddress(mapData["address"]);
+    babysitter_instance.setAddress(AddressFromFirestore(mapData["address"]));
     babysitter_instance.setContact_no(mapData["contact_no"]);
     babysitter_instance.setCurrent_babysitting_pets(
         mapData["current_babysitting_pets"]

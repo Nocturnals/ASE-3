@@ -68,6 +68,7 @@ Widget drawer(BuildContext context, {@required Store<AppState> store}) {
                   ),
                 ),
         ),
+
         // manage pets tile
         ListTile(
           leading: Icon(Icons.pets),
@@ -75,6 +76,16 @@ Widget drawer(BuildContext context, {@required Store<AppState> store}) {
           onTap: () {
             // navigate to the pets page
             Navigator.of(context).pushNamed(RouteNames.petPage);
+          },
+        ),
+
+        // babysitting
+        ListTile(
+          leading: Icon(Icons.child_friendly),
+          title: Text('BabySitting'),
+          onTap: () {
+            // navigate to the babysitting page
+            Navigator.of(context).pushNamed(RouteNames.babysitterPage);
           },
         ),
 

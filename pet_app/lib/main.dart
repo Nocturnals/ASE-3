@@ -21,6 +21,7 @@ import 'package:pet_app/constants/themeData.dart';
 // All Routes imports
 import 'package:pet_app/views/pets/petPage.dart';
 import 'package:pet_app/views/errorPages/RouteNotFound.dart';
+import 'package:pet_app/views/babysitter/babysitterPage.dart';
 import 'package:pet_app/views/authentication/login/loginScreen.dart'
     show LoginScreen;
 import 'package:pet_app/views/authentication/signup/signUpScreen.dart'
@@ -127,6 +128,12 @@ class PetSApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (BuildContext context) =>
                       PetScreen(devReduxBuilder: devReduxBuilder));
+
+            // babysitter routes
+            case RouteNames.babysitterPage:
+              return MaterialPageRoute(
+                  builder: (context) =>
+                      BabySitterScreen(devReduxBuilder: devReduxBuilder));
 
             // home page routes
             case RouteNames.homePage:

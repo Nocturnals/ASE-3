@@ -6,6 +6,7 @@ class RouteNames {
   static const String forgotPassword = '/forgotPassword';
   static const String resetPassword = '/resetPassword';
   static const String petPage = '/petPage';
+  static const String babysitterPage = '/babysitter';
   static const String guest = '/guest';
   static const String homePage = '/homePage';
 }
