@@ -3,7 +3,6 @@ import 'dart:convert' as convert;
 
 // flutter imports
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // networking imports
 import 'package:http/http.dart' as http;
@@ -11,6 +10,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // UI imports
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_app/widgets/containers.dart';
 import 'package:pet_app/widgets/inpurtFields.dart';
 import 'package:pet_app/widgets/loader.dart';

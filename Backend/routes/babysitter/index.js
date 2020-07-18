@@ -10,6 +10,6 @@ const { verifyToken, verifyUserWithToken } = require("../auth/helper");
 const router = express.Router();
 
 // All routes of babysiter here
-router.post("/register", require("./functions/registerBabysitter"));
+router.post("/register", verifyToken, verifyUserWithToken, require("./functions/registerBabysitter"));
 
 module.exports = router;

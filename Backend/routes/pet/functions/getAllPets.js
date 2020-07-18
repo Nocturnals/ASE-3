@@ -1,8 +1,7 @@
 //@ts-check
 
-const { PetModel, PetFromFirestore } = require("../../../models/pet");
+const { PetFromFirestore } = require("../../../models/pet");
 const petCRUD = require("../../../services/firestore/petCRUD");
-const userCRUD = require("../../../services/firestore/userCRUD");
 
 /**
  * Function to get all the pets of a registered user
