@@ -1,4 +1,11 @@
+// flutter imports
 import 'package:flutter/material.dart';
+
+// UI imports
+import 'package:pet_app/widgets/loader.dart';
+
+// internal imports
+import './registerPage/registerForm.dart';
 
 class BabySitterScreen extends StatelessWidget {
   final WidgetBuilder devReduxBuilder;
@@ -12,9 +19,7 @@ class BabySitterScreen extends StatelessWidget {
         title: Text('BabySitter'),
       ),
       endDrawer: devReduxBuilder == null ? null : devReduxBuilder(context),
-      body: Center(
-        child: Text('Babysitter'),
-      ),
+      body: RegisterForm(),
     );
   }
 }
