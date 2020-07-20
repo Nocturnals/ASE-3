@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pet_app/constants/keys.dart';
 import 'package:pet_app/constants/routeNames.dart';
+import 'package:pet_app/petShop/main.dart';
 
 // redux imports
 import 'package:redux/redux.dart';
@@ -61,20 +62,21 @@ void main() async {
       middleware: [thunkMiddleware],
     );
 
-    return runApp(
-      ReduxDevToolsContainer(
-        store: store,
-        child: PetSApp(
-          store: store,
-          devReduxBuilder: (context) => Drawer(
-            child: Padding(
-              padding: EdgeInsets.only(top: 25.0),
-              child: ReduxDevTools(store),
-            ),
-          ),
-        ),
-      ),
-    );
+    // return runApp(
+    //   ReduxDevToolsContainer(
+    //     store: store,
+    //     child: PetSApp(
+    //       store: store,
+    //       devReduxBuilder: (context) => Drawer(
+    //         child: Padding(
+    //           padding: EdgeInsets.only(top: 25.0),
+    //           child: ReduxDevTools(store),
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
+    return runApp(PetShopApp());
   }
 }
 
