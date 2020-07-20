@@ -124,7 +124,9 @@ function User({ id, username, email }) {
         _public_to = public_to;
     };
 
-    // function to convert tomap
+    /**
+     * function to convert tomap
+     */
     this.toMap = () => {
         const map = {};
         if (_id) {
@@ -154,7 +156,10 @@ function User({ id, username, email }) {
     };
 }
 
-// function to create instance from the firestore data
+/**
+ * function to create instance from the firestore data
+ * @param {object} param0 
+ */
 const UserfromFirestore = ({ mapData, docId }) => {
     const user_instance = new User({
         id: docId,

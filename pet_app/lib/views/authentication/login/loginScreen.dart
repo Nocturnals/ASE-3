@@ -93,8 +93,7 @@ class LoginScreen extends StatelessWidget {
         builder: (BuildContext context,
             NotificationViewModel notificationViewModel) {
           // checks for notifications if any shows
-          notificationChecker(
-              notificationViewModel: notificationViewModel, context: context);
+          notificationChecker(context, notificationViewModel);
 
           // return the sceen
           return Scaffold(

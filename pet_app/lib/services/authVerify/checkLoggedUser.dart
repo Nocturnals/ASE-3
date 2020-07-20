@@ -67,7 +67,7 @@ class CheckLoggedUser {
       try {
         // check if the token is valid
         http.Response response = await http.get(
-            '${DotEnv().env['localhost']}api/auth/user',
+            '${DotEnv().env['localhost']}/api/auth/user',
             headers: {"authorization": 'bearer $jToken'});
 
         // convert the body of response from json object to dart dynamic map
