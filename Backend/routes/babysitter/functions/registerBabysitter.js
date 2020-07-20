@@ -22,8 +22,13 @@ module.exports = async (req, res, next) => {
 
     // try to register the user as baby sitter
     try {
+        // check if the user is already a babysitter
+        // @ts-ignore
+        const doc = await babySitterCRUD.getbabySitterViaId(req.loggedUser.getId());
+        if (doc.exists) return res.status(400).json({ message: "User already registerd" });
+
         // create instance of the address
-        const address = AddressFromFirestore(req.body.address);
+        const address = AddressFromFirestore(req.body);
         // const address = new AddressModel();
         // address.setLane(req.body.address.lane);
         // address.setStreet(req.body.address.street);
@@ -35,8 +40,8 @@ module.exports = async (req, res, next) => {
         // create the instance of the babysitter 
         // @ts-ignore
         const babysitter = new BabySitterModel({ id: req.loggedUser.getId() });
-        babysitter.setAddress(address.toMap());
-        babysitter.setContact_no(req.body.contact_no);
+        babysitter.setAddress(address);
+        babysitter.setContact_no(req.body['contact_no']);
 
         // update the data in the database
         const babysitterDoc = await babySitterCRUD.createbabySitter(babysitter.toMap());

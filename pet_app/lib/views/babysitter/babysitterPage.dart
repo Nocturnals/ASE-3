@@ -12,6 +12,10 @@ class BabySitterScreen extends StatelessWidget {
   const BabySitterScreen({Key key, @required this.devReduxBuilder})
       : super(key: key);
 
+  Future<void> getUserisregister() async {
+    // TODO: implement the checking for if the user is registered as babysitter
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

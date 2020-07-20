@@ -52,9 +52,7 @@ if (process.env.Node_Env === "development") {
 }
 
 // ROUTES HERE
-app.get("/testing", (req, res, next) => {
-	res.json({ time: Date.now(), message: "hello", port: process.env });
-});
+app.use("/testing", require("./routes/testing"));
 
 // route for authentication
 app.use("/api/auth", require("./routes/auth/index"));

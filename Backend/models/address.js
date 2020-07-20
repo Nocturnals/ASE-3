@@ -131,10 +131,10 @@ function Address() {
 
 /**
  * function to create instance from the firestore data
- * @param {*} param0 
+ * @param {any} mapData 
  * @returns the address instance created with the map data
  */
-const AddressFromFirestore = ({ mapData }) => {
+const AddressFromFirestore = (mapData) => {
     const address_instance = new Address();
     address_instance.setLane(mapData['lane']);
     address_instance.setStreet(mapData['street']);
