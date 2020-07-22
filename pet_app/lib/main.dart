@@ -37,6 +37,8 @@ import 'package:pet_app/views/home/guest/guestHomeScreen.dart'
     show GuestHomeScreen;
 import 'package:pet_app/views/home/homeFeed/homePage.dart';
 
+import 'databaseGetter.dart';
+
 void main() async {
   // load the dot env file varaibles
   await DotEnv().load('.env');
@@ -62,21 +64,21 @@ void main() async {
       middleware: [thunkMiddleware],
     );
 
-    // return runApp(
-    //   ReduxDevToolsContainer(
-    //     store: store,
-    //     child: PetSApp(
-    //       store: store,
-    //       devReduxBuilder: (context) => Drawer(
-    //         child: Padding(
-    //           padding: EdgeInsets.only(top: 25.0),
-    //           child: ReduxDevTools(store),
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
-    return runApp(PetShopApp());
+    return runApp(
+      ReduxDevToolsContainer(
+        store: store,
+        child: PetSApp(
+          store: store,
+          devReduxBuilder: (context) => Drawer(
+            child: Padding(
+              padding: EdgeInsets.only(top: 25.0),
+              child: ReduxDevTools(store),
+            ),
+          ),
+        ),
+      ),
+    );
+    // return runApp(PetShopApp());
   }
 }
 
@@ -146,6 +148,8 @@ class PetSApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (BuildContext context) =>
                       GuestHomeScreen(devReduxBuilder: devReduxBuilder));
+            // case 'databaseGetter':
+            //   return MaterialPageRoute(builder: (context) => DataUploader());
             default:
               return MaterialPageRoute(
                   builder: (BuildContext context) => PageNotFoundScreen(
@@ -154,6 +158,7 @@ class PetSApp extends StatelessWidget {
           }
         },
         initialRoute: RouteNames.homePage,
+        // initialRoute: 'databaseGetter',
       ),
     );
   }
