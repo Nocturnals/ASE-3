@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pet_app/petShop/main.dart';
@@ -344,9 +345,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               FlatButton(
                 onPressed: () async {
                   try {
-                    AuthService auth = MyProvider.of(context).auth;
-                    auth.signOut();
                     Navigator.of(context).pop();
+
+                    await FirebaseAuth.instance.signOut();
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (_) => PetShopApp(),

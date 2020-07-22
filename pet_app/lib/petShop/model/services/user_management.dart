@@ -13,15 +13,17 @@ storeNewUser(_name, _phone, _email) async {
   userUpdateInfo.displayName = _name;
   print(userUpdateInfo.displayName);
 
-  await db
-      .collection("users")
-      .document(uid)
-      .collection("profile")
-      .document(uid)
-      .setData({
+  await db.collection("users").document(uid).setData({
     'name': _name,
     'phone': _phone,
     'email': _email,
+    'uid': uid,
+    'picture_url': "",
+    'bio': "",
+    'location': "",
+    'pet_sitter': false,
+    'service_provider': false,
+    'conversations': List(),
   }).catchError((e) {
     print(e);
   });
@@ -31,19 +33,17 @@ storeNewUser(_name, _phone, _email) async {
 getProfile(UserDataProfileNotifier profileNotifier) async {
   final uid = await AuthService().getCurrentUID();
 
-  QuerySnapshot snapshot = await Firestore.instance
-      .collection("users")
-      .document(uid)
-      .collection("profile")
-      .getDocuments();
+  DocumentSnapshot docSnap =
+      await Firestore.instance.collection("users").document(uid).get();
 
   List<UserDataProfile> _userDataProfileList = [];
 
-  snapshot.documents.forEach((document) {
-    print(document.data);
-    UserDataProfile userDataProfile = UserDataProfile.fromMap(document.data);
-    _userDataProfileList.add(userDataProfile);
-  });
+  // docSnap.documents.forEach((document) {
+  //   print(document.data);
+  //   UserDataProfile userDataProfile = UserDataProfile.fromMap(document.data);
+  //   _userDataProfileList.add(userDataProfile);
+  // });
+  _userDataProfileList.add(UserDataProfile.fromMap(docSnap.data));
 
   profileNotifier.userDataProfileList = _userDataProfileList;
 }
@@ -53,8 +53,7 @@ updateProfile(_name, _phone) async {
   final db = Firestore.instance;
   final uid = await AuthService().getCurrentUID();
 
-  CollectionReference profileRef =
-      db.collection("users").document(uid).collection("profile");
+  CollectionReference profileRef = db.collection("users");
   await profileRef.document(uid).updateData(
     {'name': _name, 'phone': _phone},
   );

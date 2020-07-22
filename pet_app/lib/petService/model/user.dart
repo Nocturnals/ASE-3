@@ -19,7 +19,7 @@ class User {
 
   Map<String, dynamic> toJson() => {
         'email': email,
-        'username': username,
+        'name': username,
         'uid': uid,
         'picture_url': pictureUrl,
         'bio': bio,
@@ -31,7 +31,7 @@ class User {
 
   User.fromJson(Map<String, dynamic> json)
       : uid = json['uid'],
-        username = json['username'],
+        username = json['name'],
         email = json['email'],
         pictureUrl = json['picture_url'],
         bio = json['bio'],

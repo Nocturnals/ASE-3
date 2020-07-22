@@ -263,7 +263,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     )
                                   : primaryButtonPurple(
                                       Text(
-                                        "Next step",
+                                        "Register",
                                         style: boldFont(
                                           MColors.primaryWhite,
                                           16.0,

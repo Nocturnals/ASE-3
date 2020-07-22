@@ -148,8 +148,8 @@ class PetSApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (BuildContext context) =>
                       GuestHomeScreen(devReduxBuilder: devReduxBuilder));
-            // case 'databaseGetter':
-            //   return MaterialPageRoute(builder: (context) => DataUploader());
+            case 'testing':
+              return MaterialPageRoute(builder: (context) => PetShopApp());
             default:
               return MaterialPageRoute(
                   builder: (BuildContext context) => PageNotFoundScreen(
@@ -157,8 +157,8 @@ class PetSApp extends StatelessWidget {
                       routeName: settings.name));
           }
         },
-        initialRoute: RouteNames.homePage,
-        // initialRoute: 'databaseGetter',
+        // initialRoute: RouteNames.homePage,
+        initialRoute: 'testing',
       ),
     );
   }
