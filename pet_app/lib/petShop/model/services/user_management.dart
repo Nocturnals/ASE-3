@@ -7,17 +7,17 @@ import 'package:pet_app/petShop/model/services/auth_service.dart';
 //Storing new user data
 storeNewUser(_name, _phone, _email) async {
   final db = Firestore.instance;
-  final uEmail = await AuthService().getCurrentEmail();
+  final uid = await AuthService().getCurrentUID();
 
   var userUpdateInfo = new UserUpdateInfo();
   userUpdateInfo.displayName = _name;
   print(userUpdateInfo.displayName);
 
   await db
-      .collection("userData")
-      .document(uEmail)
+      .collection("users")
+      .document(uid)
       .collection("profile")
-      .document(uEmail)
+      .document(uid)
       .setData({
     'name': _name,
     'phone': _phone,
@@ -29,11 +29,11 @@ storeNewUser(_name, _phone, _email) async {
 
 //Getting User profile
 getProfile(UserDataProfileNotifier profileNotifier) async {
-  final uEmail = await AuthService().getCurrentEmail();
+  final uid = await AuthService().getCurrentUID();
 
   QuerySnapshot snapshot = await Firestore.instance
-      .collection("userData")
-      .document(uEmail)
+      .collection("users")
+      .document(uid)
       .collection("profile")
       .getDocuments();
 
@@ -51,11 +51,11 @@ getProfile(UserDataProfileNotifier profileNotifier) async {
 //Updating User profile
 updateProfile(_name, _phone) async {
   final db = Firestore.instance;
-  final uEmail = await AuthService().getCurrentEmail();
+  final uid = await AuthService().getCurrentUID();
 
   CollectionReference profileRef =
-      db.collection("userData").document(uEmail).collection("profile");
-  await profileRef.document(uEmail).updateData(
+      db.collection("users").document(uid).collection("profile");
+  await profileRef.document(uid).updateData(
     {'name': _name, 'phone': _phone},
   );
 }
@@ -67,13 +67,13 @@ storeAddress(
   addressNumber,
 ) async {
   final db = Firestore.instance;
-  final uEmail = await AuthService().getCurrentEmail();
+  final uid = await AuthService().getCurrentUID();
 
   await db
-      .collection("userData")
-      .document(uEmail)
+      .collection("users")
+      .document(uid)
       .collection("address")
-      .document(uEmail)
+      .document(uid)
       .setData({
     'fullLegalName': fullLegalName,
     'addressLocation': addressLocation,
@@ -85,11 +85,11 @@ storeAddress(
 
 //get users address
 getAddress(UserDataAddressNotifier addressNotifier) async {
-  final uEmail = await AuthService().getCurrentEmail();
+  final uid = await AuthService().getCurrentUID();
 
   QuerySnapshot snapshot = await Firestore.instance
-      .collection("userData")
-      .document(uEmail)
+      .collection("users")
+      .document(uid)
       .collection("address")
       .getDocuments();
 
@@ -111,11 +111,11 @@ updateAddress(
   addressNumber,
 ) async {
   final db = Firestore.instance;
-  final uEmail = await AuthService().getCurrentEmail();
+  final uid = await AuthService().getCurrentUID();
 
   CollectionReference addressRef =
-      db.collection("userData").document(uEmail).collection("address");
-  await addressRef.document(uEmail).updateData(
+      db.collection("users").document(uid).collection("address");
+  await addressRef.document(uid).updateData(
     {
       'fullLegalName': fullLegalName,
       'addressLocation': addressLocation,
@@ -132,13 +132,13 @@ storeNewCard(
   securityCode,
 ) async {
   final db = Firestore.instance;
-  final uEmail = await AuthService().getCurrentEmail();
+  final uid = await AuthService().getCurrentUID();
 
   await db
-      .collection("userData")
-      .document(uEmail)
+      .collection("users")
+      .document(uid)
       .collection("card")
-      .document(uEmail)
+      .document(uid)
       .setData({
     'cardHolder': cardHolder,
     'cardNumber': cardNumber,
@@ -151,11 +151,11 @@ storeNewCard(
 
 //get users card
 getCard(UserDataCardNotifier cardNotifier) async {
-  final uEmail = await AuthService().getCurrentEmail();
+  final uid = await AuthService().getCurrentUID();
 
   QuerySnapshot snapshot = await Firestore.instance
-      .collection("userData")
-      .document(uEmail)
+      .collection("users")
+      .document(uid)
       .collection("card")
       .getDocuments();
 
@@ -178,11 +178,11 @@ updateCard(
   securityCode,
 ) async {
   final db = Firestore.instance;
-  final uEmail = await AuthService().getCurrentEmail();
+  final uid = await AuthService().getCurrentUID();
 
   CollectionReference cardRef =
-      db.collection("userData").document(uEmail).collection("card");
-  await cardRef.document(uEmail).updateData(
+      db.collection("users").document(uid).collection("card");
+  await cardRef.document(uid).updateData(
     {
       'cardHolder': cardHolder,
       'cardNumber': cardNumber,
