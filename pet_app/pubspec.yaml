@@ -32,6 +32,39 @@ dependencies:
   json_serializable: '>=3.2.5'
   google_fonts: ^0.3.5
   cached_network_image: ^2.0.0
+  
+  # petshop dependencies
+  introduction_screen: ^1.0.8
+  flutter_svg: ^0.17.1
+  firebase_auth: ^0.16.1
+  wc_flutter_share: ^0.2.2
+  provider:
+  bubble_tab_indicator: ^0.1.4
+  carousel_slider: ^2.0.0
+  geolocator: ^5.3.2+2
+  geolocation: ^1.1.2
+  mask_text_input_formatter: ^1.0.7
+  dio: ^3.0.9
+  geocoder: ^0.2.1
+  location: ^3.0.2
+  
+  path_provider: ^1.6.11
+  
+  # pet service dependencies
+  firebase_core: ^0.4.0+9
+  get_it: ^3.0.3
+  toggle_switch: ^0.1.4
+  image_picker: ^0.6.2+3
+  permission_handler: ^4.0.0
+  cloud_firestore: ^0.12.9+5
+  firebase_storage: ^3.1.0
+  equatable: ^1.0.2
+  uuid: 2.0.4
+  firestore_ui: ^1.7.2
+  intro_slider: ^2.2.8
+  rflutter_alert: ^1.0.3
+  enum_to_string: ^1.0.8
+  intl: ^0.16.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -61,8 +94,12 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/
     - .env
+    - assets/
+    - assets/data/
+    - assets/images/
+    - assets/images/icons/
+    - assets/images/cardImages/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

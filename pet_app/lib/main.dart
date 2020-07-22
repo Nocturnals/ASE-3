@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pet_app/constants/keys.dart';
 import 'package:pet_app/constants/routeNames.dart';
+import 'package:pet_app/petShop/main.dart';
 
 // redux imports
 import 'package:redux/redux.dart';
@@ -35,6 +36,8 @@ import 'package:pet_app/views/landingScreen/landingScreen.dart'
 import 'package:pet_app/views/home/guest/guestHomeScreen.dart'
     show GuestHomeScreen;
 import 'package:pet_app/views/home/homeFeed/homePage.dart';
+
+import 'databaseGetter.dart';
 
 void main() async {
   // load the dot env file varaibles
@@ -75,6 +78,7 @@ void main() async {
         ),
       ),
     );
+    // return runApp(PetShopApp());
   }
 }
 
@@ -144,6 +148,8 @@ class PetSApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (BuildContext context) =>
                       GuestHomeScreen(devReduxBuilder: devReduxBuilder));
+            // case 'databaseGetter':
+            //   return MaterialPageRoute(builder: (context) => DataUploader());
             default:
               return MaterialPageRoute(
                   builder: (BuildContext context) => PageNotFoundScreen(
@@ -152,6 +158,7 @@ class PetSApp extends StatelessWidget {
           }
         },
         initialRoute: RouteNames.homePage,
+        // initialRoute: 'databaseGetter',
       ),
     );
   }
