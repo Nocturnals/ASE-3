@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pet_app/constants/keys.dart';
 import 'package:pet_app/constants/routeNames.dart';
+import 'package:pet_app/petShop/main.dart';
 
 // redux imports
 import 'package:redux/redux.dart';
@@ -19,7 +20,9 @@ import 'package:pet_app/redux/reducer.dart';
 import 'package:pet_app/constants/themeData.dart';
 
 // All Routes imports
+import 'package:pet_app/views/pets/petPage.dart';
 import 'package:pet_app/views/errorPages/RouteNotFound.dart';
+import 'package:pet_app/views/babysitter/babysitterPage.dart';
 import 'package:pet_app/views/authentication/login/loginScreen.dart'
     show LoginScreen;
 import 'package:pet_app/views/authentication/signup/signUpScreen.dart'
@@ -33,6 +36,8 @@ import 'package:pet_app/views/landingScreen/landingScreen.dart'
 import 'package:pet_app/views/home/guest/guestHomeScreen.dart'
     show GuestHomeScreen;
 import 'package:pet_app/views/home/homeFeed/homePage.dart';
+
+import 'databaseGetter.dart';
 
 void main() async {
   // load the dot env file varaibles
@@ -73,6 +78,7 @@ void main() async {
         ),
       ),
     );
+    // return runApp(PetShopApp());
   }
 }
 
@@ -121,6 +127,18 @@ class PetSApp extends StatelessWidget {
                   builder: (BuildContext context) =>
                       ResetPasswordScreen(devReduxBuilder: devReduxBuilder));
 
+            // pet managing routes
+            case RouteNames.petPage:
+              return MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      PetScreen(devReduxBuilder: devReduxBuilder));
+
+            // babysitter routes
+            case RouteNames.babysitterPage:
+              return MaterialPageRoute(
+                  builder: (context) =>
+                      BabySitterScreen(devReduxBuilder: devReduxBuilder));
+
             // home page routes
             case RouteNames.homePage:
               return MaterialPageRoute(
@@ -130,6 +148,8 @@ class PetSApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (BuildContext context) =>
                       GuestHomeScreen(devReduxBuilder: devReduxBuilder));
+            // case 'databaseGetter':
+            //   return MaterialPageRoute(builder: (context) => DataUploader());
             default:
               return MaterialPageRoute(
                   builder: (BuildContext context) => PageNotFoundScreen(
@@ -137,7 +157,8 @@ class PetSApp extends StatelessWidget {
                       routeName: settings.name));
           }
         },
-        initialRoute: RouteNames.landingPage,
+        initialRoute: RouteNames.homePage,
+        // initialRoute: 'databaseGetter',
       ),
     );
   }

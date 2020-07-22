@@ -35,6 +35,16 @@ class RegisterSuccessAction {
   RegisterSuccessAction({@required this.message});
 }
 
+class AddMessageAction {
+  final String message;
+
+  AddMessageAction({@required this.message});
+}
+
 class ResetMessageAction {
   ResetMessageAction();
+}
+
+class LogOutAction {
+  LogOutAction();
 }

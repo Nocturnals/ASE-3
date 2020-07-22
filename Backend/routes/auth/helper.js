@@ -5,12 +5,12 @@ const jwt = require("jsonwebtoken");
 const { UserfromFirestore } = require("../../models/user");
 const userFirestoreCRUD = require("../../services/firestore/userCRUD");
 const {
-    EmailVerificationModel,
-    EmailVerificationFromFirestore,
+	EmailVerificationModel,
+	EmailVerificationFromFirestore,
 } = require("../../models/emailVerification");
 const {
-    ForgotPasswordModel,
-    ForgotPasswordFromFirestore,
+	ForgotPasswordModel,
+	ForgotPasswordFromFirestore,
 } = require("../../models/forgotPassword");
 const emailVerificationCRUD = require("../../services/firestore/emailVerificationCRUD");
 const forgotPasswordCRUD = require("../../services/firestore/forgotPasswordCRUD");
@@ -19,259 +19,266 @@ const mailForgotPassword = require("../../services/mail/forgotPassword");
 
 // verify the token for authentication
 const verifyToken = (req, res, next) => {
-    // Get auth header value
-    const bearerHeader = req.headers["authorization"];
+	// Get auth header value
+	const bearerHeader = req.headers["authorization"];
 
-    // Check if bearer is undefined
-    if (typeof bearerHeader !== "undefined") {
-        // Split the header
-        const bearer = bearerHeader.split(" ");
-        // Get the token
-        const bearerToken = bearer[1];
-        // Set the token
-        req.token = bearerToken;
+	// Check if bearer is undefined
+	if (typeof bearerHeader !== "undefined") {
+		// Split the header
+		const bearer = bearerHeader.split(" ");
+		// Get the token
+		const bearerToken = bearer[1];
+		// Set the token
+		req.token = bearerToken;
 
-        // run the next function
-        next();
-    } else {
-        return res.status(401).json({ message: "Access Denied" });
-    }
+		// run the next function
+		next();
+	} else {
+		return res.status(401).json({ message: "Access Denied" });
+	}
 };
 
+/**
+ * checks for the authenticity of the requested user and stores user data in loggedUser
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
 const verifyUserWithToken = async (req, res, next) => {
-    // verifies the given token is correct and gets the user data
-    jwt.verify(req.token, process.env.Token_Secret, async (err, authData) => {
-        if (err) {
-            console.log(`Error at verifying jwt token: ${err}`);
-            return res.status(401).json({ message: err.message });
-        } else {
-            try {
-                console.log(authData);
-                const loggedUser = await userFirestoreCRUD.getUserViaID(
-                    authData.id
-                );
-                // if user doesn't exist
-                if (!loggedUser) {
-                    return res.status(400).json({
-                        message: "No user exists with given id",
-                    });
-                }
-                // when user exists
-                else {
-                    const userData = loggedUser.data();
+	// verifies the given token is correct and gets the user data
+	// @ts-ignore
+	jwt.verify(req.token, process.env.Token_Secret, async (err, authData) => {
+		if (err) {
+			console.log(`Error at verifying jwt token: ${err}`);
+			return res.status(401).json({ message: err.message });
+		} else {
+			try {
+				console.log(authData);
+				const loggedUser = await userFirestoreCRUD.getUserViaID(
+					authData.id
+				);
+				// if user doesn't exist
+				if (!loggedUser) {
+					return res.status(400).json({
+						message: "No user exists with given id",
+					});
+				}
+				// when user exists
+				else {
+					const userData = loggedUser.data();
 
-                    const user_instance = UserfromFirestore({
-                        mapData: userData,
-                        docId: authData.id,
-                    });
-                    req.loggedUser = user_instance;
+					const user_instance = UserfromFirestore({
+						mapData: userData,
+						docId: authData.id,
+					});
+					//@ts-ignore
+					req.loggedUser = user_instance;
 
-                    if (process.env.NODE_ENV === "development") {
-                        // doesn't check email verification in development environment
-                        next();
-                    } else {
-                        // checks email verification in production environment
-                        if (user_instance.getEmail_verified()) {
-                            next();
-                        } else {
-                            return res.status(401).json({
-                                message:
-                                    "Access denied as email isn't verified",
-                            });
-                        }
-                    }
-                }
-            } catch (error) {
-                console.log(error);
-                return res.status(500).json({ message: "Error finding user" });
-            }
-        }
-    });
+					if (process.env.NODE_ENV !== "product") {
+						// doesn't check email verification in development environment
+						next();
+					} else {
+						// checks email verification in production environment
+						if (user_instance.getEmail_verified()) {
+							next();
+						} else {
+							return res.status(401).json({
+								message:
+									"Access denied as email isn't verified",
+							});
+						}
+					}
+				}
+			} catch (error) {
+				console.log(error);
+				return res.status(500).json({ message: "Error finding user" });
+			}
+		}
+	});
 };
 
 const verifyUserWithoutEmailVerification = async (req, res, next) => {
-    // verifies the given token is correct and gets the user data
-    jwt.verify(req.token, process.env.Token_Secret, async (err, authData) => {
-        if (err) {
-            console.log(`Error at verifying jwt token: ${err}`);
-            return res.status(401).json({ message: err.message });
-        } else {
-            try {
-                const loggedUser = await userFirestoreCRUD.getUserViaID(
-                    authData.id
-                );
-                // if user doesn't exist
-                if (!loggedUser) {
-                    return res.status(400).json({
-                        message: "No user exists with given id",
-                    });
-                }
-                // when user exists
-                else {
-                    const userData = loggedUser.data();
-                    const user_instance = UserfromFirestore({
-                        mapData: userData,
-                        docId: authData.id,
-                    });
-                    req.loggedUser = user_instance;
+	// verifies the given token is correct and gets the user data
+	jwt.verify(req.token, process.env.Token_Secret, async (err, authData) => {
+		if (err) {
+			console.log(`Error at verifying jwt token: ${err}`);
+			return res.status(401).json({ message: err.message });
+		} else {
+			try {
+				const loggedUser = await userFirestoreCRUD.getUserViaID(
+					authData.id
+				);
+				// if user doesn't exist
+				if (!loggedUser) {
+					return res.status(400).json({
+						message: "No user exists with given id",
+					});
+				}
+				// when user exists
+				else {
+					const userData = loggedUser.data();
+					const user_instance = UserfromFirestore({
+						mapData: userData,
+						docId: authData.id,
+					});
+					req.loggedUser = user_instance;
 
-                    next();
-                }
-            } catch (error) {
-                console.log(error);
-                return res.status(500).json({ message: "Error finding user" });
-            }
-        }
-    });
+					next();
+				}
+			} catch (error) {
+				console.log(error);
+				return res.status(500).json({ message: "Error finding user" });
+			}
+		}
+	});
 };
 
 const sendEmailToVerifyEmail = async (user) => {
-    // create a email verification code and send email
-    let secret_code = Math.floor(Math.random() * 1000000);
-    const email_verification = new EmailVerificationModel({
-        id: user.getId(),
-        email: user.getEmail(),
-        secret_code: secret_code,
-    });
+	// create a email verification code and send email
+	let secret_code = Math.floor(Math.random() * 1000000);
+	const email_verification = new EmailVerificationModel({
+		id: user.getId(),
+		email: user.getEmail(),
+		secret_code: secret_code,
+	});
 
-    // save to database
-    await emailVerificationCRUD.createEmailVerification(
-        email_verification.toMap()
-    );
-    mailEmailVerification(user.getEmail(), secret_code);
+	// save to database
+	await emailVerificationCRUD.createEmailVerification(
+		email_verification.toMap()
+	);
+	mailEmailVerification(user.getEmail(), secret_code);
 };
 
 const sendForgotPasswordEmail = async (user) => {
-    // create a email verification code and send email
-    let secret_code = Math.floor(Math.random() * 1000000);
-    const forgot_password = new ForgotPasswordModel({
-        id: user.getId(),
-        email: user.getEmail(),
-        secret_code,
-    });
+	// create a email verification code and send email
+	let secret_code = Math.floor(Math.random() * 1000000);
+	const forgot_password = new ForgotPasswordModel({
+		id: user.getId(),
+		email: user.getEmail(),
+		secret_code,
+	});
 
-    // save to database
-    await forgotPasswordCRUD.createForgotPassord(forgot_password.toMap());
-    mailForgotPassword(user.getEmail(), secret_code);
+	// save to database
+	await forgotPasswordCRUD.createForgotPassord(forgot_password.toMap());
+	mailForgotPassword(user.getEmail(), secret_code);
 };
 
 // -----------------------------------------------------------------------
 // verify wether any user is logged in or not
 const verifyLogin = async (req, res, next) => {
-    try {
-        // Get auth header value
-        const bearerHeader = req.headers["authorization"];
+	try {
+		// Get auth header value
+		const bearerHeader = req.headers["authorization"];
 
-        // Check if bearer is undefined
-        if (typeof bearerHeader !== "undefined") {
-            // Split the header
-            const bearer = bearerHeader.split(" ");
-            // Get the token
-            const bearerToken = bearer[1];
+		// Check if bearer is undefined
+		if (typeof bearerHeader !== "undefined") {
+			// Split the header
+			const bearer = bearerHeader.split(" ");
+			// Get the token
+			const bearerToken = bearer[1];
 
-            // verifies the given token is correct and gets the user data
-            jwt.verify(bearerToken, process.env.Token_Secret, async (err, authData) => {
-                if (err) {
-                    console.log(`Error at verifying jwt token: ${err}`);
-                    return res.status(401).json({ message: err.message });
-                } else {
-                    console.log(authData);
-                    const loggedUser = await userFirestoreCRUD.getUserViaID(
-                        authData.id
-                    );
-                    // if user doesn't exist
-                    if (!loggedUser) {
-                        return res.status(400).json({
-                            message: "No user exists with given id",
-                        });
-                    }
-                    // when user exists
-                    else {
-                        const userData = loggedUser.data();
+			// verifies the given token is correct and gets the user data
+			jwt.verify(
+				bearerToken,
+				process.env.Token_Secret,
+				async (err, authData) => {
+					if (err) {
+						console.log(`Error at verifying jwt token: ${err}`);
+						return res.status(401).json({ message: err.message });
+					} else {
+						console.log(authData);
+						const loggedUser = await userFirestoreCRUD.getUserViaID(
+							authData.id
+						);
+						// if user doesn't exist
+						if (!loggedUser) {
+							return res.status(400).json({
+								message: "No user exists with given id",
+							});
+						}
+						// when user exists
+						else {
+							const userData = loggedUser.data();
 
-                        const user_instance = UserfromFirestore({
-                            mapData: userData,
-                            docId: authData.id,
-                        });
-                        req.loggedUser = user_instance;
+							const user_instance = UserfromFirestore({
+								mapData: userData,
+								docId: authData.id,
+							});
+							req.loggedUser = user_instance;
 
-                        if (process.env.NODE_ENV === "development") {
-                            // doesn't check email verification in development environment
-                            next();
-                        } else {
-                            // checks email verification in production environment
-                            if (user_instance.getEmail_verified()) {
-                                next();
-                            } else {
-                                return res.status(401).json({
-                                    message:
-                                        "Access denied as email isn't verified",
-                                });
-                            }
-                        }
-                    }
-                }
-            });
-
-        } else {
-            req.loggedUser = false;
-            next();
-        }
-
-    }
-    catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: "Error finding user" });
-    }
+							if (process.env.NODE_ENV !== "product") {
+								// doesn't check email verification in development environment
+								next();
+							} else {
+								// checks email verification in production environment
+								if (user_instance.getEmail_verified()) {
+									next();
+								} else {
+									return res.status(401).json({
+										message:
+											"Access denied as email isn't verified",
+									});
+								}
+							}
+						}
+					}
+				}
+			);
+		} else {
+			req.loggedUser = false;
+			next();
+		}
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: "Error finding user" });
+	}
 };
 
 const getUserById = async (user_id) => {
-    try {
-        const userDoc = await userFirestoreCRUD.getUserViaID(user_id);
-        // when user exists
-        if (userDoc) {
-            let user = UserfromFirestore({
-                mapData: userDoc.data(),
-                docId: userDoc.id,
-            });
+	try {
+		const userDoc = await userFirestoreCRUD.getUserViaID(user_id);
+		// when user exists
+		if (userDoc) {
+			let user = UserfromFirestore({
+				mapData: userDoc.data(),
+				docId: userDoc.id,
+			});
 
-            return user;
-        }
+			return user;
+		}
 
-        return false;
-
-    } catch (error) {
-        return false;
-    }
+		return false;
+	} catch (error) {
+		return false;
+	}
 };
 
 const getUserByUsername = async (username) => {
-    try {
-        let userDoc = await userFirestoreCRUD.getUserViaUsername(username);
-        // if user exists
-        if (userDoc) {
-            let user = UserfromFirestore({
-                mapData: userDoc.data(),
-                docId: userDoc.id,
-            });
+	try {
+		let userDoc = await userFirestoreCRUD.getUserViaUsername(username);
+		// if user exists
+		if (userDoc) {
+			let user = UserfromFirestore({
+				mapData: userDoc.data(),
+				docId: userDoc.id,
+			});
 
-            return user;
-        }
+			return user;
+		}
 
-        return false;
-
-    } catch (error) {
-        return false;
-    }
+		return false;
+	} catch (error) {
+		return false;
+	}
 };
 
 module.exports = {
-    verifyToken,
-    verifyUserWithToken,
-    sendEmailToVerifyEmail,
-    verifyUserWithoutEmailVerification,
-    sendForgotPasswordEmail,
-    verifyLogin,    // function added...
-    getUserById,
-    getUserByUsername,
+	verifyToken,
+	verifyUserWithToken,
+	sendEmailToVerifyEmail,
+	verifyUserWithoutEmailVerification,
+	sendForgotPasswordEmail,
+	verifyLogin, // function added...
+	getUserById,
+	getUserByUsername,
 };

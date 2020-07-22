@@ -69,8 +69,7 @@ ThunkAction _register(
             RegisterSuccessAction(message: 'Successfully registered !!'));
 
         // navigate to login page
-        Keys.navKey.currentState.pushNamedAndRemoveUntil(
-            RouteNames.loginPage, (Route<dynamic> route) => false);
+        Keys.navKey.currentState.pushNamed(RouteNames.loginPage);
       }
       // the request is a failure
       else {
