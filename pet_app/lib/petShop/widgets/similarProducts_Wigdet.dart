@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_app/petShop/model/data/Products.dart';
 import 'package:pet_app/petShop/screens/tab_screens/homeScreen_pages/productDetailsScreen.dart';
 import 'package:pet_app/petShop/utils/colors.dart';
+import 'package:pet_app/widgets/loader.dart';
 
 class SimilarProductsWidget extends StatefulWidget {
   final ProdProducts prodDetails;
@@ -72,7 +73,7 @@ class _SimilarProductsWidgetState extends State<SimilarProductsWidget> {
                       borderRadius: BorderRadius.circular(10.0),
                       child: filteredList == null
                           ? Center(
-                              child: CircularProgressIndicator(),
+                              child: Loader(),
                             )
                           : FadeInImage.assetNetwork(
                               image: fil.productImage,

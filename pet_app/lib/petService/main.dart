@@ -17,10 +17,10 @@ import 'package:pet_app/petService/services/services.dart';
 
 void main() {
   initServices();
-  runApp(MyApp());
+  runApp(PetServiceApp());
 }
 
-class MyApp extends StatelessWidget {
+class PetServiceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

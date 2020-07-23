@@ -5,6 +5,7 @@ import 'package:pet_app/petService/screens/home/search/pet/mating_search_results
 import 'package:pet_app/petService/services/auth/auth_service.dart';
 import 'package:pet_app/petService/services/pets/pets_service.dart';
 import 'package:pet_app/petService/services/services.dart';
+import 'package:pet_app/widgets/loader.dart';
 
 class PetSearchPage extends StatefulWidget {
   @override
@@ -55,7 +56,7 @@ class _PetSearchPageState extends State<PetSearchPage> {
           );
         }
         return Center(
-          child: CircularProgressIndicator(),
+          child: Loader(),
         );
       },
     );

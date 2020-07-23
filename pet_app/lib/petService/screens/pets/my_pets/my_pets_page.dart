@@ -6,6 +6,7 @@ import 'package:pet_app/petService/services/pets/pets_service.dart';
 import 'package:pet_app/petService/services/services.dart';
 import 'package:pet_app/petService/widgets/empty_list_container.dart';
 import 'package:pet_app/petService/widgets/pet_list_view.dart';
+import 'package:pet_app/widgets/loader.dart';
 
 class MyPetsPage extends StatelessWidget {
   static final routeName = '/my-pets';
@@ -37,7 +38,7 @@ class MyPetsPage extends StatelessWidget {
             }
           }
           return Center(
-            child: CircularProgressIndicator(),
+            child: Loader(),
           );
         },
       ),

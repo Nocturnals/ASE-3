@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pet_app/constants/keys.dart';
+import 'package:pet_app/constants/routeNames.dart';
 import 'package:pet_app/petService/model/user.dart';
 import 'package:pet_app/petService/screens/home/profile/edit_profile_page.dart';
 import 'package:pet_app/petService/screens/home/profile/service_provider_profile_widget.dart';
@@ -7,6 +9,7 @@ import 'package:pet_app/petService/services/auth/auth_service.dart';
 import 'package:pet_app/petService/services/services.dart';
 import 'package:pet_app/petService/services/user/user_service.dart';
 import 'package:pet_app/petService/widgets/profile_picture.dart';
+import 'package:pet_app/widgets/loader.dart';
 
 import '../../login/login_page.dart';
 
@@ -73,6 +76,16 @@ class _ProfilePageState extends State<ProfilePage> {
                           Navigator.of(context).pushNamed(MyPetsPage.routeName);
                         },
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      RaisedButton(
+                        onPressed: () {
+                          Keys.navKey.currentState
+                              .pushNamed(RouteNames.petShop);
+                        },
+                        child: Text('PetShop'),
+                      ),
                       if (currentUser.isServiceProvider)
                         ServiceProviderWidget(),
                       SizedBox(
@@ -96,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
             );
           }
           return Center(
-            child: CircularProgressIndicator(),
+            child: Loader(),
           );
         },
       ),

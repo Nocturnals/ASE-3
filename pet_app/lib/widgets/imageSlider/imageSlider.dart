@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 
 // networking imports
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:pet_app/widgets/loader.dart';
 
 // internal imports
 import 'dotsIndicator.dart';
-
 
 class ImageSliderWidget extends StatefulWidget {
   final List<String> imageUrls;
@@ -113,9 +113,7 @@ class ImageSliderWidgetState extends State<ImageSliderWidget> {
       child: CachedNetworkImage(
         imageUrl: imgUrl,
         placeholder: (context, url) => Center(
-          child: Platform.isIOS
-              ? CupertinoActivityIndicator()
-              : CircularProgressIndicator(),
+          child: Platform.isIOS ? CupertinoActivityIndicator() : Loader(),
         ),
         errorWidget: (context, url, error) => Icon(Icons.error),
         fit: BoxFit.cover,

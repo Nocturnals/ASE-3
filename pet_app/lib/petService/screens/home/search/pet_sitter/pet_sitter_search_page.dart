@@ -4,6 +4,7 @@ import 'package:pet_app/petService/screens/home/search/pet_sitter/pet_sitter_sea
 import 'package:pet_app/petService/services/auth/auth_service.dart';
 import 'package:pet_app/petService/services/pets/pets_service.dart';
 import 'package:pet_app/petService/services/services.dart';
+import 'package:pet_app/widgets/loader.dart';
 
 class PetSitterSearchPage extends StatefulWidget {
   @override
@@ -55,7 +56,7 @@ class _PetSitterSearchPageState extends State<PetSitterSearchPage> {
           );
         }
         return Center(
-          child: CircularProgressIndicator(),
+          child: Loader(),
         );
       },
     );
