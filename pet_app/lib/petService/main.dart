@@ -24,6 +24,7 @@ class PetServiceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
           // Define the default brightness and colors.
           brightness: Brightness.light,
