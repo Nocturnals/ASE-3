@@ -73,6 +73,11 @@ dependencies:
   # for responsiveness of the app for different screen types
   responsive_builder: ^0.1.5
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/footprint.png"
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
