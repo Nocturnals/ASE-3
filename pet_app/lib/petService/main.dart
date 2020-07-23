@@ -28,11 +28,11 @@ class PetServiceApp extends StatelessWidget {
       theme: ThemeData(
           // Define the default brightness and colors.
           brightness: Brightness.light,
-          primaryColor: Color(0xFFFCAA7B),
-          primaryColorLight: Color(0xFFFCBA94),
-          primaryColorDark: Color(0xFFF27730),
+          primaryColor: const Color(0xFF6334DC),
+          primaryColorLight: Colors.deepPurple[400],
+          primaryColorDark: Colors.deepPurple[700],
           primaryColorBrightness: Brightness.dark,
-          accentColor: Color(0xFFF27730),
+          accentColor: Colors.deepPurple[400],
           accentColorBrightness: Brightness.dark,
           backgroundColor: Color(0xFFF4EDE6),
           scaffoldBackgroundColor: Color(0xFFF4EBE1),
