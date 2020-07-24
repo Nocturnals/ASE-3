@@ -13,6 +13,7 @@ import 'package:pet_app/petService/services/storage/storage_service.dart';
 import 'package:pet_app/petService/widgets/drop_down_list.dart';
 import 'package:pet_app/petService/widgets/input_field.dart';
 import 'package:pet_app/petService/widgets/profile_picture.dart';
+import 'package:pet_app/widgets/loader.dart';
 
 class AddEditServiceForm extends StatefulWidget {
   final Function(Service) addServiceHandler;
@@ -24,6 +25,7 @@ class AddEditServiceForm extends StatefulWidget {
 }
 
 class _AddServiceFormState extends State<AddEditServiceForm> {
+  bool _isLoading = false;
   Service serviceObject;
   bool isInitialized = false;
 
@@ -133,18 +135,20 @@ class _AddServiceFormState extends State<AddEditServiceForm> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
-              child: RaisedButton(
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    addService(serviceObject);
-                  } else
-                    AppDialogs.showAlertDialog(context, "Oops!",
-                        "Please make sure that the inputs are in the correct format!");
-                },
-                child: serviceObject.id.isEmpty
-                    ? Text('Add Service')
-                    : Text('Update Service'),
-              ),
+              child: _isLoading
+                  ? Container(height: 90, width: 90, child: Loader())
+                  : RaisedButton(
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          addService(serviceObject);
+                        } else
+                          AppDialogs.showAlertDialog(context, "Oops!",
+                              "Please make sure that the inputs are in the correct format!");
+                      },
+                      child: serviceObject.id.isEmpty
+                          ? Text('Add Service')
+                          : Text('Update Service'),
+                    ),
             ),
           ],
         ),
@@ -153,6 +157,9 @@ class _AddServiceFormState extends State<AddEditServiceForm> {
   }
 
   void addService(Service serviceObject) async {
+    setState(() {
+      _isLoading = true;
+    });
     serviceObject.ownerId = _authService.currentUserUid;
     serviceObject.name = nameController.text;
     serviceObject.description = descriptionController.text;
@@ -166,5 +173,8 @@ class _AddServiceFormState extends State<AddEditServiceForm> {
       });
 
     widget.addServiceHandler(serviceObject);
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

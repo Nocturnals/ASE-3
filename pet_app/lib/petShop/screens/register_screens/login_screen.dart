@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         primaryTextField(
                           null,
                           null,
-                          "e.g Remiola2034@gmail.com",
+                          "e.g Sharath2034@gmail.com",
                           (val) => _email = val,
                           true,
                           EmailValiditor.validate,
