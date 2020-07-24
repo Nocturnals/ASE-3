@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pet_app/petShop/main.dart';
 import 'package:pet_app/petShop/model/notifiers/userData_notifier.dart';
 import 'package:pet_app/petShop/model/services/auth_service.dart';
@@ -151,6 +152,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
       () {},
     ];
 
+    Future<String> getUserProfileUrl() async {
+      String userId = (await FirebaseAuth.instance.currentUser()).uid;
+
+      DocumentSnapshot userDoc =
+          await Firestore.instance.collection('users').document(userId).get();
+      return userDoc.data['picture_url'];
+    }
+
     return Scaffold(
       backgroundColor: MColors.primaryWhiteSmoke,
       key: _scaffoldKey,
@@ -172,9 +181,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Container(
-                            child: SvgPicture.asset(
-                              "assets/images/femaleAvatar.svg",
-                              height: 90,
+                            width: 150,
+                            height: 150,
+                            child: FutureBuilder<String>(
+                              future: getUserProfileUrl(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done)
+                                  return CircleAvatar(
+                                    minRadius: 70,
+                                    backgroundImage: snapshot.data.isEmpty
+                                        ? SvgPicture.asset(
+                                            "assets/images/femaleAvatar.svg",
+                                            height: 150,
+                                          )
+                                        : NetworkImage(
+                                            snapshot.data,
+                                          ),
+                                  );
+                                return SvgPicture.asset(
+                                  "assets/images/femaleAvatar.svg",
+                                  height: 90,
+                                );
+                              },
                             ),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,

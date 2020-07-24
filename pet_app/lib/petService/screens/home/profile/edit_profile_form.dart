@@ -10,6 +10,7 @@ import 'package:pet_app/petService/services/storage/storage_service.dart';
 import 'package:pet_app/petService/services/user/user_service.dart';
 import 'package:pet_app/petService/widgets/input_field.dart';
 import 'package:pet_app/petService/widgets/profile_picture.dart';
+import 'package:pet_app/widgets/loader.dart';
 
 class EditProfileForm extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class EditProfileForm extends StatefulWidget {
 }
 
 class _EditProfileFormState extends State<EditProfileForm> {
+  bool _isLoading = false;
   User currentUser;
   bool isInitialized = false;
 
@@ -33,6 +35,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
 
     if (imageSource != null) {
       final file = await ImagePicker.pickImage(source: imageSource);
+      print('file is $file');
       if (file != null) {
         setState(() => _image = file);
       }
@@ -112,40 +115,51 @@ class _EditProfileFormState extends State<EditProfileForm> {
                 },
               )
             ]),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15.0),
-              child: RaisedButton(
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    updateInfo(currentUser, _image, biographyController.text,
-                        locationController.text);
-                  } else
-                    AppDialogs.showAlertDialog(context, "Operation failed",
-                        "Please make sure that the inputs are in the correct format!");
-                },
-                child: Text('Save'),
-              ),
-            ),
+            _isLoading
+                ? Container(height: 50, width: double.infinity, child: Loader())
+                : Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15.0),
+                    child: RaisedButton(
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          updateInfo(
+                              currentUser,
+                              _image,
+                              biographyController.text,
+                              locationController.text);
+                        } else
+                          AppDialogs.showAlertDialog(
+                              context,
+                              "Operation failed",
+                              "Please make sure that the inputs are in the correct format!");
+                      },
+                      child: Text('Save'),
+                    ),
+                  ),
           ],
         ),
       ),
     );
   }
 
-  void updateInfo(User user, File picture, String bio, String location) {
+  void updateInfo(User user, File picture, String bio, String location) async {
+    setState(() {
+      _isLoading = true;
+    });
     user.bio = bio;
     user.location = location;
     if (_image != null) {
-      _storageService.uploadPhoto(_image).then((pictureUrl) {
-        user.pictureUrl = pictureUrl;
-        _userService
-            .updateUser(user)
-            .whenComplete(() => Navigator.of(context).pop());
-      });
+      String pictureUrl = await _storageService.uploadPhoto(_image);
+      user.pictureUrl = pictureUrl;
+      await _userService.updateUser(user);
+      Navigator.of(context).pop();
     } else {
-      _userService
+      await _userService
           .updateUser(user)
           .whenComplete(() => Navigator.of(context).pop());
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
