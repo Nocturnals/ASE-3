@@ -22,7 +22,7 @@ class Order {
     for (var i = 0; i < data['orderItems'].length; i++) {
       orderItems.add(Cart.fromMap(data['orderItems'][i]));
     }
-    orderDate = data['orderData'].toDate();
+    orderDate = data['orderDate'].toDate();
   }
 
   Map<String, dynamic> toMap() {

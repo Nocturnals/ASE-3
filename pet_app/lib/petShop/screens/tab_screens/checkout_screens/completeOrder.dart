@@ -120,7 +120,7 @@ class _AddressContainerState extends State<AddressContainer> {
         _isLoading = false;
       });
 
-      Scaffold.of(context)
+      Scaffold.of(_scaffoldKey.currentContext)
           .showSnackBar(SnackBar(content: Text('Some error while')));
     }
   }

@@ -20,7 +20,7 @@ class Cart {
   String service;
   int quantity;
 
-  Cart.fromMap(Map<String, dynamic> data) {
+  Cart.fromMap(dynamic data) {
     productImage = data["productImage"];
     name = data["name"];
     brand = data["brand"];

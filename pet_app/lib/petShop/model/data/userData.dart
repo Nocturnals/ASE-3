@@ -29,7 +29,7 @@ class UserDataAddress {
     this.fullLegalName,
   );
 
-  UserDataAddress.fromMap(Map<String, dynamic> data) {
+  UserDataAddress.fromMap(dynamic data) {
     addressLocation = data["addressLocation"];
     addressNumber = data["addressNumber"];
     fullLegalName = data["fullLegalName"];
@@ -50,7 +50,7 @@ class UserDataCard {
   String validThrough;
   String securityCode;
 
-  UserDataCard.fromMap(Map<String, dynamic> data) {
+  UserDataCard.fromMap(dynamic data) {
     cardHolder = data["cardHolder"];
     cardNumber = data["cardNumber"];
     validThrough = data["validThrough"];
