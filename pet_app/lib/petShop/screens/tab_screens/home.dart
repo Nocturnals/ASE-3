@@ -306,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen>
                       children: <Widget>[
                         Container(
                           child: Text(
-                            "\$${fil.price}",
+                            "₹ ${(fil.price * 10).toInt()}",
                             style: boldFont(MColors.primaryPurple, 20.0),
                           ),
                         ),

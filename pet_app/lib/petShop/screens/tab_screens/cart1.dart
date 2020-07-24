@@ -32,7 +32,7 @@ class _Cart1State extends State<Cart1> {
   Widget build(BuildContext context) {
     CartNotifier cartNotifier = Provider.of<CartNotifier>(context);
     var cartList = cartNotifier.cartList;
-    var totalList = cartList.map((e) => e.totalPrice);
+    var totalList = cartList.map((e) => e.totalPrice * 10);
     var total = totalList.isEmpty
         ? 0.0
         : totalList.reduce((sum, element) => sum + element).toStringAsFixed(2);
@@ -74,7 +74,7 @@ class _Cart1State extends State<Cart1> {
                   ),
                   SizedBox(height: 5.0),
                   Text(
-                    "\$$total",
+                    "\₹ $total",
                     style: boldFont(MColors.textGrey, 22.0),
                   ),
                 ],
@@ -163,7 +163,7 @@ class _Cart1State extends State<Cart1> {
                                       child: Row(
                                         children: <Widget>[
                                           Text(
-                                            "\$${cartItem.price}",
+                                            "₹ ${cartItem.price}",
                                             style: boldFont(
                                                 MColors.primaryPurple, 22.0),
                                             textAlign: TextAlign.left,
