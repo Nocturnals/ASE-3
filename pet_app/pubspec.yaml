@@ -35,7 +35,7 @@ dependencies:
   
   # petshop dependencies
   introduction_screen: ^1.0.8
-  flutter_svg: ^0.17.1
+  flutter_svg: ^0.18.0
   firebase_auth: ^0.16.1
   wc_flutter_share: ^0.2.2
   provider:

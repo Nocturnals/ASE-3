@@ -200,8 +200,12 @@ class _DashboardState extends State<_Dashboard> {
                 () {
                   final AuthService _authService = services.get<AuthService>();
                   _authService.signOut();
-                  Navigator.of(context)
-                      .pushReplacementNamed(LoginPage.routeName);
+                  // navigate to login page
+                  Keys.navKey.currentState.pushNamedAndRemoveUntil(
+                      RouteNames.petShop, (route) => false);
+
+                  // Navigator.of(context)
+                  //     .pushReplacementNamed(LoginPage.routeName);
                 },
               ),
             ],

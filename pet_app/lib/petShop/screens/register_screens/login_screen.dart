@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pet_app/constants/keys.dart';
+import 'package:pet_app/constants/routeNames.dart';
 import 'package:pet_app/petShop/main.dart';
 import 'package:pet_app/petShop/screens/register_screens/registration_screen.dart';
 import 'package:pet_app/petShop/screens/register_screens/reset_screen.dart';
@@ -236,11 +238,15 @@ class _LoginScreenState extends State<LoginScreen> {
         String uid = await auth.signInWithEmailAndPassword(_email, _password);
         print("Signed in with $uid");
 
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (_) => PetShopApp(),
-          ),
-        );
+        // navigate pet service app
+        Keys.navKey.currentState
+            .pushNamedAndRemoveUntil(RouteNames.petService, (route) => false);
+
+        // Navigator.of(context).pushReplacement(
+        //   MaterialPageRoute(
+        //     builder: (_) => PetShopApp(),
+        //   ),
+        // );
       } else {
         setState(() {
           _autoValidate = true;

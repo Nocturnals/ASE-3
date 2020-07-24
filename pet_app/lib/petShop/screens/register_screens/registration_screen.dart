@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pet_app/constants/keys.dart';
+import 'package:pet_app/constants/routeNames.dart';
 import 'package:pet_app/petShop/main.dart';
 import 'package:pet_app/petShop/model/notifiers/userData_notifier.dart';
 import 'package:pet_app/petShop/model/services/user_management.dart';
@@ -109,7 +111,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               primaryTextField(
                                 null,
                                 null,
-                                "Remiola",
+                                "Sharath",
                                 (val) => _name = val,
                                 true,
                                 NameValiditor.validate,
@@ -137,7 +139,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               primaryTextField(
                                 null,
                                 null,
-                                "e.g Remiola2034@gmail.com",
+                                "e.g Sharath2034@gmail.com",
                                 (val) => _email = val,
                                 true,
                                 EmailValiditor.validate,
@@ -213,7 +215,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               primaryTextField(
                                 null,
                                 null,
-                                "e.g +55 (47) 12345 6789",
+                                "e.g +91 (79) 12345 6789",
                                 (val) => _phone = val,
                                 true,
                                 PhoneNumberValiditor.validate,
@@ -355,11 +357,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         storeNewUser(_name, _phone, _email);
         print("Signed Up with new $uid");
 
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (_) => PetShopApp(),
-          ),
-        );
+        // navigate pet service app
+        Keys.navKey.currentState
+            .pushNamedAndRemoveUntil(RouteNames.petService, (route) => false);
+
+        // Navigator.of(context).pushReplacement(
+        //   MaterialPageRoute(
+        //     builder: (_) => PetShopApp(),
+        //   ),
+        // );
       } else {
         setState(() {
           _autoValidate = true;
