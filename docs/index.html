@@ -1,0 +1,2445 @@
+<!--
+ API Documentation HTML Template  - 1.0.0
+ Copyright © 2016 Florian Nicolas
+ Licensed under the MIT license.
+ https://github.com/ticlekiwi/API-Documentation-HTML-Template
+ !-->
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>API - Documentation</title>
+    <meta name="description" content="">
+    <meta name="author" content="ticlekiwi">
+
+    <meta http-equiv="cleartype" content="on">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/hightlightjs-dark.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,500|Source+Code+Pro:300" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" media="all">
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+</head>
+
+<body>
+    <div class="left-menu">
+        <div class="content-logo">
+            <img alt="platform by Emily van den Heever from the Noun Project"
+                title="platform by Emily van den Heever from the Noun Project" src="images/logo.png" height="32" />
+            <span>API Documentation<br><br><br>Pet Social Media</span>
+           
+        </div>
+        <div class="content-menu">
+            <ul>
+                <li class="scroll-to-link active" data-target="Introduction">
+                    <a>Introduction</a>
+                </li>
+                <li class="scroll-to-link" data-target="User-Authentication">
+                    <a>User Authentication</a>
+                </li>
+                <li class="scroll-to-link" data-target="User">
+                    <a>User</a>
+                </li>
+                
+                <li class="scroll-to-link" data-target="Post">
+                    <a>Post</a>
+                </li>
+                <li class="scroll-to-link" data-target="Pet">
+                    <a>Pet</a>
+                </li>
+                <li class="scroll-to-link" data-target="Babysitter">
+                    <a>Babysitter</a>
+                </li>
+                <li class="scroll-to-link" data-target="Search">
+                    <a>Search</a>
+                </li>
+                <li class="scroll-to-link" data-target="Chat">
+                    <a>Chat API</a>
+                </li>
+                <li class="scroll-to-link" data-target="Pet-Shop">
+                    <a>Pet-Shop</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-page">
+        <div class="content-code"></div>
+        <div class="content">
+            <div class="overflow-hidden content-section" id="content-get-started">
+                <h1 id="Introduction">Introduction</h1>
+                <pre>
+    API Endpoint
+
+    localhost:4000/api/
+                </pre>
+                <p>
+                    A social media application for pets management
+                </p>
+            </div>
+            <h1 id = "User-Authentication">User Authentication</h1>
+            <p>
+                API Requests for User Authenicaiton
+            </p>
+            <h4>Errors
+            </h4>
+            <p>
+                
+                <strong>200 OK</strong> - the request was successful (some API calls may return 201 instead).<br>
+
+                <strong>201 Created</strong> - the request was successful and a resource was created.<br>
+
+                <strong>204 No Content</strong> - the request was successful but there is no representation to return (i.e. the response is empty).<br>
+
+                <strong>400 Bad Request</strong> - the request could not be understood or was missing required parameters.<br>
+
+                <strong>401 Unauthorized</strong> - authentication failed or user doesn't have permissions for requested operation.<br>
+
+                <strong>403 Forbidden</strong> - access denied.<br>
+
+                <strong>404 Not Found</strong> - resource was not found.<br>
+
+                <strong>500 Internal Server Error</strong> - requested method is not supported for resource.<br>
+
+
+            </p>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Register</h2>
+                <p>localhost:4000/api/auth/register</p>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" POST 'localhost:4000/api/post/create' \
+ --data-raw '{
+                "username" : "pokemon1",
+                "email" : "yonaca9337@wwrmails.com",
+                 "password" : "madara123"
+}' 
+
+                </code></pre>
+               
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "message":"Successfully Send Secret Code to the mail id"
+}
+
+                </code></pre>
+                <h4></h4>
+                <p>
+                      
+
+
+                </p>
+                
+            </div>
+            
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Verify Email</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/post/create' \
+--data-raw '{
+    "secret_code":73851              
+}'   
+
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/auth/verifyEmail
+                </p>
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "message": "successfully verified email",
+    "user": {
+        "id": "Gg0DNb5sdPRDi15OqzcW",
+        "username": "pokemon1",
+        "email": "yonaca9337@wwrmails.com",
+        "password": "$2a$10$.OwJNElJMrbtGQuPjQspC.m0B79wCszzv8J/9ZgaByAoZttxWkxoC",
+        "pets_count": 0,
+        "pet_ids": [],
+        "post_ids": [],
+        "followers": [],
+        "following": [],
+        "liked_post_ids": [],
+        "mentioned_post_ids": [],
+        "fav_animals_ids": [],
+        "order_ids": [],
+        "remainder_ids": [],
+        "email_verified": false,
+        "is_private": false,
+        "public_to": []
+    }
+}
+
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+
+                    This is to verify email of the registered user
+
+                    A secret code generated and sent to email, it should be used in this request to verify the email
+            
+            
+
+
+                </p>
+                
+            </div>
+            
+
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Login</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request POST 'localhost:4000/api/auth/login' \
+--data-raw '{
+	"username" : "sunny@123",
+	"password" : "madara123"
+}'
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/auth/login
+                </p>
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "username": "sunny@123",
+    "email": "bimliyaydi@enayu.com",
+    "password": "$2a$10$WFKMmllXMrCf/fwfjlmQbeaGxuYjBEn8rmbyYAAcSuQ5SdDvkaCQq",
+    "pets_count": 0,
+    "pet_ids": [],
+    "post_ids": [],
+    "followers": [],
+    "following": [],
+    "liked_post_ids": [],
+    "fav_animals_ids": [],
+    "order_ids": [],
+    "remainder_ids": [],
+    "email_verified": false
+}   
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    This is login api.
+    
+    
+    
+    
+                </p>
+    
+                </div>
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Forgot password</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/post/create' \
+--data-raw '{
+    "id": "U71VFDzm4wWzc9IoNXS8",
+    "email":"ligeh99925@fft-mail.com"              
+}'  
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/auth/forgotpassword
+                </p>
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "message" : "Secret Code is send to the Given Mail id"
+}
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Forgot password api sends the secret code the mail id of the user
+    
+    
+    
+    
+                </p>
+    
+                </div>
+
+
+                <h1 id= "User">User </h1>
+
+                <h4>
+                    User attributes:
+                </h4>
+                <p>
+                    
+
+                <strong>id (String)</strong> : unique identifier.<br>
+
+                <strong>username (String)</strong> : unique identifier.<br>
+
+                <strong>email (String)</strong> : email id of the user.<br>
+
+                <strong>age (number)</strong> : Age of the User. <br>
+
+                <strong>pets_count(number)</strong> : No of the pets the User owned.<br>
+
+                </p>
+
+                <h4>Errors
+                </h4>
+                <p>
+                    
+                    <strong>200 OK</strong> - the request was successful (some API calls may return 201 instead).<br>
+    
+        
+                    <strong>400 Bad Request</strong> - the request could not be understood or was missing required parameters.<br>
+    
+                    <strong>401 Unauthorized</strong> - authentication failed or user doesn't have permissions for requested operation.<br>
+    
+                    <strong>403 Forbidden</strong> - access denied.<br>
+    
+                    <strong>404 Not Found</strong> - resource was not found.<br>
+    
+                    <strong>500 Internal Server Error</strong> - requested method is not supported for resource.<br>
+    
+    
+                </p>
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Get Current User details</h2>
+                <pre><code class="bash">
+ # Here is a curl example
+ curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/auth/user' \
+ --data-raw '{
+                     
+ }'  
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/auth/user
+                </p>
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "user": {
+        "id": "Gg0DNb5sdPRDi15OqzcW",
+        "username": "pokemon1",
+        "email": "yonaca9337@wwrmails.com",
+        "password": "$2a$10$.OwJNElJMrbtGQuPjQspC.m0B79wCszzv8J/9ZgaByAoZttxWkxoC",
+        "pets_count": 0,
+        "pet_ids": [],
+        "post_ids": [],
+        "followers": [],
+        "following": [],
+        "liked_post_ids": [],
+        "mentioned_post_ids": [],
+        "fav_animals_ids": [],
+        "order_ids": [],
+        "remainder_ids": [],
+        "email_verified": false,
+        "is_private": false,
+        "public_to": []
+    }
+}    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    We get user details for the current user
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+    
+    
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+            <h2 id="get-characters">Edit User</h2>
+            <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/post/editUser' \
+--data-raw '{
+    "id": "U71VFDzm4wWzc9IoNXS8",
+    "username": "pokemon1"
+}'  
+
+
+
+            </code></pre>
+            <p>
+                URL    :   localhost:4000/api/auth/editUser
+            </p>
+            <br>
+            <pre><code class="json">
+Result example :
+{
+    "message":"Successfully Edited Your Profile"
+}
+
+
+
+            </code></pre>
+            <h4></h4>
+            <p>
+                
+
+                This is api call for editing the user from backend
+
+
+
+
+            </p>
+
+            </div>
+
+
+
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Follow User</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/auth/follow' \
+--data-raw '{
+    "username": "aschente"     
+}'     
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/auth/follow
+                </p>
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "message": "Followed succesfully"
+}    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                Following the user
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+    
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Unfollow User</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/auth/unfollow' \
+--data-raw '{
+    "username": "aschente"     
+}'    
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/auth/unfollow
+                </p>
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "message": "Unfollowed succesfully"
+}    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Unfollowing the User
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    <!-------------------------------------------------------------------->
+    <!-------------------------------------------------------------------->
+    <!-------------------------------------------------------------------->
+    <!-------------------------------------------------------------------->
+    <!-------------------------------------------------------------------->
+    <!--------------------------------------------------------------------><!-------------------------------------------------------------------->
+
+    
+    
+                <h1 id = "Post">Post</h1>
+
+                <h4>
+                    Post attributes:
+                </h4>
+                <p>
+                    
+
+                <strong>id (String)</strong> : unique identifier.<br>
+
+                <strong>description (String)</strong> : description of the given Post<br>
+
+                <strong>media_urls (String)</strong> : Media URL link <br>
+
+                <strong>author_id (String)</strong> : Post author ID <br>
+
+                <strong>likes_count(number)</strong> : No of the likes for the Post<br>
+                
+                <strong>liked_by (list)</strong> : List of ids like the post <br>
+
+                <strong>date_of_creation (date)</strong> : Created Date and Time of the Post. <br>
+
+                <strong>date_of_modify(date)</strong> : Modified Date and Time of the Post.<br>
+
+                </p>
+
+                
+                <h4>Errors
+                </h4>
+                <p>
+                    
+                    <strong>200 OK</strong> - the request was successful (some API calls may return 201 instead).<br>
+    
+        
+                    <strong>400 Bad Request</strong> - the request could not be understood or was missing required parameters.<br>
+    
+                    <strong>401 Unauthorized</strong> - authentication failed or user doesn't have permissions for requested operation.<br>
+    
+                    <strong>403 Forbidden</strong> - access denied.<br>
+    
+                    <strong>404 Not Found</strong> - resource was not found.<br>
+    
+                    <strong>500 Internal Server Error</strong> - requested method is not supported for resource.<br>
+    
+    
+                </p>
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Create Post</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/post/create' \
+--data-raw '{
+	"media_urls" : "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
+	"description" : "High key portraits of a Laughing Dove with different compositions.#shotonsony #a6000 .As daily I'm spending some time on the terrace, in the morning and evening, watching the birds, they are letting me get closer to them. So I was able to capture portraits of some birds like dove, robins, sunbird, etc. Will post the portraits of other birds later.. #earthinfocus @sony#neelakanta_sriram  #freedom #instagram #instagood #nofilter #nofilterneeded #natgeoyourshot #natureinfocus #portrait #yourshotphotographer @aschente"
+}'    
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/create
+                </p>
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "id": "Ep3TeVt3MPN05bu25CUS",
+    "description": "High key portraits of a Laughing Dove with different compositions.#shotonsony #a6000 .As daily I'm spending some time on the terrace, in the morning and evening, watching the birds, they are letting me get closer to them. So I was able to capture portraits of some birds like dove, robins, sunbird, etc. Will post the portraits of other birds later.. #earthinfocus @sony#neelakanta_sriram  #freedom #instagram #instagood #nofilter #nofilterneeded #natgeoyourshot #natureinfocus #portrait #yourshotphotographer @aschente",
+    "media_urls": [
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+    ],
+    "author_id": "U71VFDzm4wWzc9IoNXS8",
+    "likes_count": 0,
+    "liked_by": [],
+    "date_of_creation": 1595575879436,
+    "date_of_modify": 1595575879436
+} 
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    You can create post by this api
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Delete All Posts </h2>
+                <pre><code class="bash">
+# Here is a curl example
+
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/post/delete/all' \
+--data-raw '{
+	
+}'   
+  
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/delete/all
+                </p>
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "message": "Successfully deleted all Post"
+}    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Delete all the Posts
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+    
+    
+        
+    
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Delete Post By id</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/post/delete/id' \
+--data-raw '{
+    "id": "RUtha7tgnmRZVnmADdAV"
+}'    
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/delete/id
+                </p>
+                <br>
+                <pre><code class="json">
+Result example :
+    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Delete post via Id's of the Post
+    
+                    
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Update Post</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/post/update' \
+--data-raw '{
+    "id": "RUtha7tgnmRZVnmADdAV",
+    "description": "High key portraits of a Laughing Dove with different compositions.#shotonsony #a6000 .As daily I'm spending some time on the terrace, in the morning and evening. @aschente"
+
+}'    
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/update
+                </p>
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "message" : "Updated Successfully"
+}    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Updating the post
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+    
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Like Post</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/post/like' \
+--data-raw '{
+    "post_id": "Ep3TeVt3MPN05bu25CUS"
+} '
+   
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/like
+                </p>
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "message": "Liked Added"
+}    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    like the post
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+        
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Remove like</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/post/unlike' \
+--data-raw '{
+    "post_id": "Ep3TeVt3MPN05bu25CUS"
+}'
+   
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/unlike
+                </p>
+                <br>
+                <pre><code class="json">
+Result example :
+{
+"message": "Liked Removed"
+}    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Unlink the given Post 
+    
+    
+    
+    
+                </p>
+    
+                </div>
+
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Get all post by user id</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" GET 'localhost:4000/api/post/user/id' \
+--data-raw '{
+    "id": "U71VFDzm4wWzc9IoNXS8",
+}'    
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/user/id
+                </p>
+                <br>
+                <pre><code class="json">
+    Result example :
+    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                   Getting all post sorted by User ids.
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Get post by its ID</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" GET 'localhost:4000/api/post/id' \
+--data-raw '{
+    "post_id": "xUvPc2nB5YNzTafcS0au"
+}'     
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/id
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "id": "xUvPc2nB5YNzTafcS0au",
+    "description": "High key portraits of a Laughing Dove with different compositions.#shotonsony #a6000 .As daily I'm spending some time on the terrace, in the morning and evening, watching the birds, they are letting me get closer to them. So I was able to capture portraits of some birds like dove, robins, sunbird, etc. Will post the portraits of other birds later.. #earthinfocus @sony#neelakanta_sriram  #freedom #instagram #instagood #nofilter #nofilterneeded #natgeoyourshot #natureinfocus #portrait #yourshotphotographer @aschente",
+    "media_urls": [
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+    ],
+    "author_id": "U71VFDzm4wWzc9IoNXS8",
+    "likes_count": 0,
+    "liked_by": [],
+    "date_of_creation": 1595577350801
+}    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Getting Post details by its id.
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+    
+    
+     
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Get post by Users Username</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" GET 'localhost:4000/api/post/user/username' \
+--data-raw '{
+    "username": "aschente"
+}'      
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/user/username
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "id": "xUvPc2nB5YNzTafcS0au",
+    "description": "High key portraits of a Laughing Dove with different compositions.#shotonsony #a6000 .As daily I'm spending some time on the terrace, in the morning and evening, watching the birds, they are letting me get closer to them. So I was able to capture portraits of some birds like dove, robins, sunbird, etc. Will post the portraits of other birds later.. #earthinfocus @sony#neelakanta_sriram  #freedom #instagram #instagood #nofilter #nofilterneeded #natgeoyourshot #natureinfocus #portrait #yourshotphotographer @aschente",
+    "media_urls": [
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+    ],
+    "author_id": "U71VFDzm4wWzc9IoNXS8",
+    "likes_count": 0,
+    "liked_by": [],
+    "date_of_creation": 1595577350801
+}    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Getting Post details by Users Username
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+    
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Get Liked Post of a current User</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" GET 'localhost:4000/api/post/liked' \
+--data-raw ''    
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/liked
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "id": "xUvPc2nB5YNzTafcS0au",
+    "description": "High key portraits of a Laughing Dove with different compositions.#shotonsony #a6000 .As daily I'm spending some time on the terrace, in the morning and evening, watching the birds, they are letting me get closer to them. So I was able to capture portraits of some birds like dove, robins, sunbird, etc. Will post the portraits of other birds later.. #earthinfocus @sony#neelakanta_sriram  #freedom #instagram #instagood #nofilter #nofilterneeded #natgeoyourshot #natureinfocus #portrait #yourshotphotographer @aschente",
+    "media_urls": [
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+    ],
+    "author_id": "U71VFDzm4wWzc9IoNXS8",
+    "likes_count": 0,
+    "liked_by": [],
+    "date_of_creation": 1595577350801
+}      
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Getting All the liked Post details by Current User.
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+    
+    
+    
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Get post of the Mentioned User</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" GET 'localhost:4000/api/post/mentioned_user' \
+--data-raw '
+{
+    "username": "aschente"
+}'    
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/mentioned_user
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "id": "xUvPc2nB5YNzTafcS0au",
+    "description": "High key portraits of a Laughing Dove with different compositions.#shotonsony #a6000 .As daily I'm spending some time on the terrace, in the morning and evening, watching the birds, they are letting me get closer to them. So I was able to capture portraits of some birds like dove, robins, sunbird, etc. Will post the portraits of other birds later.. #earthinfocus @sony#neelakanta_sriram  #freedom #instagram #instagood #nofilter #nofilterneeded #natgeoyourshot #natureinfocus #portrait #yourshotphotographer @aschente",
+    "media_urls": [
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+    ],
+    "author_id": "U71VFDzm4wWzc9IoNXS8",
+    "likes_count": 0,
+    "liked_by": [],
+    "date_of_creation": 1595577350801
+} 
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Getting post of the Mentioned User
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+    
+    
+    
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Add like to Post</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/post/like' \
+--data-raw '
+{
+    "id": "xUvPc2nB5YNzTafcS0au"
+}'      
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/like
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "message": "Successfully Liked the Post"
+}    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Adding like to given Post.
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+    
+    
+    
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Unlike the Given Post</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/post/unlike' \
+--data-raw '
+{
+    "id": "xUvPc2nB5YNzTafcS0au"
+}'     
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/unlike
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "message": "Successfully Unliked the Post"
+}     
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Unliking the Given Post
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    <!-------------------------------------------------------------------->
+    <!-------------------------------------------------------------------->
+    <!-------------------------------------------------------------------->
+    <!-------------------------------------------------------------------->
+    <!-------------------------------------------------------------------->
+    <!-------------------------------------------------------------------->
+    <!-------------------------------------------------------------------->
+    <h1 id= "Pet">Pet</h1>
+    
+    <h4>
+        Pet attributes:
+    </h4>
+    <p>
+        
+
+    <strong>id (String)</strong> : unique identifier.<br>
+
+    <strong>pet_name (String)</strong> : Name of the given Pet<br>
+
+    <strong>owner_id (String)</strong> : Owner Id of the pet <br>
+
+    <strong>animal_type (String)</strong> : Type of animal <br>
+
+    <strong>dob (date)</strong> :Date of birth of the animal <br>
+
+        
+    </p>
+
+
+
+    <h4>Errors
+    </h4>
+    <p>
+        
+        <strong>200 OK</strong> - the request was successful (some API calls may return 201 instead).<br>
+
+
+        <strong>400 Bad Request</strong> - the request could not be understood or was missing required parameters.<br>
+
+        <strong>401 Unauthorized</strong> - authentication failed or user doesn't have permissions for requested operation.<br>
+
+        <strong>403 Forbidden</strong> - access denied.<br>
+
+        <strong>404 Not Found</strong> - resource was not found.<br>
+
+        <strong>500 Internal Server Error</strong> - requested method is not supported for resource.<br>
+
+
+    </p>
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Register a Pet</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/pet/register' \
+--data-raw '{
+            
+    "petName": "aschente",
+    "animalType": "dog",
+    "dob": 1595577350801
+        
+}'      
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/pet/register
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "message": "successfully registered new pet"
+}    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Registering a Pet.
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Get all the Pet List</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" Get 'localhost:4000/api/pet/' \
+--data-raw ''      
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/pet/
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "petsList": [
+        {
+            "pet_id": "gpYadlSOtRRDjOfW5ayB",
+            "pet_name": "aschente",
+            "owner_id": "U71VFDzm4wWzc9IoNXS8",
+            "animal_type": "dog",
+            "dob": 1595577350801
+        }
+    ]
+}    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Getting the all Pets list.
+    
+    
+    
+    
+                </p>
+    
+                </div>    
+    
+    
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Get Pets of the owner</h2>
+                <pre><code class="bash">
+# Here is a curl example
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" GET 'localhost:4000/api/pet/owner' \
+--data-raw ''     
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/pet/owner
+                <br>
+                <pre><code class="json">
+Result example :
+{
+        "pet_id": "gpYadlSOtRRDjOfW5ayB",
+        "pet_name": "aschente",
+        "owner_id": "U71VFDzm4wWzc9IoNXS8",
+        "animal_type": "dog",
+        "dob": 1595577350801
+        
+}      
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Getting Pets of the owner.
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+    
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Get Pets By User id</h2>
+                <pre><code class="bash">
+# Here is a curl example
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/pet/userid' \
+--data-raw '{
+    "id": "U71VFDzm4wWzc9IoNXS8"
+}'     
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/pet/userid
+                <br>
+                <pre><code class="json">
+Result example :
+{
+        "pet_id": "gpYadlSOtRRDjOfW5ayB",
+        "pet_name": "aschente",
+        "owner_id": "U71VFDzm4wWzc9IoNXS8",
+        "animal_type": "dog",
+        "dob": 1595577350801
+        
+}      
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Getting Pets of the owner.
+    
+    
+    
+    
+                </p>
+    
+                </div>    
+    
+            <!--------------------------------------------------------------------------------------->
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Update Pet info</h2>
+                <pre><code class="bash">
+# Here is a curl example
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/pet/update' \
+--data-raw '{
+    "id": "gpYadlSOtRRDjOfW5ayB",
+    "pet_name": "aschente_igris",
+    "animal_type": "cat",
+    "dob": 1595577350801
+}'     
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/pet/update
+                <br>
+                <pre><code class="json">
+Result example :
+{
+        "pet_id": "gpYadlSOtRRDjOfW5ayB",
+        "pet_name": "aschente_igris",
+        "owner_id": "U71VFDzm4wWzc9IoNXS8",
+        "animal_type": "cat",
+        "dob": 1595577350801
+        
+}      
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Getting Pets of the owner.
+    
+    
+    
+    
+                </p>
+    
+                </div>                   
+                
+
+                <!--------------------------------------------------------------------------------------->
+                <div class="overflow-hidden content-section" id="content-get-characters">
+                    <h2 id="get-characters">Remove Pet</h2>
+                    <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/pet/remove' \
+--data-raw '{
+        "id": "gpYadlSOtRRDjOfW5ayB"
+}'     
+        
+        
+        
+                    </code></pre>
+                    <p>
+                        URL    :   localhost:4000/api/pet/remove
+                    <br>
+                    <pre><code class="json">
+    Result example :
+    {
+            "message": "Successfully Removed the Pet"
+            
+    }      
+        
+        
+        
+                    </code></pre>
+                    <h4></h4>
+                    <p>
+                        
+        
+                        Removing Pet.
+        
+        
+        
+        
+                    </p>
+        
+                    </div>    
+    
+            <!--------------------------------------------------------------------------------------->
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Update Pet owner</h2>
+                <pre><code class="bash">
+# Here is a curl example
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/pet/update' \
+--data-raw '{
+    "id": "gpYadlSOtRRDjOfW5ayB",
+    "owner_id": "U71VFDzm4wWzc9IoNXS8",
+    "updated_owner_id":"wWzc9IoNXS8S3mNGdBb"
+}'     
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/pet/update
+                <br>
+                <pre><code class="json">
+Result example :
+{
+        "pet_id": "gpYadlSOtRRDjOfW5ayB",
+        "pet_name": "aschente_igris",
+        "owner_id": "wWzc9IoNXS8S3mNGdBb",
+        "animal_type": "cat",
+        "dob": 1595577350801
+        
+}      
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Getting Pets of the owner.
+    
+    
+    
+    
+                </p>
+    
+                </div> 
+       <!--------------------------------------------------------------------------------------->
+       <!--------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------->
+       <!--------------------------------------------------------------------------------------->
+       <!--------------------------------------------------------------------------------------->
+       <!--------------------------------------------------------------------------------------->
+       <!--------------------------------------------------------------------------------------->
+                <h1 id = "Babysitter">Babysitter</h1>
+                
+                <h4>
+                    Post attributes:
+                </h4>
+                <p>
+                    
+
+                <strong>id (String)</strong> : unique identifier.<br>
+
+                <strong>address (dictonary of strings)</strong> : Address of the babysitter<br>
+
+                <strong>status (boolean)</strong> : Status <br>
+
+                <strong>contact_no (number)</strong> : contact info <br>
+
+                <strong>list_of_pets_accepted_before(list of pet ids)</strong> : list of pets accepted before<br>
+                
+                <strong>current_babysitting_pets (list of pet ids)</strong> : List of current  babysitting pets <br>
+
+                <strong>requests_list (list of pet ids)</strong> : list of request pets. <br>
+
+                <strong>payment_details(list of numbers)</strong> : list of payment details.<br>
+
+                </p>
+
+
+
+
+                <!--------------------------------------------------------------------------------------->
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Register Babysitter</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/babysitter/register' \
+--data-raw '{
+    "address": {
+        "lane": "wWzc9IoNXS8S3mNGdBb",
+        "street": "9889898989",
+        "city": [],
+        "state": [],
+        "country": [],
+        "postalCode": []
+    },
+    "status": "on",
+    "contact_no": "9889898989",
+}'
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/babysitter/register
+                <br>
+                <pre><code class="json">
+Result example :
+{
+        "message" : "Successfully Registered"
+        
+}      
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    registering the babysitter.
+    
+    
+    
+    
+                </p>
+    
+                </div> 
+    
+        <!--------------------------------------------------------------------------------------->
+    <div class="overflow-hidden content-section" id="content-get-characters">
+        <h2 id="get-characters">Get Babysitter</h2>
+        <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" GET 'localhost:4000/api/babysitter/get' \
+--data-raw ''
+
+
+
+        </code></pre>
+        <p>
+            URL : localhost:4000/api/babysitter/get
+        <br>
+        <pre><code class="json">
+Result example :
+{
+
+    
+"babysitter_id": "SOtRRDjOfW5gpYadlayB",
+"address": {
+    "lane": "wWzc9IoNXS8S3mNGdBb",
+    "street": "9889898989",
+    "city": [],
+    "state": [],
+    "country": [],
+    "postalCode": []
+},
+"status": "on",
+"contact_no": "9889898989",
+"list_of_pets_accepted_before": [],
+"current_babysitting_pets": [],
+"requests_list": [],
+"payment_details": []
+
+}      
+
+
+
+        </code></pre>
+        <h4></h4>
+        <p>
+            
+
+            Getting Pets of the owner.
+
+
+
+
+        </p>
+
+        </div>     
+
+
+   <!--------------------------------------------------------------------------------------->
+   <div class="overflow-hidden content-section" id="content-get-characters">
+    <h2 id="get-characters">Edit Babysitter</h2>
+    <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/babysitter/update' \
+--data-raw '{
+    "address": {
+        "lane": "qwerqwer",
+        "street": "qwerqwer",
+        "city": 'hud',
+        "state": 'hud',
+        "country": 'hud',
+        "postalCode": 500000
+    },
+    "contact_no": "9889898989",
+
+
+}'
+
+
+
+    </code></pre>
+    <p>
+        URL : localhost:4000/api/babysitter/update
+    <br>
+    <pre><code class="json">
+Result example :
+{
+
+    "message": "Updated Successfully"
+
+}      
+
+
+
+    </code></pre>
+    <h4></h4>
+    <p>
+        
+
+        Edit the baby sitter details.
+
+
+
+
+    </p>
+
+    </div> 
+
+
+
+     <!--------------------------------------------------------------------------------------->
+   <div class="overflow-hidden content-section" id="content-get-characters">
+    <h2 id="get-characters">Get Current Babysitting pets</h2>
+    <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" GET 'localhost:4000/api/babysitter/pets' \
+--data-raw ''
+
+
+
+    </code></pre>
+    <p>
+        URL : localhost:4000/api/babysitter/pets
+    <br>
+    <pre><code class="json">
+Result example :
+{
+
+    "petsList": [
+        {
+            "pet_id": "gpYadlSOtRRDjOfW5ayB",
+            "pet_name": "aschente",
+            "owner_id": "U71VFDzm4wWzc9IoNXS8",
+            "animal_type": "dog",
+            "dob": 1595577350801
+        }
+    ]
+
+
+}      
+
+
+
+    </code></pre>
+    <h4></h4>
+    <p>
+        
+
+        Get current baby sitting list.
+
+
+
+
+    </p>
+
+    </div> 
+
+
+
+     <!--------------------------------------------------------------------------------------->
+   <div class="overflow-hidden content-section" id="content-get-characters">
+    <h2 id="get-characters">Get Request list</h2>
+    <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" GET 'localhost:4000/api/babysitter/requestlist' \
+--data-raw ''
+
+
+
+    </code></pre>
+    <p>
+        URL : localhost:4000/api/babysitter/requestlist
+    <br>
+    <pre><code class="json">
+Result example :
+{
+
+    "petsList": [
+        {
+            "pet_id": "RRDjOfW5gpYadlSOtayB",
+            "pet_name": "igris",
+            "owner_id": "U71VFDzm4wWzc9IoNXS8",
+            "animal_type": "cat",
+            "dob": 1595577350801
+        }
+    ]
+
+
+}      
+
+
+
+    </code></pre>
+    <h4></h4>
+    <p>
+        
+
+        Get request baby sitting list.
+
+
+
+
+    </p>
+
+    </div> 
+
+
+
+    
+     <!--------------------------------------------------------------------------------------->
+   <div class="overflow-hidden content-section" id="content-get-characters">
+    <h2 id="get-characters">Change Status</h2>
+    <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" Post 'localhost:4000/api/babysitter/requestlist' \
+--data-raw '{
+    "id":"SOtRRDjOfW5gpYadlayB",
+    "status": "off"
+}'
+
+
+
+    </code></pre>
+    <p>
+        URL : localhost:4000/api/babysitter/requestlist
+    <br>
+    <pre><code class="json">
+Result example :
+{
+
+    "message": "Changed the Status Successfully"
+
+
+}      
+
+
+
+    </code></pre>
+    <h4></h4>
+    <p>
+        
+
+        Changing the status of the User.
+
+
+ <!---------------------------------------------------------------------------------------> <!--------------------------------------------------------------------------------------->
+  <!--------------------------------------------------------------------------------------->
+   <!--------------------------------------------------------------------------------------->
+    <!--------------------------------------------------------------------------------------->
+     <!--------------------------------------------------------------------------------------->
+
+    </p>
+
+    </div> 
+
+
+    <h1 id = "Search">Search</h1>
+
+    <h4>Errors
+    </h4>
+    <p>
+        
+        <strong>200 OK</strong> - the request was successful (some API calls may return 201 instead).<br>
+
+
+        <strong>400 Bad Request</strong> - the request could not be understood or was missing required parameters.<br>
+
+        <strong>401 Unauthorized</strong> - authentication failed or user doesn't have permissions for requested operation.<br>
+
+        <strong>403 Forbidden</strong> - access denied.<br>
+
+        <strong>404 Not Found</strong> - resource was not found.<br>
+
+        <strong>500 Internal Server Error</strong> - requested method is not supported for resource.<br>
+
+      <!--------------------------------------------------------------------------------------->
+   <div class="overflow-hidden content-section" id="content-get-characters">
+    <h2 id="get-characters">Mating search</h2>
+    <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" Post 'localhost:4000/api/search/mate' \
+--data-raw '{
+    "id" : "50c3lNtAEGJUxIuDvj8b"
+}'
+
+
+
+    </code></pre>
+    <p>
+        URL : localhost:4000/api/search/mate
+    <br>
+    <pre><code class="json">
+Result example :
+{
+
+    
+    pets_lists : [ {
+        "age": 4,
+        "biography": "Always meow",
+        "name": "Jaja",
+        "ownerId": "2n4S7ZsyNKZ2w2f6g0IulGNvOl12",
+        "pet_mating": true,
+        "pet_sitting": true,
+        "picture_url": "",
+        "type": "Cat" 
+        },
+        {
+        "age": 4,
+        "biography": "how how",
+        "name": "gege",
+        "ownerId": "2n4S7ZsyNKZ2w2f6g0IulGNvOl12",
+        "pet_mating": true,
+        "pet_sitting": true,
+        "picture_url": "",
+        "type": "Cat" 
+        }
+    ]
+        
+
+}      
+
+
+
+    </code></pre>
+    <h4></h4>
+    <p>
+        
+
+        Search api for Mating.
+
+
+
+
+    </p>
+
+    </div> 
+
+
+       <!--------------------------------------------------------------------------------------->
+   <div class="overflow-hidden content-section" id="content-get-characters">
+    <h2 id="get-characters">Pet sitting Search</h2>
+    <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" Post 'localhost:4000/api/search/sitting' \
+--data-raw '{
+    "id" : "50c3lNtAEGJUxIuDvj8b"
+}'
+
+
+
+    </code></pre>
+    <p>
+        URL : localhost:4000/api/search/sitting
+    <br>
+    <pre><code class="json">
+Result example :
+{
+
+    
+    pets_lists : [ {
+        "age": 4,
+        "biography": "Always meow",
+        "name": "Jaja",
+        "ownerId": "2n4S7ZsyNKZ2w2f6g0IulGNvOl12",
+        "pet_mating": true,
+        "pet_sitting": true,
+        "picture_url": "",
+        "type": "Cat" 
+        },
+        {
+        "age": 4,
+        "biography": "how how",
+        "name": "gege",
+        "ownerId": "2n4S7ZsyNKZ2w2f6g0IulGNvOl12",
+        "pet_mating": true,
+        "pet_sitting": true,
+        "picture_url": "",
+        "type": "Cat" 
+        }
+
+}      
+
+
+
+    </code></pre>
+    <h4></h4>
+    <p>
+        
+
+        Search api for Pet Sitting.
+
+
+
+
+    </p>
+
+    </div>
+
+
+
+
+
+        <!--------------------------------------------------------------------------------------->
+   <div class="overflow-hidden content-section" id="content-get-characters">
+    <h2 id="get-characters">Pet Service Search</h2>
+    <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" Post 'localhost:4000/api/search/service' \
+--data-raw '{
+    "id" : "50c3lNtAEGJUxIuDvj8b"  ,
+    "category": "Clinic" 
+}'
+
+
+
+    </code></pre>
+    <p>
+        URL : localhost:4000/api/search/service
+    <br>
+    <pre><code class="json">
+Result example :
+{
+
+    
+   pets_lists : [ {
+        
+        "address": "str. Theodor Mihali, nr. 90, Cluj-Napoca",
+        "category" :"Clinic",
+        "description" :"The best one in town",
+        "id": "",
+        "name": "Dog care ",
+        "owner_id": "xKp3PFyQKQUy5oJWyZmPlTp5udE3",
+        "pet_type": "Dog",
+        "picture_url": "" 
+    },
+        {
+        "address": " nr. 90, Cluj-Napocab,str. Theodor Mihali,",
+        "category" :"Clinic",
+        "description" :"worlds best",
+        "id": "",
+        "name": "animal care ",
+        "owner_id": "5oJWyZmPlTp5uxKp3PFyQKQUydE3",
+        "pet_type": "Dog",
+        "picture_url": "" 
+        }
+    ]
+
+}      
+
+
+
+    </code></pre>
+    <h4></h4>
+    <p>
+        
+        Search api for Pet Service.
+
+
+    </p>
+
+    </div>
+       <!--------------------------------------------------------------------------------------->
+       <!--------------------------------------------------------------------------------------->
+       <!--------------------------------------------------------------------------------------->
+       <!--------------------------------------------------------------------------------------->
+       <!--------------------------------------------------------------------------------------->
+       <!--------------------------------------------------------------------------------------->
+       <!--------------------------------------------------------------------------------------->
+       <!--------------------------------------------------------------------------------------->
+
+
+    <h1 id = "Chat">Chat Api</h1>
+
+    <h4>Errors
+    </h4>
+    <p>
+        
+        <strong>200 OK</strong> - the request was successful (some API calls may return 201 instead).<br>
+
+        <strong>400 Bad Request</strong> - the request could not be understood or was missing required parameters.<br>
+
+        <strong>401 Unauthorized</strong> - authentication failed or user doesn't have permissions for requested operation.<br>
+
+        <strong>500 Internal Server Error</strong> - requested method is not supported for resource.<br>
+
+       <!--------------------------------------------------------------------------------------->
+   <div class="overflow-hidden content-section" id="content-get-characters">
+    <h2 id="get-characters">Chat Api</h2>
+    <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" Post 'localhost:4000/api/chat/id' \
+--data-raw '{
+    "id" : "50c3lNtAEGJUxIuDvj8b"  ,
+    "message": "how are you feeling" 
+}'
+
+
+
+    </code></pre>
+    <p>
+        URL : localhost:4000/api/search/service
+    <br>
+    <pre><code class="json">
+Result example :
+{
+
+    "message":"delivered Successfully"
+
+}      
+
+
+
+    </code></pre>
+    <h4></h4>
+    <p>
+        
+        Api for Chat.<br>
+        The message are stored in below format.<br>
+        {<br>
+            "id":"lNvZu6BuTehjAqpFxWaOsw1t3QG3",<br>
+            "messages":[{<br>
+                "msg_id":"atOqypVayWQlXWNEMb2A",<br> 
+                "date_sent": July 24, 2020 at 8:59:33 PM UTC+5:30,<br>
+                "message" :"yeah",<br>
+                "sent_by_me" :false <br>
+            },<br>
+            {<br>
+                "msg_id":"esyqNHCqOj4OM9r6q7Fp ",<br> 
+                "date_sent": July 24, 2020 at 8:59:33 PM UTC+5:30,<br>
+                "message" :"Hi, edward! I need a pet sitter. Are you interested?,<br>
+                "sent_by_me" :false <br>
+            }<br>
+            ]<br>
+        }<br>
+
+
+    </p>
+
+    </div>
+
+
+    <!----------------------------------------------------------------------------->
+    <div class="overflow-hidden content-section" id="content-get-characters">
+        <h2 id="get-characters">Show Chat between two users</h2>
+        <pre><code class="bash">
+    # Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/chat/id/otherid' \
+--data-raw '{
+    "id" : "1GnSb4QyqJaKNDBmKyTKn8JcgD2"  ,
+    "other_id": "lNvZu6BuTehjAqpFxWaOsw1t3QG3" 
+}'
+
+    
+    
+        </code></pre>
+        <p>
+            URL : localhost:4000/api/id/otherid
+        <br>
+        <pre><code class="json">
+Result example :
+{
+
+    {
+        "id":"lNvZu6BuTehjAqpFxWaOsw1t3QG3",
+        "messages":[{
+            "msg_id":"atOqypVayWQlXWNEMb2A", 
+            "date_sent": July 24, 2020 at 8:59:33 PM UTC+5:30,
+            "message" :"yeah",
+            "sent_by_me" :false 
+        },
+        {
+            "msg_id":"esyqNHCqOj4OM9r6q7Fp ", 
+            "date_sent": July 24, 2020 at 8:59:33 PM UTC+5:30,
+            "message" :"Hi, edward! I need a pet sitter. Are you interested?,
+            "sent_by_me" :false 
+        }
+        ]
+    }
+    
+    }      
+    
+    
+    
+        </code></pre>
+        <h4></h4>
+        <p>
+            
+            Api for Chat.<br>
+            To get chat history two given users.<br>
+            
+    
+    
+        </p>
+    
+        </div>
+
+        <!----------------------------------------------------------------------------->
+        <!----------------------------------------------------------------------------->
+        <!----------------------------------------------------------------------------->
+        <!----------------------------------------------------------------------------->
+        <!----------------------------------------------------------------------------->
+        <!----------------------------------------------------------------------------->
+        <!----------------------------------------------------------------------------->
+
+        <h1 id="Pet-Shop">Pet Shop</h1>
+
+
+        <h4>
+            Food items attributes:
+        </h4>
+        <p>
+            
+    
+        <strong>id (String)</strong> : unique identifier.<br>
+    
+        <strong>brand (String)</strong> : Name of the Brand<br>
+    
+        <strong>category (String)</strong> : Category of the Food <br>
+    
+        <strong>desc (String)</strong> : description of the food <br>
+
+        <strong>flavor (String)</strong> : Type of flavor <br>
+
+        <strong>foodType (String)</strong> : Type of food <br>
+
+        <strong>ingredients (String)</strong> : Ingredients present in the food <br>
+
+        <strong>lifeStage (String)</strong> : lifeStage <br>
+
+        <strong>moreDesc (String)</strong> : More Info about the Product <br>
+
+        <strong>pet (String)</strong> : Type of animal <br>
+
+        <strong>price (number)</strong> : price of the item <br>
+
+        <strong>productID (String)</strong> : productID <br>
+
+        <strong>productImage (String)</strong> : URl of the product <br>
+
+        <strong>quantity (number)</strong> : quantity <br>
+
+        <strong>service (String)</strong> : service <br>
+
+        <strong>subCategory (String)</strong> : subCategory <br>
+
+        <strong>totalPrice (float number)</strong> : totalPrice <br>
+
+        <strong>weight (float number)</strong> : weight <br>
+        
+            
+        </p>
+
+        
+
+        <h4>Errors
+        </h4>
+        <p>
+            
+            <strong>200 OK</strong> - the request was successful (some API calls may return 201 instead).<br>
+    
+    
+            <strong>400 Bad Request</strong> - the request could not be understood or was missing required parameters.<br>
+    
+            <strong>401 Unauthorized</strong> - authentication failed or user doesn't have permissions for requested operation.<br>
+    
+            <strong>403 Forbidden</strong> - access denied.<br>
+    
+            <strong>404 Not Found</strong> - resource was not found.<br>
+    
+            <strong>500 Internal Server Error</strong> - requested method is not supported for resource.<br>
+
+ <!----------------------------------------------------------------------------->
+ <div class="overflow-hidden content-section" id="content-get-characters">
+    <h2 id="get-characters">Search</h2>
+    <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/shop/Search' \
+--data-raw '{
+    "search" : "Blue Buffalo"
+}'
+
+
+
+    </code></pre>
+    <p>
+        URL : localhost:4000/api/shop/Search
+    <br>
+    <pre><code class="json">
+Result example :
+{
+
+    "id":"1UbkVtdFvJdrGcJOLIGS",
+    "brand": "Blue Buffalo",
+    "category": "food",
+    "desc": "Inspired by the diet of wolves, true omnivores whose endurance is legendary, BLUE Wilderness is a grain-free, protein-rich food that contains more of the delicious chicken your dog loves. Made with the finest natural and no grains.",
+    directions "Up to 15 lbs 1/2 to 1-1/4 cups*16 to 25 lbs 1-1/4 to 1-3/4 cups*26 to 40 lbs 1-3/4 to 2-1/4 cups*41 to 60 lbs 2-1/4 to 3-1/4 cups*61 to 80 lbs 3-1/4 to 4 cups*81 to 100 lbs 4 to 4-3/4 cups*Over 100 lbs 4-3/4 cups* + 1/2 cup for each additional 20 lbs"
+    "flavor": "chicken",
+    "foodType": "Dry",
+    "ingredients": "Deboned Chicken, Chicken Meal (source of Glucosamine), Peas, Pea Protein, Tapioca Starch, Menhaden Fish Meal (source of Omega 3 Fatty Acids), Dried Tomato Pomace, Chicken Fat (preserved with Mixed Tocopherols), Flaxseed (source of Omega 6 Fatty Acids), Pea Starch, Natural , Dried Egg Product, Dehydrated Alfalfa Meal, DL-Methionine, Potatoes, Dried Chicory Root, Pea Fiber, Alfalfa Nutrient Concentrate, Calcium Carbonate, Choline Chloride, Salt, Potassium Chloride, Sweet Potatoes, Carrots, preserved with Mixed Tocopherols, Zinc Amino Acid Chelate, Zinc Sulfate, Vegetable Juice for color, Ferrous Sulfate, Vitamin E Supplement, Iron Amino Acid Chelate, Blueberries, Cranberries, Barley Grass, Parsley, Turmeric, DriedKelp, Yucca Schidigera Extract, Niacin (Vitamin B3), Calcium Pantothenate (Vitamin B5), L-Carnitine, Copper Sulfate, L-Ascorbyl-2-Polyphosphate (source of Vitamin C), L-Lysine, Biotin (Vitamin B7), Vitamin A Supplement, Copper Amino Acid Chelate, Manganese Sulfate, Taurine, Manganese Amino Acid Chelate, Thiamine Mononitrate (Vitamin B1), Riboflavin Vitamin B2), Vitamin D3 Supplement,Vitamin B12 Supplement, Pyridoxine Hydrochloride (Vitamin B6), Calcium Iodate, Dried Yeast, Dried Enterococcus faecium fermentation product, Dried Lactobacillus acidophilus fermentation product, Dried Aspergillus niger fermentation extract, Dried Trichoderma longibrachiatum fermentation extract, Dried Bacillus subtilis fermentation extract, Folic Acid (Vitamin B9), Sodium Selenite, Oil of Rosemary.",
+    lifeStage: "Adult",
+    "moreDesc": "Key BenefitsDeboned chicken, chicken meal and turkey meal supply the protein your dog needs Sweet potatoes, peas and potatoes provide healthy complex carbohydrates Blueberries, cranberries and carrots support antioxidant-enrichment"
+    name "Blue Buffalo Wilderness High Protein Grain Free, Natural Adult Dry Cat Food, Chicken",
+    "pet": "cat"
+    "price": 53.78,
+    "productID": "wHtH6NHsdKfrOXBbByjy",
+    "productImage": "https://firebasestorage.googleapis.com/v0/b/molletapp.appspot.com/o/product_images%2Fcatfood%2Fbuffalocat.jpg?alt=media&token=2fb245af-65ca-47fa-b562-f109ad0d7892",
+    "quantity": 1,
+    "service": "food",
+    "subCategory": "catfood",
+    "totalPrice": 53.78,
+    "weight": "24.6kg"
+
+}      
+
+
+
+    </code></pre>
+    <h4></h4>
+    <p><strong></strong>
+        
+        Search for Pet Shop.<br>
+        You can search with respective <strong>"Pet",</strong> <strong>"flavor",</strong> <strong>"subCategory",</strong> <strong>"foodType"</strong>   <br>
+        
+
+
+    </p>
+
+    </div>
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Get User Bag</h2>
+                <pre><code class="bash">
+# Here is a curl example
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" GET 'localhost:4000/api/bag' \
+--data-raw ''   
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/bag
+                <br>
+                <pre><code class="json">
+Result example :
+{
+    "id":"1UbkVtdFvJdrGcJOLIGS",
+    "brand": "Blue Buffalo",
+    "category": "food",
+    "desc": "Inspired by the diet of wolves, true omnivores whose endurance is legendary, BLUE Wilderness is a grain-free, protein-rich food that contains more of the delicious chicken your dog loves. Made with the finest natural and no grains.",
+    directions "Up to 15 lbs 1/2 to 1-1/4 cups*16 to 25 lbs 1-1/4 to 1-3/4 cups*26 to 40 lbs 1-3/4 to 2-1/4 cups*41 to 60 lbs 2-1/4 to 3-1/4 cups*61 to 80 lbs 3-1/4 to 4 cups*81 to 100 lbs 4 to 4-3/4 cups*Over 100 lbs 4-3/4 cups* + 1/2 cup for each additional 20 lbs"
+    "flavor": "chicken",
+    "foodType": "Dry",
+    "ingredients": "Deboned Chicken, Chicken Meal (source of Glucosamine), Peas, Pea Protein, Tapioca Starch, Menhaden Fish Meal (source of Omega 3 Fatty Acids), Dried Tomato Pomace, Chicken Fat (preserved with Mixed Tocopherols), Flaxseed (source of Omega 6 Fatty Acids), Pea Starch, Natural , Dried Egg Product, Dehydrated Alfalfa Meal, DL-Methionine, Potatoes, Dried Chicory Root, Pea Fiber, Alfalfa Nutrient Concentrate, Calcium Carbonate, Choline Chloride, Salt, Potassium Chloride, Sweet Potatoes, Carrots, preserved with Mixed Tocopherols, Zinc Amino Acid Chelate, Zinc Sulfate, Vegetable Juice for color, Ferrous Sulfate, Vitamin E Supplement, Iron Amino Acid Chelate, Blueberries, Cranberries, Barley Grass, Parsley, Turmeric, DriedKelp, Yucca Schidigera Extract, Niacin (Vitamin B3), Calcium Pantothenate (Vitamin B5), L-Carnitine, Copper Sulfate, L-Ascorbyl-2-Polyphosphate (source of Vitamin C), L-Lysine, Biotin (Vitamin B7), Vitamin A Supplement, Copper Amino Acid Chelate, Manganese Sulfate, Taurine, Manganese Amino Acid Chelate, Thiamine Mononitrate (Vitamin B1), Riboflavin Vitamin B2), Vitamin D3 Supplement,Vitamin B12 Supplement, Pyridoxine Hydrochloride (Vitamin B6), Calcium Iodate, Dried Yeast, Dried Enterococcus faecium fermentation product, Dried Lactobacillus acidophilus fermentation product, Dried Aspergillus niger fermentation extract, Dried Trichoderma longibrachiatum fermentation extract, Dried Bacillus subtilis fermentation extract, Folic Acid (Vitamin B9), Sodium Selenite, Oil of Rosemary.",
+    lifeStage: "Adult",
+    "moreDesc": "Key BenefitsDeboned chicken, chicken meal and turkey meal supply the protein your dog needs Sweet potatoes, peas and potatoes provide healthy complex carbohydrates Blueberries, cranberries and carrots support antioxidant-enrichment"
+    name "Blue Buffalo Wilderness High Protein Grain Free, Natural Adult Dry Cat Food, Chicken",
+    "pet": "cat"
+    "price": 53.78,
+    "productID": "wHtH6NHsdKfrOXBbByjy",
+    "productImage": "https://firebasestorage.googleapis.com/v0/b/molletapp.appspot.com/o/product_images%2Fcatfood%2Fbuffalocat.jpg?alt=media&token=2fb245af-65ca-47fa-b562-f109ad0d7892",
+    "quantity": 1,
+    "service": "food",
+    "subCategory": "catfood",
+    "totalPrice": 53.78,
+    "weight": "24.6kg"
+
+}
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    To get all Bag items that User added.
+       
+    
+    
+                </p>
+    
+                </div>
+        
+
+
+            
+        </div>
+        <div class="content-code"></div>
+    </div>
+    
+    <script src="js/libs/jquery.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

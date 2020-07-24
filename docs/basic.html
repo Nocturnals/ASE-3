@@ -1,0 +1,69 @@
+    
+    
+
+
+
+            <!------------------------------------------------------------>
+            <div class="overflow-hidden content-section" id="content-get-characters">
+                <h2 id="get-characters">Get post by its ID</h2>
+                <pre><code class="bash">
+# Here is a curl example
+    
+    
+    
+    
+                </code></pre>
+                <p>
+                    URL    :   localhost:4000/api/post/id
+                <br>
+                <pre><code class="json">
+Result example :
+    
+    
+    
+    
+                </code></pre>
+                <h4></h4>
+                <p>
+                    
+    
+                    Getting Post details by its id.
+    
+    
+    
+    
+                </p>
+    
+                </div>
+    
+    
+    
+    
+
+curl --location --request -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer sample_token" POST 'localhost:4000/api/post/create' \
+--data-raw '{
+                    
+}'  
+
+
+{
+
+    
+    "babysitter_id": "SOtRRDjOfW5gpYadlayB",
+    "address": {
+    "lane": "qwerqwer",
+    "street": "qwerqwer",
+    "city": 'hud',
+    "state": 'hud',
+    "country": 'hud',
+    "postalCode": 500000
+    },
+    "status": "1234123",
+    "contact_no": "9889898989",
+    "list_of_pets_accepted_before": [],
+    "current_babysitting_pets": [],
+    "requests_list": [],
+    "payment_details": []
+    
+    
+} 
