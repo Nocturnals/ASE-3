@@ -433,7 +433,7 @@ class _HomeScreenState extends State<HomeScreen>
                       children: <Widget>[
                         Container(
                           child: Text(
-                            "\$${fil.price}",
+                            "₹ ${fil.price}",
                             style: boldFont(MColors.primaryPurple, 20.0),
                           ),
                         ),
@@ -560,7 +560,7 @@ class _HomeScreenState extends State<HomeScreen>
                       children: <Widget>[
                         Container(
                           child: Text(
-                            "\$${fil.price}",
+                            "₹ ${fil.price}",
                             style: boldFont(MColors.primaryPurple, 20.0),
                           ),
                         ),
