@@ -14,11 +14,12 @@ import 'package:pet_app/petService/screens/services/add-edit-service/add-edit_se
 import 'package:pet_app/petService/screens/services/my-services/my_services_page.dart';
 import 'package:pet_app/petService/screens/services/service-profile/service_profile.dart';
 import 'package:pet_app/petService/services/services.dart';
+import 'package:pet_app/petShop/main.dart';
 
-void main() {
-  initServices();
-  runApp(PetServiceApp());
-}
+// void main() {
+//   initServices();
+//   runApp(PetServiceApp());
+// }
 
 class PetServiceApp extends StatelessWidget {
   @override
@@ -70,8 +71,8 @@ class PetServiceApp extends StatelessWidget {
       initialRoute: SplashPage.routeName,
       // initialRoute: 'dataBaseGetter',
       routes: {
-        LoginPage.routeName: (context) => LoginPage(),
-        RegisterPage.routeName: (context) => RegisterPage(),
+        LoginPage.routeName: (context) => PetShopApp(),
+        RegisterPage.routeName: (context) => PetShopApp(),
         HomePage.routeName: (context) => HomePage(),
         EditProfilePage.routeName: (context) => EditProfilePage(),
         AddEditPetPage.routeName: (context) => AddEditPetPage(),

@@ -173,6 +173,9 @@ class _AddEditPetFormState extends State<AddEditPetForm> {
     } catch (error) {
       AppDialogs.showAlertDialog(
           context, "Invalid input", "The age must be a number!");
+      setState(() {
+        _isLoading = false;
+      });
       return;
     }
 

@@ -109,8 +109,7 @@ class PetSApp extends StatelessWidget {
             // Initail route
             case RouteNames.landingPage:
               return MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      LandingPage(devReduxBuilder: devReduxBuilder));
+                  builder: (BuildContext context) => PetShopApp());
 
             // auth routes
             case RouteNames.loginPage:

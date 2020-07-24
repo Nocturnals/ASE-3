@@ -7,6 +7,7 @@ import 'package:pet_app/petShop/model/services/user_management.dart';
 import 'package:pet_app/petShop/screens/tab_screens/checkout_screens/addPaymentMethod.dart';
 import 'package:pet_app/petShop/screens/tab_screens/checkout_screens/orderPlaced.dart';
 import 'package:pet_app/petShop/utils/colors.dart';
+import 'package:pet_app/widgets/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:pet_app/petShop/widgets/allWidgets.dart';
 import 'package:pet_app/petShop/screens/tab_screens/checkout_screens/enterAddress.dart';
@@ -44,6 +45,7 @@ class AddressScreen extends StatelessWidget {
 }
 
 class _AddressContainerState extends State<AddressContainer> {
+  bool _isLoading = false;
   final List<Cart> cartList;
   Future addressFuture;
 
@@ -63,6 +65,21 @@ class _AddressContainerState extends State<AddressContainer> {
     cardFuture = getCard(cardNotifier);
 
     super.initState();
+  }
+
+  void _orderTheItems() {
+    // set the loading to true
+    setState(() {
+      _isLoading = true;
+    });
+
+    // get all the cart items
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => OrderPlaced(),
+      ),
+    );
   }
 
   @override
@@ -189,30 +206,28 @@ class _AddressContainerState extends State<AddressContainer> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        color: MColors.primaryWhite,
-        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 15.0),
-        child: primaryButtonPurple(
-          Text(
-            "Place order",
-            style: boldFont(MColors.primaryWhite, 16.0),
-          ),
-          () {
-            addressList.isEmpty || cardList.isEmpty
-                ? showSimpleSnack(
-                    'Please complete shipping and card details',
-                    Icons.error_outline,
-                    Colors.amber,
-                    _scaffoldKey,
-                  )
-                : Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => OrderPlaced(),
-                    ),
-                  );
-          },
-        ),
-      ),
+      bottomNavigationBar: _isLoading
+          ? Container(height: 90, width: 90, child: Loader())
+          : Container(
+              color: MColors.primaryWhite,
+              padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 15.0),
+              child: primaryButtonPurple(
+                Text(
+                  "Place order",
+                  style: boldFont(MColors.primaryWhite, 16.0),
+                ),
+                () async {
+                  addressList.isEmpty || cardList.isEmpty
+                      ? showSimpleSnack(
+                          'Please complete shipping and card details',
+                          Icons.error_outline,
+                          Colors.amber,
+                          _scaffoldKey,
+                        )
+                      : _orderTheItems();
+                },
+              ),
+            ),
     );
   }
 
@@ -463,7 +478,7 @@ class _AddressContainerState extends State<AddressContainer> {
                       Spacer(),
                       Container(
                         child: Text(
-                            "\$" + cartItem.totalPrice.toStringAsFixed(2),
+                            "₹ " + cartItem.totalPrice.toStringAsFixed(2),
                             style: boldFont(MColors.textDark, 14.0)),
                       ),
                     ],
@@ -479,7 +494,7 @@ class _AddressContainerState extends State<AddressContainer> {
               children: <Widget>[
                 Text("Total", style: boldFont(MColors.primaryPurple, 16.0)),
                 Spacer(),
-                Text("\$" + total,
+                Text("₹ " + total,
                     style: boldFont(MColors.primaryPurple, 16.0)),
               ],
             ),
@@ -704,7 +719,7 @@ class _AddressContainerState extends State<AddressContainer> {
                     ),
                     Spacer(),
                     Text(
-                      "\$" + total,
+                      "₹ " + total,
                       style: boldFont(MColors.primaryPurple, 16.0),
                     ),
                   ],
@@ -774,7 +789,7 @@ class _AddressContainerState extends State<AddressContainer> {
                             Spacer(),
                             Container(
                               child: Text(
-                                "\$" + cartItem.totalPrice.toStringAsFixed(2),
+                                "₹" + cartItem.totalPrice.toStringAsFixed(2),
                                 style: boldFont(MColors.textDark, 14.0),
                               ),
                             ),

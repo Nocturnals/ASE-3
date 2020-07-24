@@ -114,7 +114,7 @@ class _SimilarProductsWidgetState extends State<SimilarProductsWidget> {
                               child: Text("..."),
                             )
                           : Text(
-                              "\$${fil.price}",
+                              "₹ ${fil.price}",
                               style: GoogleFonts.montserrat(
                                 color: MColors.primaryPurple,
                                 fontWeight: FontWeight.w600,
