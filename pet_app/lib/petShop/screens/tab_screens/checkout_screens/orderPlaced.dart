@@ -106,7 +106,7 @@ class _OrderPlacedState extends State<OrderPlaced> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      "Apt 1902, Bela Monte Condo, Rua João Pedro, Centro",
+                      "Your specifed address very shortly",
                       style: boldFont(MColors.textGrey, 16),
                       textAlign: TextAlign.center,
                     ),

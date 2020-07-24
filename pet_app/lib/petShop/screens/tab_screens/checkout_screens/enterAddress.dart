@@ -271,7 +271,7 @@ class _EnterAddressState extends State<EnterAddress> {
           ],
         ),
       ),
-      bottomNavigationBar: warningWidget(),
+      // bottomNavigationBar: warningWidget(),
     );
   }
 

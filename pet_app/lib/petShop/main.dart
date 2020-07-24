@@ -20,13 +20,13 @@ import 'package:pet_app/petShop/widgets/provider.dart';
 import 'package:pet_app/petShop/widgets/tabsLayout.dart';
 import 'package:provider/provider.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   SystemChrome.setPreferredOrientations(
+//       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  runApp(PetShopApp());
-}
+//   runApp(PetShopApp());
+// }
 
 final routes = {
   '/Registration': (BuildContext context) => RegistrationScreen(),

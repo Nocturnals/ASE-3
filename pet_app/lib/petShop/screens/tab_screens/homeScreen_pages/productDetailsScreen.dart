@@ -10,6 +10,7 @@ import 'package:pet_app/petShop/utils/colors.dart';
 import 'package:pet_app/petShop/widgets/similarProducts_Wigdet.dart';
 import 'package:pet_app/petShop/widgets/allWidgets.dart';
 import 'package:pet_app/petShop/widgets/starRatings.dart';
+import 'package:pet_app/widgets/loader.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailsProv extends StatelessWidget {
@@ -90,7 +91,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       padding:
                           const EdgeInsets.fromLTRB(20.0, 70.0, 20.0, 10.0),
                       child: prod == null
-                          ? Center(child: CircularProgressIndicator())
+                          ? Center(child: Loader())
                           : Hero(
                               child: FadeInImage.assetNetwork(
                                 image: prod.productImage,
@@ -230,7 +231,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             Container(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Text(
-                "\$${prodDetails.price}",
+                "₹ ${prodDetails.price}",
                 style: boldFont(MColors.primaryPurple, 20.0),
               ),
             ),

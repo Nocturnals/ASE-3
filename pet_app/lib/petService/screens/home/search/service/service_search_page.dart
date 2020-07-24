@@ -6,6 +6,7 @@ import 'package:pet_app/petService/screens/home/search/service/service_search_re
 import 'package:pet_app/petService/services/auth/auth_service.dart';
 import 'package:pet_app/petService/services/pets/pets_service.dart';
 import 'package:pet_app/petService/services/services.dart';
+import 'package:pet_app/widgets/loader.dart';
 
 class ServiceSearchPage extends StatefulWidget {
   @override
@@ -74,7 +75,7 @@ class _ServiceSearchPageState extends State<ServiceSearchPage> {
           );
         }
         return Center(
-          child: CircularProgressIndicator(),
+          child: Loader(),
         );
       },
     );

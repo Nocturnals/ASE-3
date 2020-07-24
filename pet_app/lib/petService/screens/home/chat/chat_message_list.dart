@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:pet_app/petService/model/chat_message.dart';
 import 'package:pet_app/petService/model/user.dart';
 import 'package:pet_app/petService/widgets/chat_message_widget.dart';
+import 'package:pet_app/widgets/loader.dart';
 
 class ChatMessageList extends StatelessWidget {
   final Stream<QuerySnapshot> messageStream;
@@ -40,7 +41,7 @@ class ChatMessageList extends StatelessWidget {
               ),
             );
           }
-          return CircularProgressIndicator();
+          return Loader();
         },
       ),
     );

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pet_app/constants/keys.dart';
 import 'package:pet_app/constants/routeNames.dart';
-import 'package:pet_app/petShop/main.dart';
 
 // redux imports
 import 'package:redux/redux.dart';
@@ -20,7 +19,10 @@ import 'package:pet_app/redux/reducer.dart';
 import 'package:pet_app/constants/themeData.dart';
 
 // All Routes imports
+import 'package:pet_app/petShop/main.dart';
+import 'package:pet_app/petService/main.dart';
 import 'package:pet_app/views/pets/petPage.dart';
+import 'package:pet_app/petService/services/services.dart';
 import 'package:pet_app/views/errorPages/RouteNotFound.dart';
 import 'package:pet_app/views/babysitter/babysitterPage.dart';
 import 'package:pet_app/views/authentication/login/loginScreen.dart'
@@ -37,9 +39,10 @@ import 'package:pet_app/views/home/guest/guestHomeScreen.dart'
     show GuestHomeScreen;
 import 'package:pet_app/views/home/homeFeed/homePage.dart';
 
-import 'databaseGetter.dart';
-
 void main() async {
+  // intialize the services requeired to run with the pet service app
+  initServices();
+
   // load the dot env file varaibles
   await DotEnv().load('.env');
 
@@ -106,8 +109,7 @@ class PetSApp extends StatelessWidget {
             // Initail route
             case RouteNames.landingPage:
               return MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      LandingPage(devReduxBuilder: devReduxBuilder));
+                  builder: (BuildContext context) => PetShopApp());
 
             // auth routes
             case RouteNames.loginPage:
@@ -148,8 +150,15 @@ class PetSApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (BuildContext context) =>
                       GuestHomeScreen(devReduxBuilder: devReduxBuilder));
-            // case 'databaseGetter':
-            //   return MaterialPageRoute(builder: (context) => DataUploader());
+
+            // pet shop app route
+            case RouteNames.petShop:
+              return MaterialPageRoute(builder: (context) => PetShopApp());
+
+            // pet service app route
+            case RouteNames.petService:
+              return MaterialPageRoute(builder: (context) => PetServiceApp());
+
             default:
               return MaterialPageRoute(
                   builder: (BuildContext context) => PageNotFoundScreen(
@@ -157,8 +166,8 @@ class PetSApp extends StatelessWidget {
                       routeName: settings.name));
           }
         },
-        initialRoute: RouteNames.homePage,
-        // initialRoute: 'databaseGetter',
+        // initialRoute: RouteNames.homePage,
+        initialRoute: RouteNames.petService,
       ),
     );
   }

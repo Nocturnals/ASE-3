@@ -14,24 +14,26 @@ import 'package:pet_app/petService/screens/services/add-edit-service/add-edit_se
 import 'package:pet_app/petService/screens/services/my-services/my_services_page.dart';
 import 'package:pet_app/petService/screens/services/service-profile/service_profile.dart';
 import 'package:pet_app/petService/services/services.dart';
+import 'package:pet_app/petShop/main.dart';
 
-void main() {
-  initServices();
-  runApp(MyApp());
-}
+// void main() {
+//   initServices();
+//   runApp(PetServiceApp());
+// }
 
-class MyApp extends StatelessWidget {
+class PetServiceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
           // Define the default brightness and colors.
           brightness: Brightness.light,
-          primaryColor: Color(0xFFFCAA7B),
-          primaryColorLight: Color(0xFFFCBA94),
-          primaryColorDark: Color(0xFFF27730),
+          primaryColor: const Color(0xFF6334DC),
+          primaryColorLight: Colors.deepPurple[400],
+          primaryColorDark: Colors.deepPurple[700],
           primaryColorBrightness: Brightness.dark,
-          accentColor: Color(0xFFF27730),
+          accentColor: Colors.deepPurple[400],
           accentColorBrightness: Brightness.dark,
           backgroundColor: Color(0xFFF4EDE6),
           scaffoldBackgroundColor: Color(0xFFF4EBE1),
@@ -69,8 +71,8 @@ class MyApp extends StatelessWidget {
       initialRoute: SplashPage.routeName,
       // initialRoute: 'dataBaseGetter',
       routes: {
-        LoginPage.routeName: (context) => LoginPage(),
-        RegisterPage.routeName: (context) => RegisterPage(),
+        LoginPage.routeName: (context) => PetShopApp(),
+        RegisterPage.routeName: (context) => PetShopApp(),
         HomePage.routeName: (context) => HomePage(),
         EditProfilePage.routeName: (context) => EditProfilePage(),
         AddEditPetPage.routeName: (context) => AddEditPetPage(),

@@ -1,12 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pet_app/petShop/model/data/cart.dart';
+import 'package:pet_app/petShop/model/data/order.dart';
+import 'package:pet_app/petShop/model/data/userData.dart';
 import 'package:pet_app/petShop/model/notifiers/cart_notifier.dart';
 import 'package:pet_app/petShop/model/notifiers/userData_notifier.dart';
 import 'package:pet_app/petShop/model/services/user_management.dart';
 import 'package:pet_app/petShop/screens/tab_screens/checkout_screens/addPaymentMethod.dart';
 import 'package:pet_app/petShop/screens/tab_screens/checkout_screens/orderPlaced.dart';
 import 'package:pet_app/petShop/utils/colors.dart';
+import 'package:pet_app/widgets/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:pet_app/petShop/widgets/allWidgets.dart';
 import 'package:pet_app/petShop/screens/tab_screens/checkout_screens/enterAddress.dart';
@@ -44,6 +49,7 @@ class AddressScreen extends StatelessWidget {
 }
 
 class _AddressContainerState extends State<AddressContainer> {
+  bool _isLoading = false;
   final List<Cart> cartList;
   Future addressFuture;
 
@@ -63,6 +69,60 @@ class _AddressContainerState extends State<AddressContainer> {
     cardFuture = getCard(cardNotifier);
 
     super.initState();
+  }
+
+  void _orderTheItems(UserDataAddress address, UserDataCard cardDetails) async {
+    // set the loading to true
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // get the current logged user
+      FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+
+      // get all the cart items
+      QuerySnapshot snapshot = await Firestore.instance
+          .collection('userCart')
+          .document(currentUser.email)
+          .collection('cartItems')
+          .getDocuments();
+
+      // convert to cartItems
+      List<Cart> cartList = List<Cart>();
+      for (var i = 0; i < snapshot.documents.length; i++) {
+        cartList.add(Cart.fromMap(snapshot.documents[i].data));
+      }
+
+      // create a order item
+      Order order = Order(
+        orderItems: cartList,
+        address: address,
+        cardDetails: cardDetails,
+        orderDate: DateTime.now(),
+      );
+
+      // save the order in the database
+      DocumentReference orderDocRef = await Firestore.instance
+          .collection('users')
+          .document(currentUser.uid)
+          .collection('orders')
+          .add(order.toMap());
+
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => OrderPlaced(),
+        ),
+      );
+    } catch (e) {
+      print(e);
+      setState(() {
+        _isLoading = false;
+      });
+
+      Scaffold.of(_scaffoldKey.currentContext)
+          .showSnackBar(SnackBar(content: Text('Some error while')));
+    }
   }
 
   @override
@@ -189,30 +249,28 @@ class _AddressContainerState extends State<AddressContainer> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        color: MColors.primaryWhite,
-        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 15.0),
-        child: primaryButtonPurple(
-          Text(
-            "Place order",
-            style: boldFont(MColors.primaryWhite, 16.0),
-          ),
-          () {
-            addressList.isEmpty || cardList.isEmpty
-                ? showSimpleSnack(
-                    'Please complete shipping and card details',
-                    Icons.error_outline,
-                    Colors.amber,
-                    _scaffoldKey,
-                  )
-                : Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => OrderPlaced(),
-                    ),
-                  );
-          },
-        ),
-      ),
+      bottomNavigationBar: _isLoading
+          ? Container(height: 90, width: 90, child: Loader())
+          : Container(
+              color: MColors.primaryWhite,
+              padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 15.0),
+              child: primaryButtonPurple(
+                Text(
+                  "Place order",
+                  style: boldFont(MColors.primaryWhite, 16.0),
+                ),
+                () async {
+                  addressList.isEmpty || cardList.isEmpty
+                      ? showSimpleSnack(
+                          'Please complete shipping and card details',
+                          Icons.error_outline,
+                          Colors.amber,
+                          _scaffoldKey,
+                        )
+                      : _orderTheItems(addressList.first, cardList.first);
+                },
+              ),
+            ),
     );
   }
 
@@ -463,7 +521,7 @@ class _AddressContainerState extends State<AddressContainer> {
                       Spacer(),
                       Container(
                         child: Text(
-                            "\$" + cartItem.totalPrice.toStringAsFixed(2),
+                            "₹ " + cartItem.totalPrice.toStringAsFixed(2),
                             style: boldFont(MColors.textDark, 14.0)),
                       ),
                     ],
@@ -479,7 +537,7 @@ class _AddressContainerState extends State<AddressContainer> {
               children: <Widget>[
                 Text("Total", style: boldFont(MColors.primaryPurple, 16.0)),
                 Spacer(),
-                Text("\$" + total,
+                Text("₹ " + total,
                     style: boldFont(MColors.primaryPurple, 16.0)),
               ],
             ),
@@ -704,7 +762,7 @@ class _AddressContainerState extends State<AddressContainer> {
                     ),
                     Spacer(),
                     Text(
-                      "\$" + total,
+                      "₹ " + total,
                       style: boldFont(MColors.primaryPurple, 16.0),
                     ),
                   ],
@@ -774,7 +832,7 @@ class _AddressContainerState extends State<AddressContainer> {
                             Spacer(),
                             Container(
                               child: Text(
-                                "\$" + cartItem.totalPrice.toStringAsFixed(2),
+                                "₹" + cartItem.totalPrice.toStringAsFixed(2),
                                 style: boldFont(MColors.textDark, 14.0),
                               ),
                             ),

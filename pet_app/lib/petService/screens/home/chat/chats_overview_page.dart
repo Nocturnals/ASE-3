@@ -3,6 +3,7 @@ import 'package:pet_app/petService/model/user.dart';
 import 'package:pet_app/petService/services/chat/chat_service.dart';
 import 'package:pet_app/petService/services/services.dart';
 import 'package:pet_app/petService/widgets/empty_chat_overview.dart';
+import 'package:pet_app/widgets/loader.dart';
 
 import 'chat_list_view.dart';
 
@@ -38,7 +39,7 @@ class _ChatsOverviewPageState extends State<ChatsOverviewPage> {
               return EmptyChatOverview();
           }
           return Center(
-            child: CircularProgressIndicator(),
+            child: Loader(),
           );
         },
       ),

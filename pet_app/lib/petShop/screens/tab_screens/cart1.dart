@@ -74,7 +74,7 @@ class _Cart1State extends State<Cart1> {
                   ),
                   SizedBox(height: 5.0),
                   Text(
-                    "\$$total",
+                    "\₹ $total",
                     style: boldFont(MColors.textGrey, 22.0),
                   ),
                 ],
@@ -163,7 +163,7 @@ class _Cart1State extends State<Cart1> {
                                       child: Row(
                                         children: <Widget>[
                                           Text(
-                                            "\$${cartItem.price}",
+                                            "₹ ${cartItem.price}",
                                             style: boldFont(
                                                 MColors.primaryPurple, 22.0),
                                             textAlign: TextAlign.left,

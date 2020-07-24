@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -35,7 +35,7 @@ dependencies:
   
   # petshop dependencies
   introduction_screen: ^1.0.8
-  flutter_svg: ^0.17.1
+  flutter_svg: ^0.18.0
   firebase_auth: ^0.16.1
   wc_flutter_share: ^0.2.2
   provider:
@@ -73,6 +73,11 @@ dependencies:
   # for responsiveness of the app for different screen types
   responsive_builder: ^0.1.5
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/footprint.png"
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -100,6 +105,15 @@ flutter:
     - assets/images/
     - assets/images/icons/
     - assets/images/cardImages/
+    - assets/intro_images/
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Regular.ttf
+    - family: NanumGothic
+      fonts:
+        - asset: assets/fonts/NanumGothic-Regular.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
