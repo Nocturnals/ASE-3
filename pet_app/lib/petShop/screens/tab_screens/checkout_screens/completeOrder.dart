@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pet_app/petShop/model/data/cart.dart';
+import 'package:pet_app/petShop/model/data/order.dart';
+import 'package:pet_app/petShop/model/data/userData.dart';
 import 'package:pet_app/petShop/model/notifiers/cart_notifier.dart';
 import 'package:pet_app/petShop/model/notifiers/userData_notifier.dart';
 import 'package:pet_app/petShop/model/services/user_management.dart';
@@ -67,19 +71,58 @@ class _AddressContainerState extends State<AddressContainer> {
     super.initState();
   }
 
-  void _orderTheItems() {
+  void _orderTheItems(UserDataAddress address, UserDataCard cardDetails) async {
     // set the loading to true
     setState(() {
       _isLoading = true;
     });
 
-    // get all the cart items
+    try {
+      // get the current logged user
+      FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => OrderPlaced(),
-      ),
-    );
+      // get all the cart items
+      QuerySnapshot snapshot = await Firestore.instance
+          .collection('userCart')
+          .document(currentUser.email)
+          .collection('cartItems')
+          .getDocuments();
+
+      // convert to cartItems
+      List<Cart> cartList = List<Cart>();
+      for (var i = 0; i < snapshot.documents.length; i++) {
+        cartList.add(Cart.fromMap(snapshot.documents[i].data));
+      }
+
+      // create a order item
+      Order order = Order(
+        orderItems: cartList,
+        address: address,
+        cardDetails: cardDetails,
+        orderDate: DateTime.now(),
+      );
+
+      // save the order in the database
+      DocumentReference orderDocRef = await Firestore.instance
+          .collection('users')
+          .document(currentUser.uid)
+          .collection('orders')
+          .add(order.toMap());
+
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => OrderPlaced(),
+        ),
+      );
+    } catch (e) {
+      print(e);
+      setState(() {
+        _isLoading = false;
+      });
+
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text('Some error while')));
+    }
   }
 
   @override
@@ -224,7 +267,7 @@ class _AddressContainerState extends State<AddressContainer> {
                           Colors.amber,
                           _scaffoldKey,
                         )
-                      : _orderTheItems();
+                      : _orderTheItems(addressList.first, cardList.first);
                 },
               ),
             ),
