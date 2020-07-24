@@ -231,7 +231,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             Container(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Text(
-                "₹ ${(prodDetails.price * 10).toInt()}",
+                "₹ ${prodDetails.price}",
                 style: boldFont(MColors.primaryPurple, 20.0),
               ),
             ),
