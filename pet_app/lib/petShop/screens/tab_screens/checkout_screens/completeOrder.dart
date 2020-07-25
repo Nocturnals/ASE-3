@@ -109,6 +109,16 @@ class _AddressContainerState extends State<AddressContainer> {
           .collection('orders')
           .add(order.toMap());
 
+      // remove the items from cart
+      QuerySnapshot cartItems = await Firestore.instance
+          .collection('userCart')
+          .document(currentUser.email)
+          .collection('cartItems')
+          .getDocuments();
+      for (var i = 0; i < cartItems.documents.length; i++) {
+        await cartItems.documents[i].reference.delete();
+      }
+
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => OrderPlaced(),
