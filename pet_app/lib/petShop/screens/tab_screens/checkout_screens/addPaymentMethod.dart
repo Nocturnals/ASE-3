@@ -216,7 +216,7 @@ class _AddNewCardState extends State<AddNewCard> {
           ),
         ),
       ),
-      bottomNavigationBar: warningWidget(),
+      // bottomNavigationBar: warningWidget(),
     );
   }
 
