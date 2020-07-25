@@ -98,7 +98,7 @@ class _EnterAddressState extends State<EnterAddress> {
     String baseURL =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String type = '(regions)';
-    String PLACES_API_KEY = 'key not yet created';
+    String PLACES_API_KEY = 'AIzaSyDKi-lFccRSgHYPZhf0I3WwaAcgQni560c';
 
     String request = '$baseURL?input=$input&key=$PLACES_API_KEY&type=$type';
     Response response = await Dio().get(request);
