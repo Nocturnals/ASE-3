@@ -28,7 +28,7 @@
     "firebase-admin": "^8.9.2",
     "helmet": "^3.21.2",
     "joi-objectid": "^3.0.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.19",
     "mongoose": "^5.8.13",
     "morgan": "^1.9.1",
