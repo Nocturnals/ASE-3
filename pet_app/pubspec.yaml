@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   
-  http: ^0.12.0+4
+  http: ">=0.12.0+4 <0.14.0"
   flutter_dotenv: ^2.1.0
 
   # redux denpendencies
@@ -29,42 +29,42 @@ dependencies:
   redux_thunk: ^0.3.0
   
   shared_preferences: ^0.5.6+3
-  json_serializable: '>=3.2.5'
-  google_fonts: ^0.3.5
-  cached_network_image: ^2.0.0
+  json_serializable: ">=3.2.5"
+  google_fonts: ">=0.3.5 <5.0.0"
+  cached_network_image: ">=2.0.0 <4.0.0"
   
   # petshop dependencies
   introduction_screen: ^1.0.8
   flutter_svg: ^0.18.0
-  firebase_auth: ^0.16.1
-  wc_flutter_share: ^0.2.2
+  firebase_auth: ">=0.16.1 <5.0.0"
+  wc_flutter_share: ">=0.2.2 <0.5.0"
   provider:
   bubble_tab_indicator: ^0.1.4
   carousel_slider: ^2.0.0
   geolocator: ^5.3.2+2
   geolocation: ^1.1.2
   mask_text_input_formatter: ^1.0.7
-  dio: ^3.0.9
+  dio: ">=3.0.9 <6.0.0"
   geocoder: ^0.2.1
-  location: ^3.0.2
+  location: ">=3.0.2 <5.0.0"
   
-  path_provider: ^1.6.11
+  path_provider: ">=1.6.11 <3.0.0"
   
   # pet service dependencies
-  firebase_core: ^0.4.0+9
+  firebase_core: ">=0.4.0+9 <3.0.0"
   get_it: ^3.0.3
   toggle_switch: ^0.1.4
-  image_picker: ^0.6.2+3
-  permission_handler: ^4.0.0
-  cloud_firestore: ^0.12.9+5
-  firebase_storage: ^3.1.0
+  image_picker: ">=0.6.2+3 <0.9.0"
+  permission_handler: ">=4.0.0 <11.0.0"
+  cloud_firestore: ">=0.12.9+5 <5.0.0"
+  firebase_storage: ">=3.1.0 <12.0.0"
   equatable: ^1.0.2
-  uuid: 2.0.4
+  uuid: ">=2.0.4 <4.0.0"
   firestore_ui: ^1.7.2
   intro_slider: ^2.2.8
   rflutter_alert: ^1.0.3
   enum_to_string: ^1.0.8
-  intl: ^0.16.1
+  intl: ">=0.16.1 <0.19.0"
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
